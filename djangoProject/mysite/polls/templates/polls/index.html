@@ -1,0 +1,18 @@
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+
+<p>
+
+  What type of DB.models.objects?
+  {% if latest_question_list %}
+  It is:
+    {{ latest_question_list }}
+  {% endif %}
+</p>
