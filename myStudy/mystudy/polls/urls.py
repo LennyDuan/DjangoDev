@@ -1,10 +1,19 @@
 from django.conf.urls import url
 from . import views
+from .api.v1 import diary
 #from .view import views
 app_name = 'polls'
 urlpatterns = [
 
-     url(r'^$', views.index, name='index'),
+    url(r'^$', views.index, name='index'),
+
+    # diary api
+    url(r'^api/v1/index/diary/$', diary.index, name='diary_index'),
+    url(r'^api/v1/diary/$', diary.all, name='diary_all'),
+    url(r'^api/v1/diary/(?P<pk_id>[0-9]+)/$', diary.detail, name='diary_detail'),
+    url(r'^api/v1/diary/(?P<diary_id>[0-9]+)/diary_id/$', diary.detailDiaryID, name='diary_detail_diaryID'),
+    url(r'^api/v1/diary/(?P<user_email>.+)/user_email/$', diary.detailUserEmail, name='diary_userEmail'),
+
     # url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
     # ex: /polls/5/results/
     # url(r'^(?P<question_id>[0-9]+)/results/$', views.results, name='results'),
