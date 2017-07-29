@@ -4,13 +4,21 @@ from django.views import generic
 from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.core import serializers
 from polls.models import Diary, User
+import json
+#from django.views.decorators.csrf import csrf_exempt
 
 # Create Diary API
 def index(request):
     return HttpResponse("Hello, welcome to diary api index page!")
 
 # Get Diary List
+#@csrf_exempt
 def all(request):
+    # Post one Diary
+    if request.method == 'POST':
+        #received_json_data = json.loads(request.body.decode("utf-8"))
+        return HttpResponse("it was post request!!")
+
     all_diary_list = Diary.objects.all()
     all_diary_serialized = serializers.serialize('json', all_diary_list)
     return JsonResponse(all_diary_serialized, safe=False)
