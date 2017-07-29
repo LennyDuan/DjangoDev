@@ -7,10 +7,11 @@ import datetime
 class Questionnaire(models.Model):
     questionnaire_id = models.CharField(max_length=50, unique=True)
     questionnaire_text = models.CharField(max_length=200, blank=False)
+    questionnaire_field = models.CharField(max_length=50, blank=False)
     questionnaire_start_date = models.DateTimeField('date published', auto_now_add=True)
 
     def __str__(self):
-        return self.questionnaire_text
+        return "Questionnaire: %s - %s" % (self.questionnaire_text, self.questionnaire_field)
 
 class Study(models.Model):
     study_id = models.CharField(max_length=50, unique=True)
@@ -53,7 +54,7 @@ class Feedback(models.Model):
     )
 
     def __str__(self):
-        return self.feedback_status
+        return self.feedback_state
 
 class User(models.Model):
     user_id = models.CharField(max_length=50, unique=True)
@@ -83,17 +84,17 @@ class Answer(models.Model):
     # A Feedback will have lots of Answer
     answer_feedback = models.ForeignKey(Feedback, on_delete=models.CASCADE)
     def __str__(self):
-        return "Question: %s" % answer_question
+        return "Question: %s" % self.answer_question
 
 # Create Diary Database
 class Diary(models.Model):
     diary_id = models.CharField(max_length=50, unique=True)
     diary_date = models.DateTimeField('date published', auto_now_add=True)
     diary_skill = models.CharField(max_length=50, blank=False)
-    diary_title = models.CharField(max_length=200)
+    diary_title = models.CharField(max_length=200, blank=False)
     diary_detail = models.CharField(max_length=1000)
     # diary_img = models.ImageField()
     # A User will have lots of Diary
     diary_user = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
-        return "Diary: %s - %s" % (diary_title, diary_skill)
+        return "Diary: %s - %s" % (self.diary_title, self.diary_skill)
