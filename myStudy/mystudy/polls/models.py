@@ -4,6 +4,14 @@ from django.utils import timezone
 import datetime
 
 # Create Study Database
+class Questionnaire(models.Model):
+    questionnaire_id = models.CharField(max_length=50, unique=True)
+    questionnaire_text = models.CharField(max_length=200, blank=False)
+    questionnaire_start_date = models.DateTimeField('date published', auto_now_add=True)
+
+    def __str__(self):
+        return self.questionnaire_text
+
 class Study(models.Model):
     study_id = models.CharField(max_length=50, unique=True)
     study_field = models.CharField(max_length=50, blank=False)
@@ -18,14 +26,6 @@ class Study(models.Model):
     def __str__(self):
         return "Study: %s - %s" % (self.study_field, self.study_owner)
 
-class Questionnaire(models.Model):
-    questionnaire_id = models.CharField(max_length=50, unique=True)
-    questionnaire_text = models.CharField(max_length=200, blank=False)
-    questionnaire_start_date = models.DateTimeField(auto_now_add=True, 'date published')
-
-    def __str__(self):
-        return self.questionnaire_text
-
 class Question(models.Model):
     question_id = models.CharField(max_length=50, unique=True)
     question_text = models.CharField(max_length=200, blank=False)
@@ -36,6 +36,25 @@ class Question(models.Model):
         return self.question_text
 
 # Create User Database
+class Feedback(models.Model):
+    feedback_id = models.CharField(max_length=50, unique=True)
+    feedback_start_date = models.DateTimeField('date published', auto_now_add=True)
+    feedback_end_date = models.DateTimeField('date published', auto_now=True)
+
+    STATE_IN_FEEDBACK_CHOICES = (
+        ("INI", 'Initial State'),
+        ("DIARY", 'Diary State'),
+        ("FIN", 'Final State'),
+    )
+    feedback_state = models.CharField(
+        choices=STATE_IN_FEEDBACK_CHOICES,
+        default="INI",
+        max_length=50,
+    )
+
+    def __str__(self):
+        return self.feedback_status
+
 class User(models.Model):
     user_id = models.CharField(max_length=50, unique=True)
     user_email = models.EmailField(unique=True, blank=False)
@@ -55,24 +74,6 @@ class User(models.Model):
     def __str__(self):
         return "User: %s" % self.user_email
 
-class Feedback(models.Model):
-    feedback_id = models.CharField(max_length=50, unique=True)
-    feedback_start_date = models.DateTimeField(auto_now_add=True, 'date published')
-    feedback_end_date = models.DateTimeField(auto_now=True, 'date finished')
-
-    STATE_IN_FEEDBACK_CHOICES = (
-        ("INI", 'Initial State'),
-        ("DIARY", 'Diary State'),
-        ("FIN", 'Final State'),
-    )
-    feedback_state = models.CharField(
-        choices=STATE_IN_FEEDBACK_CHOICES,
-        default=INI,
-    )
-
-    def __str__(self):
-        return self.feedback_status
-
 class Answer(models.Model):
     answer_id = models.CharField(max_length=50, unique=True)
     answer_question = models.CharField(max_length=200)
@@ -87,11 +88,11 @@ class Answer(models.Model):
 # Create Diary Database
 class Diary(models.Model):
     diary_id = models.CharField(max_length=50, unique=True)
-    diary_date = models.DateTimeField(auto_now_add=True, 'date published')
-    diary_skill = models.CharField(max_length=50, black=False)
+    diary_date = models.DateTimeField('date published', auto_now_add=True)
+    diary_skill = models.CharField(max_length=50, blank=False)
     diary_title = models.CharField(max_length=200)
-    diary_detail = models.CharField()
-    diary_img = models.ImageField()
+    diary_detail = models.CharField(max_length=1000)
+    # diary_img = models.ImageField()
     # A User will have lots of Diary
     diary_user = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
