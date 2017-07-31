@@ -6,7 +6,6 @@ app_name = 'polls'
 urlpatterns = [
 
     url(r'^$', views.index, name='index'),
-
     # diary api
     url(r'^api/v1/index/diary/$', diary.index, name='diary_index'),
     url(r'^api/v1/diary/$', diary.all, name='diary_all'),
@@ -41,6 +40,10 @@ urlpatterns = [
     url(r'^api/v1/questionnaire/$', question.questionnaireAll, name='questionnaire_all'),
     url(r'^api/v1/questionnaire/(?P<pk_id>[0-9]+)/$', question.questionnaireDetail, name='questionnaire_detail'),
     url(r'^api/v1/questionnaire/(?P<study_field>.+)/field$', question.questionnaireDetailByField, name='questionnaire_detail'),
+
+    url(r'^api/v1/question/$', question.questionAll, name='question_all'),
+    url(r'^api/v1/question/(?P<pk_id>[0-9]+)/$', question.questionDetail, name='question_detail'),
+    url(r'^api/v1/question/(?P<study_field>.+)/field$', question.questionDetailByField, name='question_detail'),
 
     # url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
     # ex: /polls/5/results/

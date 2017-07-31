@@ -55,3 +55,28 @@ def questionnaireDetailByField(request, study_field):
     questionnaire = study.study_questionnaire
     questionnaire_serialized = serializers.serialize('json', [questionnaire])
     return JsonResponse(questionnaire_serialized, safe=False)
+
+# Get Question List
+#@csrf_exempt
+def questionAll(request):
+    if request.method == 'POST':
+        #received_json_data = json.loads(request.body.decode("utf-8"))
+        return HttpResponse("it was post request!!")
+
+    all_question_list = Question.objects.all()
+    all_question_serialized = serializers.serialize('json', all_question_list)
+    return JsonResponse(all_question_serialized, safe=False)
+
+# Get Question by pk id
+def questionDetail(request, pk_id):
+    question = get_object_or_404(Question, pk=pk_id)
+    question_serialized = serializers.serialize('json', [question])
+    return JsonResponse(question_serialized, safe=False)
+
+# Get Question by study_field
+def questionDetailByField(request, study_field):
+    study = get_object_or_404(Study, study_field=study_field)
+    questionnaire = study.study_questionnaire
+    this_question_list = Question.objects.all().filter(question_questionnaire=questionnaire)
+    question_list_serialized = serializers.serialize('json', this_question_list)
+    return JsonResponse(question_list_serialized, safe=False)
