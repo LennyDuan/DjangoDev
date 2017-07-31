@@ -5,7 +5,7 @@ from polls.models import User, Feedback, Answer, Study
 import json
 #from django.views.decorators.csrf import csrf_exempt
 
-# Create Diary API
+# Create Feedback API
 def index(request):
     return HttpResponse("Hello, welcome to feedback api index page!")
 

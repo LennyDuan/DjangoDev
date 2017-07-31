@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from . import views
-from .api.v1 import diary, user, feedback
+from .api.v1 import diary, user, feedback, question
 #from .view import views
 app_name = 'polls'
 urlpatterns = [
@@ -31,6 +31,16 @@ urlpatterns = [
     url(r'^api/v1/answer/$', feedback.answerAll, name='answer_all'),
     url(r'^api/v1/answer/(?P<pk_id>[0-9]+)/$', feedback.answerDetail, name='answer_detail'),
     url(r'^api/v1/answer/(?P<feedback_id>[0-9]+)/feedback$', feedback.answerFeedback, name='answer_feedback_list'),
+
+    # study/questionnaire/question api
+    url(r'^api/v1/index/study/$', question.index, name='study_index'),
+    url(r'^api/v1/study/$', question.studyAll, name='study_all'),
+    url(r'^api/v1/study/(?P<pk_id>[0-9]+)/$', question.studyDetail, name='study_detail'),
+    url(r'^api/v1/study/(?P<study_field>.+)/field$', question.studyDetailByField, name='study_detail'),
+
+    url(r'^api/v1/questionnaire/$', question.questionnaireAll, name='questionnaire_all'),
+    url(r'^api/v1/questionnaire/(?P<pk_id>[0-9]+)/$', question.questionnaireDetail, name='questionnaire_detail'),
+    url(r'^api/v1/questionnaire/(?P<study_field>.+)/field$', question.questionnaireDetailByField, name='questionnaire_detail'),
 
     # url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
     # ex: /polls/5/results/
