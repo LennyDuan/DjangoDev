@@ -1,7 +1,5 @@
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse
-from django.views import generic
-from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
+from django.shortcuts import get_object_or_404
+from django.http import Http404, HttpResponse, JsonResponse
 from django.core import serializers
 from polls.models import Diary, User
 import json
