@@ -23,10 +23,15 @@ urlpatterns = [
     url(r'^api/v1/user/(?P<pk_id>[0-9]+)/feedback$', user.userFeedback, name='user_feedback'),
     url(r'^api/v1/user/(?P<pk_id>[0-9]+)/answer$', user.userAnswer, name='user_answer'),
 
-    # user api
+    # feedback/answer api
     url(r'^api/v1/index/feedback/$', feedback.index, name='feedback_index'),
     url(r'^api/v1/feedback/$', feedback.feedbackAll, name='feedback_all'),
     url(r'^api/v1/feedback/(?P<pk_id>[0-9]+)/$', feedback.feedbackDetail, name='feedback_detail'),
+
+    url(r'^api/v1/answer/$', feedback.answerAll, name='answer_all'),
+    url(r'^api/v1/answer/(?P<pk_id>[0-9]+)/$', feedback.answerDetail, name='answer_detail'),
+    url(r'^api/v1/answer/(?P<feedback_id>[0-9]+)/feedback$', feedback.answerFeedback, name='answer_feedback_list'),
+
     # url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
     # ex: /polls/5/results/
     # url(r'^(?P<question_id>[0-9]+)/results/$', views.results, name='results'),
