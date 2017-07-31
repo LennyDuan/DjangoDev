@@ -46,3 +46,11 @@ def userFeedback(request, pk_id):
     feedback = user.user_feedback
     feedback_serialized = serializers.serialize('json', [feedback])
     return JsonResponse(feedback_serialized, safe=False)
+
+# Get User's Answers by pk id
+def userAnswer(request, pk_id):
+    user = get_object_or_404(User, pk=pk_id)
+    feedback = user.user_feedback
+    user_answer_list = Answer.objects.all().filter(answer_feedback=feedback)
+    user_answer_serialized = serializers.serialize('json', user_answer_list)
+    return JsonResponse(user_answer_serialized, safe=False)
