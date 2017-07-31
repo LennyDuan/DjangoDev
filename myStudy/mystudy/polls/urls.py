@@ -6,14 +6,14 @@ app_name = 'polls'
 urlpatterns = [
 
     url(r'^$', views.index, name='index'),
-    # diary api
+    # diary GET api
     url(r'^api/v1/index/diary/$', diary.index, name='diary_index'),
     url(r'^api/v1/diary/$', diary.all, name='diary_all'),
     url(r'^api/v1/diary/(?P<pk_id>[0-9]+)/$', diary.detail, name='diary_detail'),
     url(r'^api/v1/diary/(?P<diary_id>[0-9]+)/diary_id/$', diary.detailDiaryID, name='diary_detail_diaryID'),
     url(r'^api/v1/diary/(?P<user_email>.+)/user_email/$', diary.detailUserEmail, name='diary_userEmail'),
 
-    # user api
+    # user GET api
     url(r'^api/v1/index/user/$', user.index, name='user_index'),
     url(r'^api/v1/user/$', user.userAll, name='user_all'),
     url(r'^api/v1/user/(?P<pk_id>[0-9]+)/$', user.userDetail, name='user_detail'),
@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^api/v1/user/(?P<pk_id>[0-9]+)/feedback$', user.userFeedback, name='user_feedback'),
     url(r'^api/v1/user/(?P<pk_id>[0-9]+)/answer$', user.userAnswer, name='user_answer'),
 
-    # feedback/answer api
+    # feedback/answer GET api
     url(r'^api/v1/index/feedback/$', feedback.index, name='feedback_index'),
     url(r'^api/v1/feedback/$', feedback.feedbackAll, name='feedback_all'),
     url(r'^api/v1/feedback/(?P<pk_id>[0-9]+)/$', feedback.feedbackDetail, name='feedback_detail'),
@@ -31,7 +31,7 @@ urlpatterns = [
     url(r'^api/v1/answer/(?P<pk_id>[0-9]+)/$', feedback.answerDetail, name='answer_detail'),
     url(r'^api/v1/answer/(?P<feedback_id>[0-9]+)/feedback$', feedback.answerFeedback, name='answer_feedback_list'),
 
-    # study/questionnaire/question api
+    # study/questionnaire/question GET api
     url(r'^api/v1/index/study/$', question.index, name='study_index'),
     url(r'^api/v1/study/$', question.studyAll, name='study_all'),
     url(r'^api/v1/study/(?P<pk_id>[0-9]+)/$', question.studyDetail, name='study_detail'),
