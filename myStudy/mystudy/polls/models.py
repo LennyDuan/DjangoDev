@@ -15,7 +15,7 @@ class Questionnaire(models.Model):
 
 class Study(models.Model):
     study_id = models.CharField(max_length=50, unique=True)
-    study_field = models.CharField(max_length=50, blank=False)
+    study_field = models.CharField(max_length=50, blank=False, unique=True)
     study_owner = models.CharField(max_length=50)
     study_start_date = models.DateTimeField('date published')
     # One study will have one Questionnaire

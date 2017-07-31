@@ -7,7 +7,7 @@ import json
 
 # Create Diary API
 def index(request):
-    return HttpResponse("Hello, welcome to user/feedback api index page!")
+    return HttpResponse("Hello, welcome to user api index page!")
 
 # Get User List
 #@csrf_exempt
