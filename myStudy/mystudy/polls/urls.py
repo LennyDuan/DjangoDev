@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from . import views
 from .api.v1.get import diary, user, feedback, question
+from .api.v1.post import questionP
 #from .view import views
 app_name = 'polls'
 urlpatterns = [
@@ -8,6 +9,10 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
 
     ## Restful API GET/POST
+
+    # POST Question/Questionnaire
+    url(r'^api/v1/post/index/$', questionP.index, name='post_index'),
+    url(r'^api/v1/post/questionnaire/$', questionP.questionnairePost, name='questionnaire_post'),
 
     # diary GET api
     url(r'^api/v1/index/diary/$', diary.index, name='diary_index'),
