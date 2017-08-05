@@ -44,18 +44,34 @@ def questionnairePost(request):
 
 # POST Study
 @csrf_exempt
-def studyPost(request):
+def studyPost(request, pk_id):
     if request.method == 'POST':
-        received_data = request.body.decode("utf-8")
-        body = json.loads(received_data)
-        # Study model Save
-        return HttpResponse("it was a Study post request!!__: " + json.dumps(body))
-
+        questionnaire = get_object_or_404(Questionnaire, pk=pk_id)
+        print(questionnaire)
+        try:
+            received_data = request.body.decode("utf-8")
+            body = json.loads(received_data)
+            print(json.dumps(body))
+            study_id = body["study_id"]
+            study_field = questionnaire.questionnaire_field
+            study_owner = body["study_owner"]
+            study_questionnaire = questionnaire
+            study = Study(
+                study_id=study_id,
+                study_field=study_field,
+                study_owner=study_owner,
+                study_questionnaire=study_questionnaire
+            )
+            # Study model Save
+            study.save()
+            return HttpResponse("it was a Study post request!!__: " + json.dumps(body))
+        except Exception as e:
+            return HttpResponse("Post data failed: " + str(e))
     return HttpResponse("Post Failed!!")
 
 # POST Question
 @csrf_exempt
-def questionPost(request):
+def questionPost(request, pk_id):
     if request.method == 'POST':
         received_data = request.body.decode("utf-8")
         body = json.loads(received_data)

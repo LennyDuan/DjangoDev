@@ -10,13 +10,13 @@ urlpatterns = [
 
     ## Restful API GET/POST
 ################# POST API ##############
-
-    # POST Question/Questionnaire
     url(r'^api/v1/post/index/$', questionP.index, name='post_index'),
     url(r'^api/v1/post/test/$', questionP.testPost, name='test_post'),
+
+    # POST Question/Questionnaire
     url(r'^api/v1/post/questionnaire/$', questionP.questionnairePost, name='questionnaire_post'),
-    url(r'^api/v1/post/study/$', questionP.studyPost, name='study_post'),
-    url(r'^api/v1/post/question/$', questionP.questionPost, name='question_post'),
+    url(r'^api/v1/post/study/(?P<pk_id>[0-9]+)/questionnaire/$', questionP.studyPost, name='study_post'),
+    url(r'^api/v1/post/question/(?P<pk_id>[0-9]+)/questionnaire/$', questionP.questionPost, name='question_post'),
 
     # POST Diary
     url(r'^api/v1/post/diary/$', diaryP.diaryPost, name='diary_post'),

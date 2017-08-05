@@ -7,7 +7,7 @@ import datetime
 class Questionnaire(models.Model):
     questionnaire_id = models.CharField(max_length=50, unique=True)
     questionnaire_text = models.CharField(max_length=200, blank=False)
-    questionnaire_field = models.CharField(max_length=50, blank=False)
+    questionnaire_field = models.CharField(max_length=50, blank=False, unique=True)
     questionnaire_start_date = models.DateTimeField('date published', auto_now_add=True)
 
     def __str__(self):
@@ -17,7 +17,7 @@ class Study(models.Model):
     study_id = models.CharField(max_length=50, unique=True)
     study_field = models.CharField(max_length=50, blank=False, unique=True)
     study_owner = models.CharField(max_length=50)
-    study_start_date = models.DateTimeField('date published')
+    study_start_date = models.DateTimeField('date published', auto_now_add=True)
     # One study will have one Questionnaire
     study_questionnaire = models.OneToOneField(
         Questionnaire,
