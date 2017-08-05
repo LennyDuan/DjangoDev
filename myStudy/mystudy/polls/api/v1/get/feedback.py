@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.http import Http404, HttpResponse, JsonResponse
 from django.core import serializers
-from polls.models import User, Feedback, Answer, Study
+from polls.models import UserInfo, Feedback, Answer, Study
 import json
 #from django.views.decorators.csrf import csrf_exempt
 
