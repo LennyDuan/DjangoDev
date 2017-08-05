@@ -56,24 +56,24 @@ class Feedback(models.Model):
     def __str__(self):
         return self.feedback_state
 
-class User(models.Model):
-    user_id = models.CharField(max_length=50, unique=True)
-    user_email = models.EmailField(unique=True, blank=False)
-    user_name = models.CharField(max_length=50)
-    user_start_date = models.DateTimeField('date published')
-    user_end_date = models.DateTimeField('date finished')
+class UserInfo(models.Model):
+    userInfo_id = models.CharField(max_length=50, unique=True)
+    userInfo_email = models.EmailField(unique=True, blank=False)
+    userInfo_name = models.CharField(max_length=50)
+    userInfo_start_date = models.DateTimeField('date published')
+    userInfo_end_date = models.DateTimeField('date finished')
     # One User will have one Study and one Feedback
-    user_study = models.OneToOneField(
+    userInfo_study = models.OneToOneField(
         Study,
         on_delete=models.CASCADE,
     )
 
-    user_feedback = models.OneToOneField(
+    userInfo_feedback = models.OneToOneField(
         Feedback,
         on_delete=models.CASCADE,
     )
     def __str__(self):
-        return "User: %s" % self.user_email
+        return "UserInfo: %s" % self.userInfo_email
 
 class Answer(models.Model):
     answer_id = models.CharField(max_length=50, unique=True)
@@ -95,6 +95,6 @@ class Diary(models.Model):
     diary_detail = models.CharField(max_length=1000)
     # diary_img = models.ImageField()
     # A User will have lots of Diary
-    diary_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    diary_userInfo = models.ForeignKey(UserInfo, on_delete=models.CASCADE)
     def __str__(self):
         return "Diary: %s - %s" % (self.diary_title, self.diary_skill)
