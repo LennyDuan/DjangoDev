@@ -7,7 +7,7 @@ import json
 
 # POST UserInfo
 @csrf_exempt
-def userPost(request):
+def userInfoPost(request):
     if request.method == 'POST':
         received_data = request.body.decode("utf-8")
         body = json.loads(received_data)
