@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
 
     ## Restful API GET/POST
+################# POST API ##############
 
     # POST Question/Questionnaire
     url(r'^api/v1/post/index/$', questionP.index, name='post_index'),
@@ -19,6 +20,8 @@ urlpatterns = [
 
     # POST Diary
     url(r'^api/v1/post/diary/$', diaryP.diaryPost, name='diary_post'),
+
+################# GET API  ##############
 
     # diary GET api
     url(r'^api/v1/index/diary/$', diary.index, name='diary_index'),
