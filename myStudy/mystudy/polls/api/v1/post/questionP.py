@@ -40,18 +40,16 @@ def questionnairePost(request):
             return HttpResponse("it was Questionnaire post request!!__: " + json.dumps(body))
         except Exception as e:
             return HttpResponse("Post data failed: " + str(e))
-    return HttpResponse("Post Failed!!")
+    return HttpResponse("This is the POST api!!")
 
 # POST Study
 @csrf_exempt
 def studyPost(request, pk_id):
     if request.method == 'POST':
         questionnaire = get_object_or_404(Questionnaire, pk=pk_id)
-        print(questionnaire)
         try:
             received_data = request.body.decode("utf-8")
             body = json.loads(received_data)
-            print(json.dumps(body))
             study_id = body["study_id"]
             study_field = questionnaire.questionnaire_field
             study_owner = body["study_owner"]
@@ -67,15 +65,28 @@ def studyPost(request, pk_id):
             return HttpResponse("it was a Study post request!!__: " + json.dumps(body))
         except Exception as e:
             return HttpResponse("Post data failed: " + str(e))
-    return HttpResponse("Post Failed!!")
+    return HttpResponse("This is the POST api!!")
 
 # POST Question
 @csrf_exempt
 def questionPost(request, pk_id):
     if request.method == 'POST':
-        received_data = request.body.decode("utf-8")
-        body = json.loads(received_data)
-        # Question model Save
-        return HttpResponse("it was a Question post request!!__: " + json.dumps(body))
+        questionnaire = get_object_or_404(Questionnaire, pk=pk_id)
+        try:
+            received_data = request.body.decode("utf-8")
+            body = json.loads(received_data)
+            question_id = body["question_id"]
+            question_text = body["question_text"]
+            question_questionnaire = questionnaire
+            question = Question(
+                question_id=question_id,
+                question_text=question_text,
+                question_questionnaire=question_questionnaire
+            )
+            # Question model Save
+            question.save()
+            return HttpResponse("it was a Question post request!!__: " + json.dumps(body))
+        except Exception as e:
+            return HttpResponse("Post data failed: " + str(e))
 
-    return HttpResponse("Post Failed!!")
+    return HttpResponse("This is the POST api!!")
