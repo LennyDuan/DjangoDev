@@ -25,3 +25,6 @@ received_data = request.body.decode("utf-8")
 body = json.loads(received_data)
 
 But need to choose 'raw' and 'json' in body not the form-data
+
+#### 4:
+Need to modify data model UserInfo -> User in order for the future authorisation.
