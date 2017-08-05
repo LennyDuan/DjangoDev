@@ -25,10 +25,21 @@ def testPost(request):
 def questionnairePost(request):
     if request.method == 'POST':
         received_data = request.body.decode("utf-8")
-        body = json.loads(received_data)
-        # Questionnaire model Save
-        return HttpResponse("it was Questionnaire post request!!__: " + json.dumps(body))
-
+        try:
+            body = json.loads(received_data)
+            # Questionnaire model Save
+            questionnaire_id = body["questionnaire_id"]
+            questionnaire_text = body["questionnaire_text"]
+            questionnaire_field = body["questionnaire_field"]
+            questionnaire = Questionnaire(
+                questionnaire_id=questionnaire_id,
+                questionnaire_text=questionnaire_text,
+                questionnaire_field=questionnaire_field
+            )
+            questionnaire.save()
+            return HttpResponse("it was Questionnaire post request!!__: " + json.dumps(body))
+        except Exception as e:
+            return HttpResponse("Post data failed: " + str(e))
     return HttpResponse("Post Failed!!")
 
 # POST Study
