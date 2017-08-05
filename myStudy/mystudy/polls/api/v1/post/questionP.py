@@ -27,7 +27,7 @@ def questionnairePost(request):
         received_data = request.body.decode("utf-8")
         body = json.loads(received_data)
         # Questionnaire model Save
-        return HttpResponse("it was post request!!__: " + json.dumps(body))
+        return HttpResponse("it was Questionnaire post request!!__: " + json.dumps(body))
 
     return HttpResponse("Post Failed!!")
 
@@ -38,17 +38,17 @@ def studyPost(request):
         received_data = request.body.decode("utf-8")
         body = json.loads(received_data)
         # Study model Save
-        return HttpResponse("it was a study post request!!__: " + json.dumps(body))
+        return HttpResponse("it was a Study post request!!__: " + json.dumps(body))
 
     return HttpResponse("Post Failed!!")
 
-# POST Study
+# POST Question
 @csrf_exempt
-def studyPost(request):
+def questionPost(request):
     if request.method == 'POST':
         received_data = request.body.decode("utf-8")
         body = json.loads(received_data)
-        # Study model Save
-        return HttpResponse("it was a study post request!!__: " + json.dumps(body))
+        # Question model Save
+        return HttpResponse("it was a Question post request!!__: " + json.dumps(body))
 
     return HttpResponse("Post Failed!!")
