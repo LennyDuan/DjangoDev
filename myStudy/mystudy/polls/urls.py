@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from . import views
 from .api.v1.get import diary, user, feedback, question
-from .api.v1.post import questionP
+from .api.v1.post import questionP, diaryP
 #from .view import views
 app_name = 'polls'
 urlpatterns = [
@@ -16,6 +16,9 @@ urlpatterns = [
     url(r'^api/v1/post/questionnaire/$', questionP.questionnairePost, name='questionnaire_post'),
     url(r'^api/v1/post/study/$', questionP.studyPost, name='study_post'),
     url(r'^api/v1/post/question/$', questionP.questionPost, name='question_post'),
+
+    # POST Diary
+    url(r'^api/v1/post/diary/$', diaryP.diaryPost, name='diary_post'),
 
     # diary GET api
     url(r'^api/v1/index/diary/$', diary.index, name='diary_index'),
