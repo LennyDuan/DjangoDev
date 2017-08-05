@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from . import views
-from .api.v1.get import diary, user, feedback, question
-from .api.v1.post import questionP
+from .api.v1.get import diary, userInfo, feedback, question
+from .api.v1.post import questionP, diaryP
 #from .view import views
 app_name = 'polls'
 urlpatterns = [
@@ -12,23 +12,29 @@ urlpatterns = [
 
     # POST Question/Questionnaire
     url(r'^api/v1/post/index/$', questionP.index, name='post_index'),
+    url(r'^api/v1/post/test/$', questionP.testPost, name='test_post'),
     url(r'^api/v1/post/questionnaire/$', questionP.questionnairePost, name='questionnaire_post'),
+    url(r'^api/v1/post/study/$', questionP.studyPost, name='study_post'),
+    url(r'^api/v1/post/question/$', questionP.questionPost, name='question_post'),
+
+    # POST Diary
+    url(r'^api/v1/post/diary/$', diaryP.diaryPost, name='diary_post'),
 
     # diary GET api
     url(r'^api/v1/index/diary/$', diary.index, name='diary_index'),
     url(r'^api/v1/diary/$', diary.all, name='diary_all'),
     url(r'^api/v1/diary/(?P<pk_id>[0-9]+)/$', diary.detail, name='diary_detail'),
     url(r'^api/v1/diary/(?P<diary_id>[0-9]+)/diary_id/$', diary.detailDiaryID, name='diary_detail_diaryID'),
-    url(r'^api/v1/diary/(?P<user_email>.+)/user_email/$', diary.detailUserEmail, name='diary_userEmail'),
+    url(r'^api/v1/diary/(?P<userInfo_email>.+)/userInfo_email/$', diary.detailuserInfoEmail, name='diary_userInfoEmail'),
 
-    # user GET api
-    url(r'^api/v1/index/user/$', user.index, name='user_index'),
-    url(r'^api/v1/user/$', user.userAll, name='user_all'),
-    url(r'^api/v1/user/(?P<pk_id>[0-9]+)/$', user.userDetail, name='user_detail'),
-    url(r'^api/v1/user/(?P<user_email>.+)/user_email/$', user.detailUserEmail, name='user_userEmail'),
-    url(r'^api/v1/user/(?P<pk_id>[0-9]+)/study$', user.userStudy, name='user_study'),
-    url(r'^api/v1/user/(?P<pk_id>[0-9]+)/feedback$', user.userFeedback, name='user_feedback'),
-    url(r'^api/v1/user/(?P<pk_id>[0-9]+)/answer$', user.userAnswer, name='user_answer'),
+    # userInfo GET api
+    url(r'^api/v1/index/userInfo/$', userInfo.index, name='userInfo_index'),
+    url(r'^api/v1/userInfo/$', userInfo.userInfoAll, name='userInfo_all'),
+    url(r'^api/v1/userInfo/(?P<pk_id>[0-9]+)/$', userInfo.userInfoDetail, name='userInfo_detail'),
+    url(r'^api/v1/userInfo/(?P<userInfo_email>.+)/userInfo_email/$', userInfo.detailuserInfoEmail, name='userInfo_userInfoEmail'),
+    url(r'^api/v1/userInfo/(?P<pk_id>[0-9]+)/study$', userInfo.userInfoStudy, name='userInfo_study'),
+    url(r'^api/v1/userInfo/(?P<pk_id>[0-9]+)/feedback$', userInfo.userInfoFeedback, name='userInfo_feedback'),
+    url(r'^api/v1/userInfo/(?P<pk_id>[0-9]+)/answer$', userInfo.userInfoAnswer, name='userInfo_answer'),
 
     # feedback/answer GET api
     url(r'^api/v1/index/feedback/$', feedback.index, name='feedback_index'),
