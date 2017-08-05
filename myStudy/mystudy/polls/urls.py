@@ -12,6 +12,7 @@ urlpatterns = [
 
     # POST Question/Questionnaire
     url(r'^api/v1/post/index/$', questionP.index, name='post_index'),
+    url(r'^api/v1/post/test/$', questionP.testPost, name='questionnaire_post'),
     url(r'^api/v1/post/questionnaire/$', questionP.questionnairePost, name='questionnaire_post'),
 
     # diary GET api

@@ -9,12 +9,46 @@ import json
 def index(request):
     return HttpResponse("Hello, welcome to Study/Question api POST index page!")
 
-# POST Questionnaire List
+# POST TEST
+@csrf_exempt
+def testPost(request):
+    if request.method == 'POST':
+        received_data = request.body.decode("utf-8")
+        body = json.loads(received_data)
+        return HttpResponse("it was post request!!__: " + json.dumps(body))
+
+    return HttpResponse("Post Failed!!")
+
+
+# POST Questionnaire
 @csrf_exempt
 def questionnairePost(request):
     if request.method == 'POST':
         received_data = request.body.decode("utf-8")
         body = json.loads(received_data)
+        # Questionnaire model Save
         return HttpResponse("it was post request!!__: " + json.dumps(body))
+
+    return HttpResponse("Post Failed!!")
+
+# POST Study
+@csrf_exempt
+def studyPost(request):
+    if request.method == 'POST':
+        received_data = request.body.decode("utf-8")
+        body = json.loads(received_data)
+        # Study model Save
+        return HttpResponse("it was a study post request!!__: " + json.dumps(body))
+
+    return HttpResponse("Post Failed!!")
+
+# POST Study
+@csrf_exempt
+def studyPost(request):
+    if request.method == 'POST':
+        received_data = request.body.decode("utf-8")
+        body = json.loads(received_data)
+        # Study model Save
+        return HttpResponse("it was a study post request!!__: " + json.dumps(body))
 
     return HttpResponse("Post Failed!!")
