@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.http import Http404, HttpResponse, JsonResponse
 from django.core import serializers
-from polls.models import Diary, User
+from polls.models import Diary, UserInfo
 import json
 #from django.views.decorators.csrf import csrf_exempt
 
@@ -34,8 +34,8 @@ def detailDiaryID(request, diary_id):
     return JsonResponse(diary_serialized, safe=False)
 
 # Get Diary List by user_email
-def detailUserEmail(request, user_email):
-    user = get_object_or_404(User, user_email=user_email)
-    user_diary_list = Diary.objects.all().filter(diary_user=user)
-    user_diary_serialized = serializers.serialize('json', user_diary_list)
-    return JsonResponse(user_diary_serialized, safe=False)
+def detailuserInfoEmail(request, userInfo_email):
+    userInfo = get_object_or_404(UserInfo, userInfo_email=userInfo_email)
+    userInfo_diary_list = Diary.objects.all().filter(diary_userInfo=userInfo)
+    userInfo_diary_serialized = serializers.serialize('json', userInfo_diary_list)
+    return JsonResponse(userInfo_diary_serialized, safe=False)
