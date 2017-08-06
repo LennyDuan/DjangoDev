@@ -27,7 +27,9 @@ urlpatterns = [
 
     # POST Feedback/Answer
     url(r'^api/v1/post/feedback/$', feedbackP.feedbackPost, name='feedback_post'),
-    url(r'^api/v1/post/answer/$', feedbackP.answerPost, name='answer_post'),
+    url(r'^api/v1/post/feedback/(?P<pk_id>[0-9]+)/update/$', feedbackP.feedbackPostUpdate, name='feedback_postUpdate'),
+    url(r'^api/v1/post/answer/(?P<pk_id>[0-9]+)/feedback/$', feedbackP.answerPost, name='answer_post'),
+    url(r'^api/v1/post/answer/(?P<pk_id>[0-9]+)/update/$', feedbackP.answerPostUpdate, name='answer_postUpdate'),
 
 ################# GET API  ##############
 
