@@ -1,20 +1,25 @@
 from django.contrib import admin
 from .models import *
 
-class AnswerInline(admin.StackedInline):
+class AnswerInline(admin.TabularInline):
     model = Answer
     extra = 0
+    show_change_link = True
 
-class DiaryInline(admin.StackedInline):
+class DiaryInline(admin.TabularInline):
     model = Diary
     extra = 0
+    show_change_link = True
 
 class QuestionInline(admin.StackedInline):
     model = Question
     extra = 0
+    show_change_link = True
 
 class FeedbackAdmin(admin.ModelAdmin):
-    inlines = [AnswerInline]
+    inlines = [
+        AnswerInline,
+    ]
     search_fields = ['feedback_state']
     list_display = ('feedback_id', 'feedback_state', 'feedback_start_date')
 
@@ -24,16 +29,16 @@ class QuestionnaireAdmin(admin.ModelAdmin):
     search_fields = ['questionnaire_field']
     list_display = ('questionnaire_field', 'questionnaire_text', 'questionnaire_start_date')
 
+class StudyAdmin(admin.ModelAdmin):
+    list_display = ('study_field', 'study_owner', 'study_questionnaire')
+    list_filter = ['study_start_date']
+    search_fields = ['study_field']
+
 class UserInfoAdmin(admin.ModelAdmin):
     list_display = ('userInfo_email', 'userInfo_study', 'userInfo_feedback')
     list_filter = ['userInfo_study']
     search_fields = ['userInfo_email']
     inlines = [DiaryInline]
-
-class StudyAdmin(admin.ModelAdmin):
-    list_display = ('study_field', 'study_owner', 'study_questionnaire')
-    list_filter = ['study_start_date']
-    search_fields = ['study_field']
 
 class DiaryAdmin(admin.ModelAdmin):
     list_display = ('diary_date', 'diary_userInfo', 'diary_title', 'diary_skill')
