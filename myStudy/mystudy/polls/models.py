@@ -54,7 +54,7 @@ class Feedback(models.Model):
     )
 
     def __str__(self):
-        return self.feedback_state
+        return "Feedback id: %s - %s" % (self.feedback_id, self.feedback_state) 
 
 class UserInfo(models.Model):
     userInfo_id = models.CharField(max_length=50, unique=True)
