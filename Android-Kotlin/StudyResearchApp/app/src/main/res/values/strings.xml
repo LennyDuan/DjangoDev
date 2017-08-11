@@ -6,4 +6,8 @@
     <string name="activity_diary">Diary List</string>
     <string name="activity_account">User Info</string>
     <string name="activity_questionnaire">Questionnaire</string>
+    <string name="account_unique_id">Account Unique ID</string>
+    <string name="account_address">Account Email Address</string>
+    <string name="account_user_name">User Name</string>
+    <string name="account_start_date">Select Start Date: yyyy-mm-dd</string>
 </resources>

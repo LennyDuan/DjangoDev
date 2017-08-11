@@ -28,3 +28,12 @@ But need to choose 'raw' and 'json' in body not the form-data
 
 #### 4:
 Need to modify data model UserInfo -> User in order for the future authorisation.
+
+#### 5:
+Unique Android Id identifier
+https://android-developers.googleblog.com/2011/03/identifying-app-installations.html
+Not Solve well:
+
+#### 6:
+Lack of contraints
+infer constraints
