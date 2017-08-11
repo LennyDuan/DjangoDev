@@ -3,4 +3,7 @@
     <string name="title_account">Account</string>
     <string name="title_diary">Diary</string>
     <string name="title_ques">Questionnaire</string>
+    <string name="activity_diary">Diary List</string>
+    <string name="activity_account">User Info</string>
+    <string name="activity_questionnaire">Questionnaire</string>
 </resources>

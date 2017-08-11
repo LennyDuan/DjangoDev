@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".DiaryActivities"
-            android:label="@string/app_name"
+            android:label="@string/activity_diary"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,8 +19,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AccountActivities"/>
-        <activity android:name=".QuestionnaireActivities"/>
+        <activity
+            android:name=".AccountActivities"
+            android:label="@string/title_account"
+            android:theme="@style/AppTheme"
+        />
+        <activity
+            android:name=".QuestionnaireActivities"
+            android:label="@string/activity_questionnaire"
+            android:theme="@style/AppTheme"
+        />
     </application>
 
 </manifest>
