@@ -2,7 +2,11 @@ package com.example.lenny.studyresearchapp.Component
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.support.design.widget.TextInputEditText
+import android.view.View
 import android.widget.DatePicker
+import android.widget.EditText
+import com.example.lenny.studyresearchapp.R
 import com.example.lenny.studyresearchapp.common.OutputUtil
 
 /**
@@ -15,7 +19,7 @@ class DateSettings : DatePickerDialog.OnDateSetListener {
         this.context = context
     }
     override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int){
-        return OutputUtil.toast(context,"$year-$month-$day")
+        OutputUtil.toast(context,"$year-$month-$day")
     }
 
 }
