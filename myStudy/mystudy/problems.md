@@ -37,3 +37,15 @@ Not Solve well:
 #### 6:
 Lack of contraints
 infer constraints
+
+#### 7:
+Connect to localhost from AVD
+https://developer.android.com/studio/run/emulator-networking.html
+10.0.2.2	Special alias to your host loopback interface (i.e., 127.0.0.1 on your development machine)
+Server side:
+DEBUG = True
+ALLOWED_HOSTS = ['\*']
+
+#### 8:
+Valid Json from GET API
+http://jsonviewer.stack.hu/#http://127.0.0.1:8000/polls/api/v1/study/

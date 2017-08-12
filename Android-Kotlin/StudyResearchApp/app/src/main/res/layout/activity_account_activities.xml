@@ -11,14 +11,14 @@
         android:id="@+id/account_id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="5dp"
         android:enabled="false"
         android:hint="@string/account_unique_id"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView_unique_id"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toEndOf="@+id/textView_unique_id"
+        android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.625" />
 
     <android.support.design.widget.TextInputEditText
         android:id="@+id/account_address"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:hint="@string/account_address"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:hint="@string/account_start_date"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,31 +81,29 @@
 
     <android.support.design.widget.TextInputEditText
         android:id="@+id/account_study_text"
-        android:layout_width="0dp"
-        android:layout_height="42dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="88dp"
+        android:layout_height="0dp"
         android:enabled="false"
         android:hint="@string/account_study_field"
+        tools:layout_editor_absoluteY="293dp"
+        tools:layout_editor_absoluteX="191dp"
+        app:layout_constraintTop_toTopOf="@+id/account_study_spinner"
         app:layout_constraintBottom_toBottomOf="@+id/account_study_spinner"
         app:layout_constraintEnd_toStartOf="@+id/account_study_spinner"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/account_study_spinner"
-        app:layout_constraintVertical_bias="1.0" />
+        android:layout_marginEnd="6dp" />
 
     <Spinner
         android:id="@+id/account_study_spinner"
-        android:layout_width="144dp"
+        android:layout_width="94dp"
         android:layout_height="42dp"
+        tools:layout_editor_absoluteX="285dp"
+        tools:layout_editor_absoluteY="293dp"
+        android:layout_marginTop="170dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/account_address"
         android:layout_marginEnd="5dp"
-        android:layout_marginTop="20dp"
-        android:theme="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account_end_date"
-        tools:layout_editor_absoluteX="235dp"
-        tools:layout_editor_absoluteY="280dp"/>
+        android:layout_marginBottom="176dp"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -120,5 +118,60 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/navigation" />
+
+    <TextView
+        android:id="@+id/account_textView"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:gravity="center_vertical"
+        android:text="@string/select_study_field"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="293dp"
+        app:layout_constraintStart_toStartOf="@+id/account_end_date"
+        app:layout_constraintBaseline_toBaselineOf="@+id/account_study_text"
+        android:layout_marginStart="3dp"
+        app:layout_constraintEnd_toStartOf="@+id/account_study_text"
+        android:layout_marginEnd="1dp" />
+
+    <Button
+        android:id="@+id/account_btn_confirm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/account_confirm"
+        tools:layout_editor_absoluteX="5dp"
+        tools:layout_editor_absoluteY="369dp"
+        app:layout_constraintStart_toStartOf="@+id/account_end_date"
+        app:layout_constraintBaseline_toBaselineOf="@+id/account_btn_reset"
+        app:layout_constraintEnd_toEndOf="@+id/account_textView"
+        android:background="@color/colorgreen"/>
+
+    <Button
+        android:id="@+id/account_btn_reset"
+        android:layout_width="185dp"
+        android:layout_height="wrap_content"
+        android:text="@string/account_reset"
+        tools:layout_editor_absoluteX="192dp"
+        tools:layout_editor_absoluteY="369dp"
+        android:layout_marginTop="39dp"
+        app:layout_constraintTop_toBottomOf="@+id/account_textView"
+        app:layout_constraintEnd_toStartOf="@+id/account_study_spinner"
+        android:layout_marginBottom="38dp"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintStart_toStartOf="@+id/account_study_spinner"
+        android:background="@color/colorbrown"/>
+
+    <TextView
+        android:id="@+id/textView_unique_id"
+        android:layout_width="100dp"
+        android:layout_height="38dp"
+        android:textSize="20sp"
+        android:gravity="center_vertical"
+        android:text="@string/unique_id_textView"
+        tools:layout_editor_absoluteX="6dp"
+        tools:layout_editor_absoluteY="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="7dp" />
 
 </android.support.constraint.ConstraintLayout>
