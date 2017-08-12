@@ -12,4 +12,8 @@
     <string name="account_start_date">Select Start Date: yyyy-mm-dd</string>
     <string name="account_end_date">Select End Date: yyyy-mm-dd</string>
     <string name="account_study_field">Required</string>
+    <string name="account_confirm">Confirm</string>
+    <string name="account_reset">Reset</string>
+    <string name="select_study_field">Select Study Field:</string>
+    <string name="unique_id_textView">Unique ID:</string>
 </resources>
