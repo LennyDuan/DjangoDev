@@ -11,5 +11,5 @@
     <string name="account_user_name">User Name</string>
     <string name="account_start_date">Select Start Date: yyyy-mm-dd</string>
     <string name="account_end_date">Select End Date: yyyy-mm-dd</string>
-    <string name="account_study_field">Select Study Field</string>
+    <string name="account_study_field">Required</string>
 </resources>
