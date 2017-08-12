@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -18,11 +19,11 @@ import kotlinx.android.synthetic.main.activity_account_activities.*
 import java.util.*
 import android.support.v7.app.AlertDialog
 import android.util.Log
-import android.widget.EditText
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.antonioleiva.weatherapp.extensions.DelegatesExt
 import com.example.lenny.studyresearchapp.common.SystemUtil
 import com.example.lenny.studyresearchapp.common.TypeUtil
 import org.json.JSONArray
@@ -42,6 +43,8 @@ class AccountActivities : AppCompatActivity() {
     private var account_final_startdate : String? = null
     private var account_final_enddate : String? = null
     private var account_final_studyfield : String? = null
+
+    val sharePrefs: SharedPreferences by lazy { this.getSharedPreferences("default", Context.MODE_PRIVATE) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,8 +67,63 @@ class AccountActivities : AppCompatActivity() {
     }
 
     private fun saveDataToPreference() {
-        account_btn_confirm.isEnabled = false
-        account_btn_reset.isEnabled = true
+        account_final_id = account_id.text?.toString()
+        account_final_address = account_address.text?.toString()
+        account_final_username = account_username.text?.toString()
+        account_final_startdate = account_start_date.text?.toString()
+        account_final_enddate = account_end_date.text?.toString()
+        account_final_studyfield = account_study_text.text?.toString()
+
+        Log.d("UserInfo:", account_final_id)
+        Log.d("UserInfo:", account_final_address)
+        Log.d("UserInfo:", account_final_username )
+        Log.d("UserInfo:", account_final_startdate)
+        Log.d("UserInfo:", account_final_enddate )
+        Log.d("UserInfo:", account_final_studyfield )
+
+        Log.d("Prefs: ", sharePrefs.getString("account_final_id", "account_final_id"))
+        Log.d("Prefs: ", sharePrefs.getString("account_final_address", "account_final_address"))
+        Log.d("Prefs: ", sharePrefs.getString("account_final_username", "account_final_username"))
+        Log.d("Prefs: ", sharePrefs.getString("account_final_startdate", "account_final_startdate"))
+        Log.d("Prefs: ", sharePrefs.getString("account_final_enddate", "account_final_enddate"))
+        Log.d("Prefs: ", sharePrefs.getString("account_final_studyfield", "account_final_studyfield"))
+
+        if (savedDate()) {
+            account_btn_confirm.isEnabled = false
+            account_btn_reset.isEnabled = true
+        } else {
+            toast(this, "Please fill in all input areas!")
+        }
+    }
+
+    private fun  savedDate(): Boolean {
+        val prefs = sharePrefs.edit()
+        if (!account_final_id.isNullOrEmpty())
+            prefs.putString("account_final_id" ,account_final_id);
+        else return false
+
+        if (!account_final_address.isNullOrEmpty())
+            prefs.putString("account_final_address", account_final_address);
+        else return false
+
+        if (!account_final_username.isNullOrEmpty())
+            prefs.putString("account_final_username", account_final_username);
+        else return false
+
+        if (!account_final_startdate.isNullOrEmpty())
+            prefs.putString("account_final_startdate", account_final_startdate);
+        else return false
+
+        if (!account_final_enddate.isNullOrEmpty())
+            prefs.putString("account_final_enddate", account_final_enddate);
+        else return false
+
+        if (!account_final_studyfield.isNullOrEmpty())
+            prefs.putString("account_final_studyfield", account_final_studyfield);
+        else return false
+
+        prefs.apply()
+        return true
     }
 
     private fun resetDataFromPreference() {
