@@ -85,7 +85,6 @@ class AccountActivities : AppCompatActivity() {
                 }
                 .setNegativeButton(android.R.string.cancel) { dialog, which -> }
                 .setIcon(android.R.drawable.ic_dialog_alert).show()
-                .setIcon(android.R.drawable.alert_dark_frame)
     }
 
     private fun saveDataToPreference() {
