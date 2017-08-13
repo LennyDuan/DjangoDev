@@ -9,6 +9,7 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.TextInputEditText
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -19,16 +20,24 @@ import kotlinx.android.synthetic.main.activity_account_activities.*
 import java.util.*
 import android.support.v7.app.AlertDialog
 import android.util.Log
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.lenny.studyresearchapp.R.id.account_id
 import com.example.lenny.studyresearchapp.common.SystemUtil
 import com.example.lenny.studyresearchapp.common.TypeUtil
 import com.example.lenny.studyresearchapp.data.PrefUtil.Preference
+import com.example.lenny.studyresearchapp.data.ProjectAPI
 import com.example.lenny.studyresearchapp.data.ProjectStatus
+import com.example.lenny.studyresearchapp.model.FeedbackStatus
+import com.example.lenny.studyresearchapp.network.APIController
+import com.example.lenny.studyresearchapp.network.ServiceVolley
 import org.json.JSONArray
 import org.json.JSONException
+import org.json.JSONObject
+import java.net.URL
 import kotlin.collections.ArrayList
 
 @Suppress("DEPRECATION")
@@ -36,8 +45,8 @@ class AccountActivities : AppCompatActivity() {
 
     private var mDateStartSetListener : DatePickerDialog.OnDateSetListener? = null
     private var mDateEndSetListener : DatePickerDialog.OnDateSetListener? = null
-    internal var progressDialog: ProgressDialog? = null
-    internal val GET_STUDY_URL: String = "http://10.0.2.2:8000/polls/api/v1/study/"
+    private var progressDialog: ProgressDialog? = null
+
     private var account_final_id : String? = null
     private var account_final_address : String? = null
     private var account_final_username : String? = null
@@ -47,6 +56,9 @@ class AccountActivities : AppCompatActivity() {
     private var prefs : Preference? = null
     private var current_status : String? = null
 
+    val service = ServiceVolley()
+    val apiController = APIController(service)
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_activities)
@@ -67,13 +79,39 @@ class AccountActivities : AppCompatActivity() {
         // Init Set Button
         account_btn_confirm.setOnClickListener {
             saveDataToPreference()
+            uploadUserInfoToWebServer()
         }
         account_btn_reset.setOnClickListener {
             resetDataFromPreference()
         }
     }
 
+    private fun uploadUserInfoToWebServer() {
+        progressDialog?.setMessage("Creating User Account Data ... ")
+        progressDialog?.setCancelable(true)
+        progressDialog?.show()
+        postUserFeedback()
+        checkCurrentStatus()
+        progressDialog?.dismiss()
+    }
 
+    // Post to feed back
+    private fun postUserFeedback() {
+        val feedback_id : String= prefs!!.findPreference("account_final_id")
+        val feedback_state : String= FeedbackStatus.INI.name
+        val url : String = ProjectAPI.POST_FEEDBACK_URL.url
+        Log.d("POST: ","Post url: $url")
+        Log.d("POST: ","Post Body: $feedback_id - $feedback_state")
+        val params = JSONObject()
+        params.put("feedback_id", feedback_id)
+        params.put("feedback_state", feedback_state)
+        Log.d("POST: ", params.getString("feedback_id"))
+
+        apiController.post(url, params) { _ -> }
+    }
+
+
+    // Comfirm / Reset Preference
     private fun resetDataFromPreference() {
         AlertDialog.Builder(this).setTitle("Notice!!")
                 .setMessage("Click 'ok' and reset account will lose all data")
@@ -83,7 +121,7 @@ class AccountActivities : AppCompatActivity() {
                     Log.d("Status: ", prefs?.findPreference("status"))
                     checkCurrentStatus()
                 }
-                .setNegativeButton(android.R.string.cancel) { dialog, which -> }
+                .setNegativeButton(android.R.string.cancel) { _, _ -> }
                 .setIcon(android.R.drawable.ic_dialog_alert).show()
     }
 
@@ -100,9 +138,9 @@ class AccountActivities : AppCompatActivity() {
         } else {
             toast(this, "Please fill in all input areas!")
         }
-        checkCurrentStatus()
     }
 
+    // Save data to Preferences
     private fun  savedAccountDataPref(): Boolean {
         return prefs!!.returnPutPreference("account_final_id", account_final_id)
                 && prefs!!.returnPutPreference("account_final_address", account_final_address)
@@ -154,6 +192,7 @@ class AccountActivities : AppCompatActivity() {
     }
 
 
+    // Set UI Abilities
     private fun setUIAbilities(
             emailAddress: Boolean, username: Boolean, startDate: Boolean,
             endDate:Boolean, studyspinner: Boolean, confirmBtn: Boolean, resetBtn: Boolean) {
@@ -247,6 +286,13 @@ class AccountActivities : AppCompatActivity() {
         return networkInfo != null && networkInfo.isConnected
     }
 
+    private fun  needStudyAPI(): Boolean {
+        if (current_status!! == ProjectStatus.INIT.name) {
+            return true
+        }
+        return false
+    }
+
     private fun initNetwork() {
         if (isNetworkConnected()) {
             progressDialog = ProgressDialog(this)
@@ -254,7 +300,12 @@ class AccountActivities : AppCompatActivity() {
             progressDialog?.setCancelable(false)
             progressDialog?.show()
 
-            startStudyDownload(GET_STUDY_URL)
+            if (needStudyAPI()){
+                startStudyDownload(ProjectAPI.GET_STUDY_LIST_URL.url)
+            } else {
+                progressDialog?.dismiss()
+            }
+
         } else {
             AlertDialog.Builder(this).setTitle("No Internet Connection")
                     .setMessage("Please check your internet connection and try again")
@@ -262,6 +313,7 @@ class AccountActivities : AppCompatActivity() {
                     .setIcon(android.R.drawable.ic_dialog_alert).show()
         }
     }
+
 
     // Navigation Item Change Activities
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
