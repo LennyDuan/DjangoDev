@@ -9,7 +9,6 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.TextInputEditText
-import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -20,7 +19,6 @@ import kotlinx.android.synthetic.main.activity_account_activities.*
 import java.util.*
 import android.support.v7.app.AlertDialog
 import android.util.Log
-import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -91,23 +89,43 @@ class AccountActivities : AppCompatActivity() {
         progressDialog?.setCancelable(true)
         progressDialog?.show()
         postUserFeedback()
-        checkCurrentStatus()
-        progressDialog?.dismiss()
     }
 
-    // Post to feed back
+    // Post to userinfo data in server
+    private fun postUserInfo() {
+        val userInfo_id : String = prefs!!.findPreference("account_final_id")
+        val userInfo_email : String = prefs!!.findPreference("account_final_address")
+        val userInfo_name : String = prefs!!.findPreference("account_final_username")
+        val userInfo_start_date : String = prefs!!.findPreference("account_final_startdate")
+        val userInfo_end_date : String = prefs!!.findPreference("account_final_enddate")
+        val studyField : String = prefs!!.findPreference("account_final_studyfield")
+        val url: String = ProjectAPI.POST_USER_INFO.url + "$studyField/studyField/$userInfo_id/feedbackID/"
+        Log.d("POST UserInfo: ","Post url: $url")
+        val params = JSONObject()
+        params.put("userInfo_id", userInfo_id)
+        params.put("userInfo_email", userInfo_email)
+        params.put("userInfo_name", userInfo_name)
+        params.put("userInfo_start_date", userInfo_start_date)
+        params.put("userInfo_end_date", userInfo_end_date)
+        apiController.post(url, params) { _ ->
+            progressDialog?.dismiss()
+            checkCurrentStatus()
+        }
+    }
+
+    // Post to feedback data in server
     private fun postUserFeedback() {
         val feedback_id : String= prefs!!.findPreference("account_final_id")
         val feedback_state : String= FeedbackStatus.INI.name
-        val url : String = ProjectAPI.POST_FEEDBACK_URL.url
+        val url: String = ProjectAPI.POST_FEEDBACK_URL.url
         Log.d("POST: ","Post url: $url")
         Log.d("POST: ","Post Body: $feedback_id - $feedback_state")
         val params = JSONObject()
         params.put("feedback_id", feedback_id)
         params.put("feedback_state", feedback_state)
-        Log.d("POST: ", params.getString("feedback_id"))
-
-        apiController.post(url, params) { _ -> }
+        apiController.post(url, params) { _ ->
+            postUserInfo()
+        }
     }
 
 
