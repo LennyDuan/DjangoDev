@@ -1,10 +1,10 @@
 package com.example.lenny.studyresearchapp
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -23,9 +23,10 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.antonioleiva.weatherapp.extensions.DelegatesExt
 import com.example.lenny.studyresearchapp.common.SystemUtil
 import com.example.lenny.studyresearchapp.common.TypeUtil
+import com.example.lenny.studyresearchapp.data.PrefUtil.Preference
+import com.example.lenny.studyresearchapp.data.ProjectStatus
 import org.json.JSONArray
 import org.json.JSONException
 import kotlin.collections.ArrayList
@@ -43,17 +44,27 @@ class AccountActivities : AppCompatActivity() {
     private var account_final_startdate : String? = null
     private var account_final_enddate : String? = null
     private var account_final_studyfield : String? = null
-
-    val sharePrefs: SharedPreferences by lazy { this.getSharedPreferences("default", Context.MODE_PRIVATE) }
+    private var prefs : Preference? = null
+    private var current_status : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_activities)
+
+        // Set navigation
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+        // Check Preference Status
+        prefs = Preference(this)
+        current_status = prefs!!.findPreference("status")
+        checkCurrentStatus()
+        // Init UI components
         dateStartPickerInit(account_start_date)
         dateEndPickerInit(account_end_date)
         initNetwork()
-        initTextInputField()
+        initUniqueIDTextInputField()
+
+        // Init Set Button
         account_btn_confirm.setOnClickListener {
             saveDataToPreference()
         }
@@ -62,8 +73,19 @@ class AccountActivities : AppCompatActivity() {
         }
     }
 
-    private fun initTextInputField() {
-        account_id.setText(SystemUtil.ANDROID_ID(this))
+
+    private fun resetDataFromPreference() {
+        AlertDialog.Builder(this).setTitle("Notice!!")
+                .setMessage("Click 'ok' and reset account will lose all data")
+                .setPositiveButton(android.R.string.ok) {
+                    dialog, which ->
+                    prefs!!.putPreference("status", ProjectStatus.INIT.name)
+                    Log.d("Status: ", prefs?.findPreference("status"))
+                    checkCurrentStatus()
+                }
+                .setNegativeButton(android.R.string.cancel) { dialog, which -> }
+                .setIcon(android.R.drawable.ic_dialog_alert).show()
+                .setIcon(android.R.drawable.alert_dark_frame)
     }
 
     private fun saveDataToPreference() {
@@ -74,62 +96,85 @@ class AccountActivities : AppCompatActivity() {
         account_final_enddate = account_end_date.text?.toString()
         account_final_studyfield = account_study_text.text?.toString()
 
-        Log.d("UserInfo:", account_final_id)
-        Log.d("UserInfo:", account_final_address)
-        Log.d("UserInfo:", account_final_username )
-        Log.d("UserInfo:", account_final_startdate)
-        Log.d("UserInfo:", account_final_enddate )
-        Log.d("UserInfo:", account_final_studyfield )
-
-        Log.d("Prefs: ", sharePrefs.getString("account_final_id", "account_final_id"))
-        Log.d("Prefs: ", sharePrefs.getString("account_final_address", "account_final_address"))
-        Log.d("Prefs: ", sharePrefs.getString("account_final_username", "account_final_username"))
-        Log.d("Prefs: ", sharePrefs.getString("account_final_startdate", "account_final_startdate"))
-        Log.d("Prefs: ", sharePrefs.getString("account_final_enddate", "account_final_enddate"))
-        Log.d("Prefs: ", sharePrefs.getString("account_final_studyfield", "account_final_studyfield"))
-
-        if (savedDate()) {
-            account_btn_confirm.isEnabled = false
-            account_btn_reset.isEnabled = true
+        if (savedAccountDataPref()) {
+            prefs!!.putPreference("status", ProjectStatus.ACCOUNT_DONE.name)
         } else {
             toast(this, "Please fill in all input areas!")
         }
+        checkCurrentStatus()
     }
 
-    private fun  savedDate(): Boolean {
-        val prefs = sharePrefs.edit()
-        if (!account_final_id.isNullOrEmpty())
-            prefs.putString("account_final_id" ,account_final_id);
-        else return false
-
-        if (!account_final_address.isNullOrEmpty())
-            prefs.putString("account_final_address", account_final_address);
-        else return false
-
-        if (!account_final_username.isNullOrEmpty())
-            prefs.putString("account_final_username", account_final_username);
-        else return false
-
-        if (!account_final_startdate.isNullOrEmpty())
-            prefs.putString("account_final_startdate", account_final_startdate);
-        else return false
-
-        if (!account_final_enddate.isNullOrEmpty())
-            prefs.putString("account_final_enddate", account_final_enddate);
-        else return false
-
-        if (!account_final_studyfield.isNullOrEmpty())
-            prefs.putString("account_final_studyfield", account_final_studyfield);
-        else return false
-
-        prefs.apply()
-        return true
+    private fun  savedAccountDataPref(): Boolean {
+        return prefs!!.returnPutPreference("account_final_id", account_final_id)
+                && prefs!!.returnPutPreference("account_final_address", account_final_address)
+                && prefs!!.returnPutPreference("account_final_username", account_final_username)
+                && prefs!!.returnPutPreference("account_final_startdate", account_final_startdate)
+                && prefs!!.returnPutPreference("account_final_enddate", account_final_enddate)
+                && prefs!!.returnPutPreference("account_final_studyfield", account_final_studyfield)
     }
 
-    private fun resetDataFromPreference() {
-        account_btn_reset.isEnabled = false
-        account_btn_confirm.isEnabled = true
+    private fun checkCurrentStatus() {
+        current_status = prefs!!.findPreference("status")
+        if(current_status!! == ProjectStatus.DIARY.name) {
+            setUIAbilities(false, false, false, false, false, false, true)
+            setNavAbilities(true, true, false)
+        } else if (current_status!! == ProjectStatus.PRE_QUESTIONNAIRE.name) {
+            setUIAbilities(false, false, false, false, false, false, true)
+            setNavAbilities(true, false, false)
+        } else if (current_status!! == ProjectStatus.AFTER_QUESTIONNAIRE.name) {
+            setUIAbilities(false, false, false, false, false, false, true)
+            setNavAbilities(false, false, false)
+        } else if (current_status!! == ProjectStatus.ACCOUNT_DONE.name) {
+            setUIAbilities(false, false, false, false, false, false, true)
+            setNavAbilities(true, false, true)
+        } else if (current_status!! == ProjectStatus.INIT.name) {
+            setUIAbilities(true, true, true, true, true, true, false)
+            setNavAbilities(true, false, false)
+        } else if (current_status!! == ProjectStatus.NONE.name) {
+            setUIAbilities(false, false, false, false, false, false, false)
+            setNavAbilities(true, false, false)
+            toast(this, "Unable to connect server, we will come back soon")
+        } else {
+            setUIAbilities(true, true, true, true, true, true, false)
+            setNavAbilities(true, false, false)
+            prefs!!.putPreference("status", ProjectStatus.INIT.name)
+        }
+        toast(this, "You are in $current_status Mode")
+        setUITextFromPref()
     }
+
+    @SuppressLint("SetTextI18n")
+    private fun setUITextFromPref() {
+        current_status =  prefs?.findPreference("status")
+        account_id.setText(prefs?.findPreference("account_final_id"))
+        account_address.setText(prefs?.findPreference("account_final_address"))
+        account_username.setText(prefs?.findPreference("account_final_username"))
+        account_start_date.setText(prefs?.findPreference("account_final_startdate"))
+        account_end_date.setText(prefs?.findPreference("account_final_enddate"))
+        account_study_text.setText(prefs?.findPreference("account_final_studyfield"))
+    }
+
+
+    private fun setUIAbilities(
+            emailAddress: Boolean, username: Boolean, startDate: Boolean,
+            endDate:Boolean, studyspinner: Boolean, confirmBtn: Boolean, resetBtn: Boolean) {
+        account_address.isEnabled = emailAddress
+        account_username.isEnabled = username
+        account_start_date.isEnabled = startDate
+        account_end_date.isEnabled = endDate
+        account_study_spinner.isEnabled = studyspinner
+        account_btn_confirm.isEnabled = confirmBtn
+        account_btn_reset.isEnabled = resetBtn
+    }
+
+    private fun setNavAbilities(
+            account: Boolean, diary: Boolean, questionnaire: Boolean) {
+        navigation.menu.getItem(0).isEnabled = account
+        navigation.menu.getItem(1).isEnabled = diary
+        navigation.menu.getItem(2).isEnabled = questionnaire
+    }
+
+
 
     // RESTful GET studies
     private fun startStudyDownload(url: String) {
@@ -155,6 +200,10 @@ class AccountActivities : AppCompatActivity() {
                     studyField.add(study_field)
                 }
             }
+        }
+        if (studyField.isEmpty()) {
+            prefs!!.putPreference("status", ProjectStatus.NONE.name)
+            checkCurrentStatus()
         }
         if (progressDialog != null) {
             progressDialog?.dismiss()
@@ -231,6 +280,10 @@ class AccountActivities : AppCompatActivity() {
             }
         }
         false
+    }
+
+    private fun initUniqueIDTextInputField() {
+        account_id.setText(SystemUtil.ANDROID_ID(this))
     }
 
     // Date Start picker
