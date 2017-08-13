@@ -24,6 +24,7 @@ urlpatterns = [
 
     # POST UserInfo
     url(r'^api/v1/post/userInfo/(?P<study_pkid>[0-9]+)/study/(?P<feedback_pkid>[0-9]+)/feedback/$', userInfoP.userInfoPost, name='userInfo_post'),
+    url(r'^api/v1/post/userInfo/(?P<study_field>.+)/studyField/(?P<feedback_id>.+)/feedbackID/$', userInfoP.userInfoPostID, name='userInfo_post_viaID'),
     url(r'^api/v1/post/userInfo/(?P<pk_id>[0-9]+)/update/$', userInfoP.userInfoPostUpdate, name='userInfo_postUpdate'),
 
     # POST Feedback/Answer

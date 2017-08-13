@@ -35,6 +35,37 @@ def userInfoPost(request, study_pkid, feedback_pkid):
 
     return HttpResponse("Post Failed!!")
 
+# POST UserInfo via UniqueID
+@csrf_exempt
+def userInfoPostID(request, study_field, feedback_id):
+    if request.method == 'POST':
+        study = get_object_or_404(Study, study_field=study_field)
+        feedback = get_object_or_404(Feedback, feedback_id=feedback_id)
+
+        received_data = request.body.decode("utf-8")
+        body = json.loads(received_data)
+        userInfo_id = body["userInfo_id"]
+        userInfo_email = body["userInfo_email"]
+        userInfo_name = body["userInfo_name"]
+        userInfo_start_date = body["userInfo_start_date"]
+        userInfo_end_date = body["userInfo_end_date"]
+        userInfo = UserInfo(
+            userInfo_id=userInfo_id,
+            userInfo_email=userInfo_email,
+            userInfo_name=userInfo_name,
+            userInfo_start_date=userInfo_start_date,
+            userInfo_end_date=userInfo_end_date,
+            userInfo_study=study,
+            userInfo_feedback=feedback
+        )
+        # Answer model save
+        userInfo.save()
+        # UserInfo model Save
+        return HttpResponse("it was UserInfo post request!!__: " + json.dumps(body))
+
+    return HttpResponse("Post Failed!!")
+
+
 # POST UserInfo
 @csrf_exempt
 def userInfoPostUpdate(request, pk_id):
