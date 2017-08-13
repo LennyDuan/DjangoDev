@@ -54,7 +54,7 @@ class Feedback(models.Model):
     )
 
     def __str__(self):
-        return "Feedback id: %s - %s" % (self.feedback_id, self.feedback_state) 
+        return "Feedback id: %s - %s" % (self.feedback_id, self.feedback_state)
 
 class UserInfo(models.Model):
     userInfo_id = models.CharField(max_length=50, unique=True)
@@ -63,7 +63,7 @@ class UserInfo(models.Model):
     userInfo_start_date = models.DateTimeField('date published')
     userInfo_end_date = models.DateTimeField('date finished')
     # One User will have one Study and one Feedback
-    userInfo_study = models.OneToOneField(
+    userInfo_study = models.ForeignKey(
         Study,
         on_delete=models.CASCADE,
     )
