@@ -23,7 +23,6 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.example.lenny.studyresearchapp.R.id.account_id
 import com.example.lenny.studyresearchapp.common.SystemUtil
 import com.example.lenny.studyresearchapp.common.TypeUtil
 import com.example.lenny.studyresearchapp.data.PrefUtil.Preference
@@ -35,7 +34,6 @@ import com.example.lenny.studyresearchapp.network.ServiceVolley
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.net.URL
 import kotlin.collections.ArrayList
 
 @Suppress("DEPRECATION")
@@ -83,6 +81,7 @@ class AccountActivities : AppCompatActivity() {
         account_btn_reset.setOnClickListener {
             resetDataFromPreference()
         }
+        setUITextFromPref()
     }
 
     private fun uploadUserInfoToWebServer() {
@@ -99,6 +98,7 @@ class AccountActivities : AppCompatActivity() {
         val userInfo_name : String = prefs!!.findPreference("account_final_username")
         val userInfo_start_date : String = prefs!!.findPreference("account_final_startdate")
         val userInfo_end_date : String = prefs!!.findPreference("account_final_enddate")
+        Log.d("Pref: -- ", prefs!!.findPreference("account_final_studyfield"))
         val studyField : String = prefs!!.findPreference("account_final_studyfield")
         val url: String = ProjectAPI.POST_USER_INFO.url + "$studyField/studyField/$userInfo_id/feedbackID/"
         Log.d("POST UserInfo: ","Post url: $url")
@@ -139,6 +139,7 @@ class AccountActivities : AppCompatActivity() {
                     prefs!!.putPreference("status", ProjectStatus.INIT.name)
                     Log.d("Status: ", prefs?.findPreference("status"))
                     checkCurrentStatus()
+                    startStudyDownload(ProjectAPI.GET_STUDY_LIST_URL.url)
                 }
                 .setNegativeButton(android.R.string.cancel) { _, _ -> }
                 .setIcon(android.R.drawable.ic_dialog_alert).show()
@@ -151,6 +152,9 @@ class AccountActivities : AppCompatActivity() {
         account_final_startdate = account_start_date.text?.toString()
         account_final_enddate = account_end_date.text?.toString()
         account_final_studyfield = account_study_text.text?.toString()
+        Log.d("Pref: ", account_study_text.text?.toString())
+        Log.d("Pref: ", account_final_studyfield)
+
 
         if (savedAccountDataPref()) {
             prefs!!.putPreference("status", ProjectStatus.ACCOUNT_DONE.name)
@@ -171,8 +175,6 @@ class AccountActivities : AppCompatActivity() {
 
     private fun checkCurrentStatus() {
         current_status = prefs!!.findPreference("status")
-
-        startStudyDownload(ProjectAPI.GET_STUDY_LIST_URL.url)
 
         if(current_status!! == ProjectStatus.DIARY.name) {
             setUIAbilities(false, false, false, false, false, false, true)
@@ -201,6 +203,7 @@ class AccountActivities : AppCompatActivity() {
         toast(this, "You are in $current_status Mode")
     }
 
+    // Set UI Text with Pref data
     @SuppressLint("SetTextI18n")
     private fun setUITextFromPref() {
         current_status =  prefs?.findPreference("status")
@@ -210,6 +213,9 @@ class AccountActivities : AppCompatActivity() {
         account_start_date.setText(prefs?.findPreference("account_final_startdate"))
         account_end_date.setText(prefs?.findPreference("account_final_enddate"))
         account_study_text.setText(prefs?.findPreference("account_final_studyfield"))
+        Log.d("Pref: ", account_study_text.text.toString())
+        Log.d("Pref: ???", prefs?.findPreference("account_final_studyfield"))
+
     }
 
 
