@@ -78,6 +78,7 @@ class AccountActivities : AppCompatActivity() {
         account_btn_confirm.setOnClickListener {
             saveDataToPreference()
             uploadUserInfoToWebServer()
+            setUITextFromPref()
         }
         account_btn_reset.setOnClickListener {
             resetDataFromPreference()
@@ -170,6 +171,9 @@ class AccountActivities : AppCompatActivity() {
 
     private fun checkCurrentStatus() {
         current_status = prefs!!.findPreference("status")
+
+        startStudyDownload(ProjectAPI.GET_STUDY_LIST_URL.url)
+
         if(current_status!! == ProjectStatus.DIARY.name) {
             setUIAbilities(false, false, false, false, false, false, true)
             setNavAbilities(true, true, false)
@@ -195,7 +199,6 @@ class AccountActivities : AppCompatActivity() {
             prefs!!.putPreference("status", ProjectStatus.INIT.name)
         }
         toast(this, "You are in $current_status Mode")
-        setUITextFromPref()
     }
 
     @SuppressLint("SetTextI18n")
