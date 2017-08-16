@@ -6,6 +6,8 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ListView
 import com.example.lenny.studyresearchapp.Component.AnswerListAdapter
 import com.example.lenny.studyresearchapp.common.OutputUtil.toast
@@ -54,6 +56,10 @@ class QuestionnaireActivities : AppCompatActivity() {
     private fun createAnswerListView() {
         answerListAdapter = AnswerListAdapter(this, anwserList, LayoutInflater.from(this))
         answers_listView.adapter = answerListAdapter
+        answers_listView.onItemClickListener = AdapterView.OnItemClickListener {
+            adapterView: AdapterView<*>, view1: View, position: Int, l: Long ->
+            toast(this, "Click position: $position")
+        }
     }
 
     // Navigation Item Change Activities
