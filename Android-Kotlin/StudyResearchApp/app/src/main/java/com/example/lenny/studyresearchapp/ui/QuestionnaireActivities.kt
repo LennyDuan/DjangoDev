@@ -1,5 +1,6 @@
 package com.example.lenny.studyresearchapp
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -19,9 +20,11 @@ import com.example.lenny.studyresearchapp.model.Answer
 import com.example.lenny.studyresearchapp.network.APIController
 import com.example.lenny.studyresearchapp.network.ServiceVolley
 import kotlinx.android.synthetic.main.activity_questionnare_activities.*
-import kotlinx.android.synthetic.main.answer_list.*
 import kotlinx.android.synthetic.main.question_dialog.view.*
 import org.json.JSONArray
+import org.json.JSONObject
+import android.os.Handler
+
 
 class QuestionnaireActivities : AppCompatActivity() {
     private var prefs : PrefUtil.Preference? = null
@@ -29,6 +32,8 @@ class QuestionnaireActivities : AppCompatActivity() {
     private var accunt_study_field : String? = null
     private var anwserList = ArrayList<Answer>()
     private var feedbackID : String? = null
+    private var progressDialog: ProgressDialog? = null
+
     var answerListAdapter: AnswerListAdapter? = null
     val service = ServiceVolley()
     val apiController = APIController(service)
@@ -39,6 +44,7 @@ class QuestionnaireActivities : AppCompatActivity() {
 
         // Set navigation
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        progressDialog = ProgressDialog(this)
 
         // Check Preference Status
         prefs = PrefUtil.Preference(this)
@@ -84,7 +90,6 @@ class QuestionnaireActivities : AppCompatActivity() {
                 .setPositiveButton(android.R.string.ok) {
                     _, _ ->
                     anwserList[position].answer_answer = dialogView.edit_answer.text.toString()
-                    toast(this, "Click position: $position")
                     answerListAdapter!!.notifyDataSetChanged()
                 }
                 .setNegativeButton(android.R.string.cancel) {
@@ -99,10 +104,35 @@ class QuestionnaireActivities : AppCompatActivity() {
             toast(this, "Please answer all questions!")
         }
         else {
+            uploadQuestionnaire()
             toast(this, "Finish Questionnaires, start writing diary now!")
             confirmBtn.isEnabled = false;
+        }
+    }
+
+    private fun uploadQuestionnaire() {
+        progressDialog!!.setMessage("Uploading answers ...")
+        progressDialog!!.setIcon(R.drawable.ic_sync_black_24dp)
+        progressDialog!!.show()
+        val url = ProjectAPI.POST_ANSWERS_TO_FEEDBACK.url + feedbackID + "/feedback/"
+        Log.d("Answer POST: ", url)
+        (0..anwserList.size - 1).forEach { item ->
+            val params = JSONObject()
+            params.put("answer_id", anwserList[item].answer_id)
+            params.put("answer_question", anwserList[item].answer_question)
+            if(current_status == ProjectStatus.PRE_QUESTIONNAIRE.name) {
+                params.put("answer_before", anwserList[item].answer_answer)
+                params.put("answer_after", "")
+            }
+            apiController.post(url, params) {}
+        }
+
+        val progressRunnable = Runnable {
+            progressDialog!!.cancel()
             prefs!!.putPreference("status", ProjectStatus.DIARY.name)
         }
+        val pdCanceller = Handler()
+        pdCanceller.postDelayed(progressRunnable, 1000)
     }
 
     private fun allAnswer(): Boolean {
