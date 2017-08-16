@@ -7,6 +7,5 @@ package com.example.lenny.studyresearchapp.model
 data class Answer(
         var answer_id: String,
         var answer_question: String,
-        var answer_before: String? = null,
-        var answer_after: String? = null
+        var answer_answer: String? = null
 )

@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.ListView
+import com.example.lenny.studyresearchapp.Component.AnswerListAdapter
 import com.example.lenny.studyresearchapp.common.OutputUtil.toast
 import com.example.lenny.studyresearchapp.common.TypeUtil
 import com.example.lenny.studyresearchapp.data.PrefUtil
@@ -21,6 +24,7 @@ class QuestionnaireActivities : AppCompatActivity() {
     private var accunt_study_field : String? = null
     private var anwserList = ArrayList<Answer>()
     private var feedbackID : String? = null
+    var answerListAdapter: AnswerListAdapter? = null
     val service = ServiceVolley()
     val apiController = APIController(service)
 
@@ -42,8 +46,16 @@ class QuestionnaireActivities : AppCompatActivity() {
 
         // Get all Questions
         getQuestionViaStudyField()
+
+        // Create Recycle View
+        createAnswerListView()
     }
-    
+
+    private fun createAnswerListView() {
+        answerListAdapter = AnswerListAdapter(this, anwserList, LayoutInflater.from(this))
+        answers_listView.adapter = answerListAdapter
+    }
+
     // Navigation Item Change Activities
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -62,6 +74,7 @@ class QuestionnaireActivities : AppCompatActivity() {
         false
     }
 
+
     // Init Answer List in Questionnaire Page
     private fun getQuestionViaStudyField() {
         val url : String = ProjectAPI.GET_Question_List_URL.url + accunt_study_field!! + "/field"
@@ -69,7 +82,7 @@ class QuestionnaireActivities : AppCompatActivity() {
         apiController.get(url) { response ->
             Log.d("Question Req: " , response)
             Log.d("Question Req: " , TypeUtil.removeBackSlashAndQuote(response!!))
-            initAnswerList(TypeUtil.removeBackSlashAndQuote(response!!))
+            initAnswerList(TypeUtil.removeBackSlashAndQuote(response))
         }
     }
 
@@ -86,7 +99,7 @@ class QuestionnaireActivities : AppCompatActivity() {
                         feedbackID + "_" + fields.getString("question_id") else ""
                     val answer_question = if (fields.has("question_text"))
                         fields.getString("question_text") else ""
-                    val answer = Answer(answer_id, answer_question, null, null)
+                    val answer = Answer(answer_id, answer_question, null)
                     anwserList.add(answer)
                 }
             }

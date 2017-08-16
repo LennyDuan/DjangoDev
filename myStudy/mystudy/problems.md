@@ -52,3 +52,6 @@ http://jsonviewer.stack.hu/#http://127.0.0.1:8000/polls/api/v1/study/
 
 #### 9:
 Data model is wrong. UserInfo to Study should be many to one. But it is one to one currently. Need to modify data model
+
+#### 10:
+RecycleView can't to click listen....User List View
