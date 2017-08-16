@@ -61,6 +61,7 @@ class AccountActivities : AppCompatActivity() {
 
         // Set navigation
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        progressDialog = ProgressDialog(this)
 
         // Check Preference Status
         prefs = Preference(this)
@@ -179,7 +180,10 @@ class AccountActivities : AppCompatActivity() {
         if(current_status!! == ProjectStatus.DIARY.name) {
             setUIAbilities(false, false, false, false, false, false, true)
             setNavAbilities(true, true, false)
-        } else if (current_status!! == ProjectStatus.PRE_QUESTIONNAIRE.name) {
+        }  else if (current_status!! == ProjectStatus.PRE_QUESTIONNAIRE_Done.name) {
+            setUIAbilities(false, false, false, false, false, false, true)
+            setNavAbilities(true, true, false)
+        }   else if (current_status!! == ProjectStatus.PRE_QUESTIONNAIRE.name) {
             setUIAbilities(false, false, false, false, false, false, true)
             setNavAbilities(true, false, false)
         } else if (current_status!! == ProjectStatus.AFTER_QUESTIONNAIRE.name) {
@@ -322,7 +326,6 @@ class AccountActivities : AppCompatActivity() {
 
     private fun initNetwork() {
         if (isNetworkConnected()) {
-            progressDialog = ProgressDialog(this)
             progressDialog?.setMessage("Please wait...")
             progressDialog?.setCancelable(false)
             progressDialog?.show()

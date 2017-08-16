@@ -10,5 +10,6 @@ enum class ProjectAPI constructor(val url : String) {
 
     // POST API url
     POST_FEEDBACK_URL("http://10.0.2.2:8000/polls/api/v1/post/feedback/"),
-    POST_USER_INFO("http://10.0.2.2:8000/polls/api/v1/post/userInfo/")
+    POST_USER_INFO("http://10.0.2.2:8000/polls/api/v1/post/userInfo/"),
+    POST_ANSWERS_TO_FEEDBACK("http://10.0.2.2:8000/polls/api/v1/post/answer/"),
 }

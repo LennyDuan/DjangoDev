@@ -44,10 +44,10 @@ def feedbackPostUpdate(request, pk_id):
 
 # POST Answer
 @csrf_exempt
-def answerPost(request, pk_id):
+def answerPost(request, feedback_id):
     if request.method == 'POST':
         try:
-            feedback = get_object_or_404(Feedback, pk=pk_id)
+            feedback = get_object_or_404(Feedback, feedback_id=feedback_id)
             received_data = request.body.decode("utf-8")
             body = json.loads(received_data)
 
