@@ -21,6 +21,18 @@
         app:itemIconTint="@color/colorAccent"
         app:menu="@menu/navigation" />
 
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/confirmBtn"
+        android:background="@color/colorgreen"
+        android:text="@string/submit_questions"
+        tools:layout_editor_absoluteY="407dp"
+        tools:layout_editor_absoluteX="148dp"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:enabled="false"/>
     <ListView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -28,7 +40,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintBottom_toTopOf="@+id/confirmBtn"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="8dp"

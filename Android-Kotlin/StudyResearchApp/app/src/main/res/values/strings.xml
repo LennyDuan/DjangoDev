@@ -16,4 +16,5 @@
     <string name="account_reset">Reset</string>
     <string name="select_study_field">Select Study Field:</string>
     <string name="unique_id_textView">Unique ID:</string>
+    <string name="submit_questions">Submit Questionnaire</string>
 </resources>

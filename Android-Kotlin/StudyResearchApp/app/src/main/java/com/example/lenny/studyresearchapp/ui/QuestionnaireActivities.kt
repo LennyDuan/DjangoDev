@@ -14,6 +14,7 @@ import com.example.lenny.studyresearchapp.common.OutputUtil.toast
 import com.example.lenny.studyresearchapp.common.TypeUtil
 import com.example.lenny.studyresearchapp.data.PrefUtil
 import com.example.lenny.studyresearchapp.data.ProjectAPI
+import com.example.lenny.studyresearchapp.data.ProjectStatus
 import com.example.lenny.studyresearchapp.model.Answer
 import com.example.lenny.studyresearchapp.network.APIController
 import com.example.lenny.studyresearchapp.network.ServiceVolley
@@ -45,12 +46,18 @@ class QuestionnaireActivities : AppCompatActivity() {
         // Get Questionnaire
         accunt_study_field = prefs!!.findPreference("account_final_studyfield")
         Log.d("Ques Page: ", accunt_study_field)
+        Log.d("Current Status: ", current_status)
 
-        // Get all Questions
-        getQuestionViaStudyField()
-
-        // Create Recycle View
-        createAnswerListView()
+        // Init First Questionnaire
+        if(current_status == ProjectStatus.ACCOUNT_DONE.name) {
+            // Get all Questions
+            getQuestionViaStudyField()
+            // Create List View
+            createAnswerListView()
+            current_status = ProjectStatus.PRE_QUESTIONNAIRE.name
+            confirmBtn.isEnabled = true
+            confirmBtn.setOnClickListener(submitBtnClickListener)
+        }
     }
 
     private fun createAnswerListView() {
@@ -60,6 +67,23 @@ class QuestionnaireActivities : AppCompatActivity() {
             adapterView: AdapterView<*>, view1: View, position: Int, l: Long ->
             toast(this, "Click position: $position")
         }
+    }
+
+    private val submitBtnClickListener = View.OnClickListener {
+        if(!allAnswer()) {
+            toast(this, "Please answer all questions!")
+        }
+        else {
+            toast(this, "Finish Questionnaires, start writing diary now!")
+        }
+    }
+
+    private fun  allAnswer(): Boolean {
+        (0..anwserList.size - 1).forEach { item ->
+            if (anwserList[item].answer_answer == null)
+                return false
+        }
+        return true
     }
 
     // Navigation Item Change Activities
@@ -113,4 +137,6 @@ class QuestionnaireActivities : AppCompatActivity() {
         Log.d("AnswerList: ", anwserList.size.toString())
         Log.d("AnswerList: ", anwserList.toString())
     }
+
+
 }
