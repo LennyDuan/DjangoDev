@@ -66,6 +66,8 @@ class AccountActivities : AppCompatActivity() {
         // Check Preference Status
         prefs = Preference(this)
         current_status = prefs!!.findPreference("status")
+        Log.d("Current Status: ", current_status)
+
         checkCurrentStatus()
         // Init UI components
         dateStartPickerInit(account_start_date)
@@ -204,7 +206,7 @@ class AccountActivities : AppCompatActivity() {
             setNavAbilities(true, false, false)
             prefs!!.putPreference("status", ProjectStatus.INIT.name)
         }
-        toast(this, "You are in $current_status Mode")
+        Log.d("Current status: ", "You are in $current_status Mode")
     }
 
     // Set UI Text with Pref data
