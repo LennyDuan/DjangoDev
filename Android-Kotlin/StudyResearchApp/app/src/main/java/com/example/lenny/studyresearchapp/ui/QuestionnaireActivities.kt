@@ -129,7 +129,7 @@ class QuestionnaireActivities : AppCompatActivity() {
 
         val progressRunnable = Runnable {
             progressDialog!!.cancel()
-            prefs!!.putPreference("status", ProjectStatus.DIARY.name)
+            prefs!!.putPreference("status", ProjectStatus.PRE_QUESTIONNAIRE_Done.name)
         }
         val pdCanceller = Handler()
         pdCanceller.postDelayed(progressRunnable, 1000)
