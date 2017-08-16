@@ -3,12 +3,12 @@ package com.example.lenny.studyresearchapp
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ListView
 import com.example.lenny.studyresearchapp.Component.AnswerListAdapter
 import com.example.lenny.studyresearchapp.common.OutputUtil.toast
 import com.example.lenny.studyresearchapp.common.TypeUtil
@@ -19,6 +19,8 @@ import com.example.lenny.studyresearchapp.model.Answer
 import com.example.lenny.studyresearchapp.network.APIController
 import com.example.lenny.studyresearchapp.network.ServiceVolley
 import kotlinx.android.synthetic.main.activity_questionnare_activities.*
+import kotlinx.android.synthetic.main.answer_list.*
+import kotlinx.android.synthetic.main.question_dialog.view.*
 import org.json.JSONArray
 
 class QuestionnaireActivities : AppCompatActivity() {
@@ -63,22 +65,47 @@ class QuestionnaireActivities : AppCompatActivity() {
     private fun createAnswerListView() {
         answerListAdapter = AnswerListAdapter(this, anwserList, LayoutInflater.from(this))
         answers_listView.adapter = answerListAdapter
-        answers_listView.onItemClickListener = AdapterView.OnItemClickListener {
-            adapterView: AdapterView<*>, view1: View, position: Int, l: Long ->
-            toast(this, "Click position: $position")
-        }
+        answers_listView.onItemClickListener = listItemClickListener
     }
 
+    private val listItemClickListener = AdapterView.OnItemClickListener {
+        _: AdapterView<*>, _: View, position: Int, _: Long ->
+        showAnswerDialog(position)
+    }
+
+    // show answer dialog
+    private fun showAnswerDialog(position: Int) {
+        val dialogView = layoutInflater.inflate(R.layout.question_dialog, null)
+        AlertDialog.Builder(this)
+                .setTitle("Question Dialog:")
+                .setMessage((position + 1).toString() + ". " + anwserList[position].answer_question)
+                .setView(dialogView)
+                .setIcon(R.drawable.ic_question_answer_black_24dp)
+                .setPositiveButton(android.R.string.ok) {
+                    _, _ ->
+                    anwserList[position].answer_answer = dialogView.edit_answer.text.toString()
+                    toast(this, "Click position: $position")
+                    answerListAdapter!!.notifyDataSetChanged()
+                }
+                .setNegativeButton(android.R.string.cancel) {
+                    _, _ ->
+                }
+                .show()
+    }
+
+    // Submit btn function
     private val submitBtnClickListener = View.OnClickListener {
         if(!allAnswer()) {
             toast(this, "Please answer all questions!")
         }
         else {
             toast(this, "Finish Questionnaires, start writing diary now!")
+            confirmBtn.isEnabled = false;
+            prefs!!.putPreference("status", ProjectStatus.DIARY.name)
         }
     }
 
-    private fun  allAnswer(): Boolean {
+    private fun allAnswer(): Boolean {
         (0..anwserList.size - 1).forEach { item ->
             if (anwserList[item].answer_answer == null)
                 return false

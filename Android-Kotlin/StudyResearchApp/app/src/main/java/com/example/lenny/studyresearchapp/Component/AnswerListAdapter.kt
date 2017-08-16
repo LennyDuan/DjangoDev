@@ -1,5 +1,6 @@
 package com.example.lenny.studyresearchapp.Component
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -25,11 +26,12 @@ class AnswerListAdapter(context: Context, answerList: ArrayList<Answer>, layoutI
         this.answerList = answerList
         this.layoutInflater = layoutInflater
     }
+    @SuppressLint("SetTextI18n", "ViewHolder", "InflateParams")
     override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
         var cview: View
         cview = layoutInflater.inflate(R.layout.answer_list, null)
-        cview.answer_id.text = answerList[position].answer_id
-        cview.answer_question.text = answerList[position].answer_question
+        cview.answer_id.text = "ID: " + answerList[position].answer_id
+        cview.answer_question.text = (position + 1).toString() + ". " + answerList[position].answer_question
         cview.answer_answer.text = answerList[position].answer_answer
         return cview
     }
