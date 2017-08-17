@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.http import Http404, HttpResponse, JsonResponse
 from django.core import serializers
-from polls.models import Diary, UserInfo
+from polls.models import Diary, UserInfo, Skill
 import json
 #from django.views.decorators.csrf import csrf_exempt
 
@@ -39,3 +39,15 @@ def detailuserInfoEmail(request, userInfo_email):
     userInfo_diary_list = Diary.objects.all().filter(diary_userInfo=userInfo)
     userInfo_diary_serialized = serializers.serialize('json', userInfo_diary_list)
     return JsonResponse(userInfo_diary_serialized, safe=False)
+
+# Get Diary List
+#@csrf_exempt
+def all_skill(request):
+    # Post one Diary
+    if request.method == 'POST':
+        #received_json_data = json.loads(request.body.decode("utf-8"))
+        return HttpResponse("it was post request!!")
+
+    all_skill_list = Skill.objects.all()
+    all_skill_serialized = serializers.serialize('json', all_skill_list)
+    return JsonResponse(all_skill_serialized, safe=False)

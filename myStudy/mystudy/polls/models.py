@@ -98,3 +98,10 @@ class Diary(models.Model):
     diary_userInfo = models.ForeignKey(UserInfo, on_delete=models.CASCADE)
     def __str__(self):
         return "Diary: %s - %s" % (self.diary_title, self.diary_skill)
+
+# Create Skill Database
+class Skill(models.Model):
+    skill_id = models.CharField(max_length=50, unique=True)
+    skill_name = models.CharField(max_length=50, unique=True)
+    def __str__(self):
+        return "Skill: %s" % self.skill_name
