@@ -36,6 +36,11 @@ class DiaryDetail : AppCompatActivity() {
         initUI()
     }
 
+    override fun onBackPressed() {
+        backToDiaryList()
+    }
+
+
     private fun saveDataToDB() {
         toast(this, "Create diary successful")
     }
@@ -59,7 +64,7 @@ class DiaryDetail : AppCompatActivity() {
     private fun  initList(skillString: String) {
         val jsonArray = JSONArray(skillString)
         val skillList = ArrayList<String>()
-
+        skillList.add("N/A")
         (0..jsonArray.length() - 1).forEach { i ->
             val jsonObject = jsonArray.getJSONObject(i)
             if (null != jsonObject) {
@@ -86,11 +91,14 @@ class DiaryDetail : AppCompatActivity() {
         diary_spinner_skill.adapter = arrayAdapter
         diary_spinner_skill.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                diary_text_skill.setText(skillsArray.get(position))
+                if(position ==  0) {
+                    toast(this@DiaryDetail, "Please select skill might be improved today")
+                } else {
+                    diary_text_skill.setText(skillsArray.get(position))
+                    Log.d("Skill Selected: ", skillsArray.get(position).toString())
+                }
             }
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                diary_text_skill.setText("Select skill:")
-            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
     }
 
@@ -107,9 +115,7 @@ class DiaryDetail : AppCompatActivity() {
                     .setPositiveButton(android.R.string.yes) {
                         _, _ ->
                         saveDataToDB()
-                        val intent = Intent(this, DiaryActivities::class.java)
-                        startActivity(intent)
-                        finish()
+                        backToDiaryList()
                     }
                     .setNegativeButton(android.R.string.cancel) {
                         _, _ ->
@@ -118,7 +124,12 @@ class DiaryDetail : AppCompatActivity() {
         }
     }
 
-    private fun  finishDiary(): Boolean {
+    private fun backToDiaryList() {
+        val intent = Intent(this, DiaryActivities::class.java)
+        startActivity(intent)
+        finish()
+    }
+    private fun finishDiary(): Boolean {
         return diary_text_skill.text.isNullOrEmpty()
                 || diary_event.text.isNullOrEmpty()
                 || diary_title.text.isNullOrEmpty()

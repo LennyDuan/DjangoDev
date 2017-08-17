@@ -66,6 +66,7 @@ class DiaryActivities : AppCompatActivity() {
         when (item.itemId) {
             R.id.navigation_account -> {
                 val intent = Intent(this, AccountActivities::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent)
                 finish()
             }
