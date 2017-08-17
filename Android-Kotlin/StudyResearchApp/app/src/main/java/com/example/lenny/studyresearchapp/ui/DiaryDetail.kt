@@ -26,6 +26,7 @@ class DiaryDetail : AppCompatActivity() {
     private var prefs : PrefUtil.Preference? = null
     private var userEmail : String? = null
     private var diary: Diary? = null
+    private val dbTable = "Diary"
     val service = ServiceVolley()
     val apiController = APIController(service)
 
