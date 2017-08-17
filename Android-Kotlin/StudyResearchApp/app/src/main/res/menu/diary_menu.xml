@@ -7,9 +7,9 @@
         android:icon="@drawable/ic_playlist_add_black_24dp"
         android:title="@string/add_diary"
         app:showAsAction="ifRoom" />
-    <item
-        android:title="@string/upload_diary"
-        android:id="@+id/diary_menu_upload"
-        app:showAsAction="withText"
-        />
+    <!--<item-->
+        <!--android:title="@string/upload_diary"-->
+        <!--android:id="@+id/diary_menu_upload"-->
+        <!--app:showAsAction="withText"-->
+        <!--/>-->
 </menu>

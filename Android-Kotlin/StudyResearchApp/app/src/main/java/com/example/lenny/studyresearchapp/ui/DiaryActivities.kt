@@ -56,9 +56,9 @@ class DiaryActivities : AppCompatActivity() {
             R.id.diary_menu_add -> {
 
             }
-            R.id.diary_menu_upload -> {
-
-            }
+//            R.id.diary_menu_upload -> {
+//
+//            }
         }
 
         return super.onOptionsItemSelected(item)
