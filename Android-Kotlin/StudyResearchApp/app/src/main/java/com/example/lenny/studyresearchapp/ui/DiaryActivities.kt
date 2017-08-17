@@ -14,6 +14,7 @@ import com.example.lenny.studyresearchapp.data.PrefUtil
 import com.example.lenny.studyresearchapp.data.ProjectStatus
 import com.example.lenny.studyresearchapp.network.APIController
 import com.example.lenny.studyresearchapp.network.ServiceVolley
+import com.example.lenny.studyresearchapp.ui.DiaryDetail
 import kotlinx.android.synthetic.main.activity_diary_activities.*
 
 class DiaryActivities : AppCompatActivity() {
@@ -31,6 +32,7 @@ class DiaryActivities : AppCompatActivity() {
 
         // Set Navigation
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        navigation.menu.getItem(1).isChecked = true
 
         // Check Preference Status
         prefs = PrefUtil.Preference(this)
@@ -54,11 +56,10 @@ class DiaryActivities : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId) {
             R.id.diary_menu_add -> {
-
+                val intent = Intent(this, DiaryDetail::class.java)
+                startActivity(intent)
+                finish()
             }
-//            R.id.diary_menu_upload -> {
-//
-//            }
         }
 
         return super.onOptionsItemSelected(item)

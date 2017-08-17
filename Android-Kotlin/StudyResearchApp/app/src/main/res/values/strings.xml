@@ -20,4 +20,9 @@
     <string name="enter_your_answer">Enter your answer</string>
     <string name="add_diary">Add Diary</string>
     <string name="upload_diary">Upload Diary</string>
+    <string name="tell_us_about_your_today_s_diary">Tell us about your today\'s diary</string>
+    <string name="date_diary_Detail">Date:</string>
+    <string name="select_skill_diary">Select Skill ...</string>
+    <string name="creat_diary">CREAT</string>
+    <string name="diary_event">Diary event ...</string>
 </resources>
