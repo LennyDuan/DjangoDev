@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -46,7 +47,7 @@ class DiaryActivities : AppCompatActivity() {
 
     // Init Menu Item
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.diary_menu, null)
+        menuInflater.inflate(R.menu.diary_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -56,9 +57,10 @@ class DiaryActivities : AppCompatActivity() {
 
             }
             R.id.diary_menu_upload -> {
-                
+
             }
         }
+
         return super.onOptionsItemSelected(item)
     }
 
