@@ -66,6 +66,22 @@ class QuestionnaireActivities : AppCompatActivity() {
             confirmBtn.isEnabled = true
             confirmBtn.setOnClickListener(submitBtnClickListener)
         }
+        checkCurrentStatus()
+        toast(this, "You are in $current_status Step")
+    }
+
+    private fun checkCurrentStatus() {
+        if(current_status == ProjectStatus.PRE_QUESTIONNAIRE.name) {
+            setNavAbilities(true, false, true)
+        } else if (current_status == ProjectStatus.PRE_QUESTIONNAIRE_Done.name) {
+            setNavAbilities(true, true, false)
+        } else if (current_status == ProjectStatus.AFTER_QUESTIONNAIRE.name) {
+            setNavAbilities(true, true, true)
+        } else if (current_status == ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name) {
+            setNavAbilities(true, true, true)
+        } else {
+            setNavAbilities(true, false, false)
+        }
     }
 
     private fun createAnswerListView() {
@@ -104,9 +120,21 @@ class QuestionnaireActivities : AppCompatActivity() {
             toast(this, "Please answer all questions!")
         }
         else {
-            uploadQuestionnaire()
-            toast(this, "Finish Questionnaires, start writing diary now!")
-            confirmBtn.isEnabled = false;
+            AlertDialog.Builder(this)
+                    .setTitle("Submit Questionnaire?")
+                    .setMessage("Notice: You can't modify your answers if you sumbit your questionnaire")
+                    .setIcon(R.drawable.ic_notifications_black_24dp)
+                    .setPositiveButton(android.R.string.yes) {
+                        _, _ ->
+                        uploadQuestionnaire()
+                        toast(this, "Finish Questionnaires, start writing diary now!")
+                        confirmBtn.isEnabled = false;
+                        checkCurrentStatus()
+                    }
+                    .setNegativeButton(android.R.string.cancel) {
+                        _, _ ->
+                    }
+                    .show()
         }
     }
 
@@ -149,10 +177,13 @@ class QuestionnaireActivities : AppCompatActivity() {
             R.id.navigation_account -> {
                 val intent = Intent(this, AccountActivities::class.java)
                 startActivity(intent)
+                finish()
+
             }
             R.id.navigation_diary -> {
                 val intent = Intent(this, DiaryActivities::class.java)
                 startActivity(intent)
+                finish()
             }
             R.id.navigation_ques -> {
                 toast(this,"Location: Questionnaire Page")
@@ -195,5 +226,10 @@ class QuestionnaireActivities : AppCompatActivity() {
         Log.d("AnswerList: ", anwserList.toString())
     }
 
-
+    private fun setNavAbilities(
+            account: Boolean, diary: Boolean, questionnaire: Boolean) {
+        navigation.menu.getItem(0).isEnabled = account
+        navigation.menu.getItem(1).isEnabled = diary
+        navigation.menu.getItem(2).isEnabled = questionnaire
+    }
 }

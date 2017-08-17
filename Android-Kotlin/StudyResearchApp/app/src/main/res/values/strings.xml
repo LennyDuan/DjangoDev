@@ -18,4 +18,6 @@
     <string name="unique_id_textView">Unique ID:</string>
     <string name="submit_questions">Submit Questionnaire</string>
     <string name="enter_your_answer">Enter your answer</string>
+    <string name="add_diary">Add Diary</string>
+    <string name="upload_diary">Upload Diary</string>
 </resources>
