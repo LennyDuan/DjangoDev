@@ -60,7 +60,6 @@ class DiaryDetail : AppCompatActivity() {
     }
 
     private fun uploadDiary() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private fun initUI() {

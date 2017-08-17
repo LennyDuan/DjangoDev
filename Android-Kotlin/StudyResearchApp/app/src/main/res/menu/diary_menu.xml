@@ -7,9 +7,11 @@
         android:icon="@drawable/ic_playlist_add_black_24dp"
         android:title="@string/add_diary"
         app:showAsAction="ifRoom" />
-    <!--<item-->
-        <!--android:title="@string/upload_diary"-->
-        <!--android:id="@+id/diary_menu_upload"-->
-        <!--app:showAsAction="withText"-->
-        <!--/>-->
+    <item
+        android:id="@+id/app_bar_search"
+        app:actionViewClass="android.widget.SearchView"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="Search"
+        app:showAsAction="always"/>
+
 </menu>
