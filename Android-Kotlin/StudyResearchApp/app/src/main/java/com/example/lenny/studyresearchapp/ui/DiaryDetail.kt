@@ -1,5 +1,6 @@
 package com.example.lenny.studyresearchapp
 
+import android.content.ContentValues
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,8 @@ import com.example.lenny.studyresearchapp.common.TypeUtil
 import com.example.lenny.studyresearchapp.data.PrefUtil
 import com.example.lenny.studyresearchapp.data.ProjectAPI
 import com.example.lenny.studyresearchapp.common.OutputUtil.toast
+import com.example.lenny.studyresearchapp.model.DBManager
+import com.example.lenny.studyresearchapp.model.Diary
 import com.example.lenny.studyresearchapp.network.APIController
 import com.example.lenny.studyresearchapp.network.ServiceVolley
 import kotlinx.android.synthetic.main.activity_diary_detail.*
@@ -24,6 +27,8 @@ class DiaryDetail : AppCompatActivity() {
 
     private var prefs : PrefUtil.Preference? = null
     private var userEmail : String? = null
+    private var diary: Diary? = null
+    private val dbTable = "Diary"
     val service = ServiceVolley()
     val apiController = APIController(service)
 
@@ -42,7 +47,20 @@ class DiaryDetail : AppCompatActivity() {
 
 
     private fun saveDataToDB() {
-        toast(this, "Create diary successful")
+        val value = ContentValues()
+        val dbManager = DBManager(this)
+        value.put("date", diary!!.diary_date)
+        value.put("skill", diary!!.diary_skill)
+        value.put("title", diary!!.diary_title)
+        value.put("event", diary!!.diary_event)
+        val code = dbManager.Insert(value)
+        if(code > 0) {
+            toast(this, "Create diary successful")
+        }
+    }
+
+    private fun uploadDiary() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private fun initUI() {
@@ -114,7 +132,9 @@ class DiaryDetail : AppCompatActivity() {
                     .setIcon(R.drawable.ic_notifications_black_24dp)
                     .setPositiveButton(android.R.string.yes) {
                         _, _ ->
+                        initDiary()
                         saveDataToDB()
+                        uploadDiary()
                         backToDiaryList()
                     }
                     .setNegativeButton(android.R.string.cancel) {
@@ -122,6 +142,11 @@ class DiaryDetail : AppCompatActivity() {
                     }
                     .show()
         }
+    }
+
+    private fun initDiary() {
+        diary = Diary(diary_date_text.text.toString(), diary_text_skill.text.toString(),
+                diary_title.text.toString(), diary_event.text.toString())
     }
 
     private fun backToDiaryList() {
