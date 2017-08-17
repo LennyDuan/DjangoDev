@@ -41,6 +41,7 @@ urlpatterns = [
     url(r'^api/v1/diary/(?P<pk_id>[0-9]+)/$', diary.detail, name='diary_detail'),
     url(r'^api/v1/diary/(?P<diary_id>[0-9]+)/diary_id/$', diary.detailDiaryID, name='diary_detail_diaryID'),
     url(r'^api/v1/diary/(?P<userInfo_email>.+)/userInfo_email/$', diary.detailuserInfoEmail, name='diary_userInfoEmail'),
+    url(r'^api/v1/skill/$', diary.all_skill, name="skill_all"),
 
     # userInfo GET api
     url(r'^api/v1/index/userInfo/$', userInfo.index, name='userInfo_index'),

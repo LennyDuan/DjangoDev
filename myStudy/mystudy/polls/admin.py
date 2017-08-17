@@ -65,3 +65,4 @@ admin.site.register(Answer, AnswerAdmin)
 
 admin.site.register(UserInfo, UserInfoAdmin)
 admin.site.register(Diary, DiaryAdmin)
+admin.site.register(Skill)
