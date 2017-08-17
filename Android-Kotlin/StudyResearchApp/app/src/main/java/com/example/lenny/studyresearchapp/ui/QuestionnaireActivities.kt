@@ -44,6 +44,8 @@ class QuestionnaireActivities : AppCompatActivity() {
 
         // Set navigation
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        navigation.menu.getItem(2).isChecked = true
+
         progressDialog = ProgressDialog(this)
 
         // Check Preference Status

@@ -61,6 +61,8 @@ class AccountActivities : AppCompatActivity() {
 
         // Set navigation
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        navigation.menu.getItem(0).isChecked = true
+
         progressDialog = ProgressDialog(this)
 
         // Check Preference Status

@@ -31,6 +31,7 @@ class DiaryActivities : AppCompatActivity() {
 
         // Set Navigation
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        navigation.menu.getItem(1).isChecked = true
 
         // Check Preference Status
         prefs = PrefUtil.Preference(this)
