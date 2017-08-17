@@ -85,6 +85,7 @@ class AccountActivities : AppCompatActivity() {
             resetDataFromPreference()
         }
         setUITextFromPref()
+        toast(this, "You are in $current_status Step")
     }
 
     private fun uploadUserInfoToWebServer() {
@@ -356,10 +357,12 @@ class AccountActivities : AppCompatActivity() {
             R.id.navigation_diary -> {
                 val intent = Intent(this, DiaryActivities::class.java)
                 startActivity(intent)
+                finish()
             }
             R.id.navigation_ques -> {
                 val intent = Intent(this, QuestionnaireActivities::class.java)
                 startActivity(intent)
+                finish()
             }
         }
         false
