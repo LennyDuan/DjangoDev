@@ -1,11 +1,8 @@
 package com.example.lenny.studyresearchapp
 
-import android.app.DatePickerDialog
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -14,7 +11,6 @@ import com.example.lenny.studyresearchapp.data.PrefUtil
 import com.example.lenny.studyresearchapp.data.ProjectStatus
 import com.example.lenny.studyresearchapp.network.APIController
 import com.example.lenny.studyresearchapp.network.ServiceVolley
-import com.example.lenny.studyresearchapp.ui.DiaryDetail
 import kotlinx.android.synthetic.main.activity_diary_activities.*
 
 class DiaryActivities : AppCompatActivity() {

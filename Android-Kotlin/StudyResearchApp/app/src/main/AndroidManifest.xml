@@ -32,7 +32,7 @@
             android:label="@string/activity_questionnaire"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.DiaryDetail"
+            android:name=".DiaryDetail"
             android:label="Diary Detail"
             android:theme="@style/AppTheme">
         </activity>
