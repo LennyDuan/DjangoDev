@@ -14,6 +14,7 @@ import com.example.lenny.studyresearchapp.common.TypeUtil
 import com.example.lenny.studyresearchapp.data.PrefUtil
 import com.example.lenny.studyresearchapp.data.ProjectAPI
 import com.example.lenny.studyresearchapp.common.OutputUtil.toast
+import com.example.lenny.studyresearchapp.model.Diary
 import com.example.lenny.studyresearchapp.network.APIController
 import com.example.lenny.studyresearchapp.network.ServiceVolley
 import kotlinx.android.synthetic.main.activity_diary_detail.*
@@ -24,6 +25,7 @@ class DiaryDetail : AppCompatActivity() {
 
     private var prefs : PrefUtil.Preference? = null
     private var userEmail : String? = null
+    private var diary: Diary? = null
     val service = ServiceVolley()
     val apiController = APIController(service)
 
@@ -114,6 +116,7 @@ class DiaryDetail : AppCompatActivity() {
                     .setIcon(R.drawable.ic_notifications_black_24dp)
                     .setPositiveButton(android.R.string.yes) {
                         _, _ ->
+                        initDiary()
                         saveDataToDB()
                         backToDiaryList()
                     }
@@ -122,6 +125,11 @@ class DiaryDetail : AppCompatActivity() {
                     }
                     .show()
         }
+    }
+
+    private fun initDiary() {
+        diary = Diary(diary_date_text.text.toString(), diary_text_skill.text.toString(),
+                diary_title.text.toString(), diary_event.text.toString())
     }
 
     private fun backToDiaryList() {

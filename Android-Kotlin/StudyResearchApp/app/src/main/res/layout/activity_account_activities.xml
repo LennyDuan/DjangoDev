@@ -163,6 +163,7 @@
         android:id="@+id/textView_unique_id"
         android:layout_width="100dp"
         android:layout_height="38dp"
+        android:layout_marginTop="20sp"
         android:textSize="20sp"
         android:gravity="center_vertical"
         android:text="@string/unique_id_textView"
