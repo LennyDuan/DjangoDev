@@ -65,7 +65,7 @@
         />
 
     <EditText
-        android:id="@+id/diary_title"
+        android:id="@+id/diary_title_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -82,7 +82,7 @@
         />
 
     <EditText
-        android:id="@+id/diary_event"
+        android:id="@+id/diary_event_detail"
         android:layout_width="match_parent"
         android:layout_height="260dp"
         android:layout_marginLeft="15dp"
@@ -97,7 +97,7 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="194dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/diary_title"/>
+        app:layout_constraintTop_toBottomOf="@id/diary_title_detail"/>
 
     <Button
         android:layout_marginLeft="15dp"
@@ -111,6 +111,6 @@
         tools:layout_editor_absoluteY="458dp"
         android:layout_marginTop="10sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/diary_event"/>
+        app:layout_constraintTop_toBottomOf="@id/diary_event_detail"/>
 
 </android.support.constraint.ConstraintLayout>

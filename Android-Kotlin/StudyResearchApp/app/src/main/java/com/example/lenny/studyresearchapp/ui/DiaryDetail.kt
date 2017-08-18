@@ -15,12 +15,15 @@ import com.example.lenny.studyresearchapp.common.TypeUtil
 import com.example.lenny.studyresearchapp.data.PrefUtil
 import com.example.lenny.studyresearchapp.data.ProjectAPI
 import com.example.lenny.studyresearchapp.common.OutputUtil.toast
+import com.example.lenny.studyresearchapp.common.SystemUtil
+import com.example.lenny.studyresearchapp.data.ProjectStatus
 import com.example.lenny.studyresearchapp.model.DBManager
 import com.example.lenny.studyresearchapp.model.Diary
 import com.example.lenny.studyresearchapp.network.APIController
 import com.example.lenny.studyresearchapp.network.ServiceVolley
 import kotlinx.android.synthetic.main.activity_diary_detail.*
 import org.json.JSONArray
+import org.json.JSONObject
 import java.util.*
 
 class DiaryDetail : AppCompatActivity() {
@@ -60,6 +63,17 @@ class DiaryDetail : AppCompatActivity() {
     }
 
     private fun uploadDiary() {
+        val url = ProjectAPI.POST_DIARY_VIA_EMAIL.url + userEmail + "/userInfoEmail/"
+        Log.d("POST Diary URL: ", url)
+        if(prefs!!.findPreference("status") == ProjectStatus.DIARY.name) {
+            val params = JSONObject()
+            params.put("diary_id", SystemUtil.ANDROID_ID(this) + "_" + diary!!.diary_date)
+            params.put("diary_skill", diary!!.diary_skill)
+            params.put("diary_title", diary!!.diary_title)
+            params.put("diary_detail", diary!!.diary_event)
+            Log.d("POST Diary values: ", params.toString())
+            apiController.post(url, params) {}
+        }
     }
 
     private fun initUI() {
@@ -145,7 +159,7 @@ class DiaryDetail : AppCompatActivity() {
 
     private fun initDiary() {
         diary = Diary(diary_date_text.text.toString(), diary_text_skill.text.toString(),
-                diary_title.text.toString(), diary_event.text.toString())
+                diary_title_detail.text.toString(), diary_event_detail.text.toString())
     }
 
     private fun backToDiaryList() {
@@ -155,8 +169,8 @@ class DiaryDetail : AppCompatActivity() {
     }
     private fun finishDiary(): Boolean {
         return diary_text_skill.text.isNullOrEmpty()
-                || diary_event.text.isNullOrEmpty()
-                || diary_title.text.isNullOrEmpty()
+                || diary_event_detail.text.isNullOrEmpty()
+                || diary_title_detail.text.isNullOrEmpty()
     }
 
 }
