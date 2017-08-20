@@ -93,6 +93,8 @@ class Diary(models.Model):
     diary_skill = models.CharField(max_length=50, blank=False)
     diary_title = models.CharField(max_length=200, blank=False)
     diary_detail = models.CharField(max_length=1000)
+    diary_latitude = models.CharField(max_length=30, blank=True)
+    diary_longitude = models.CharField(max_length=30, blank=True)
     # diary_img = models.ImageField()
     # A User will have lots of Diary
     diary_userInfo = models.ForeignKey(UserInfo, on_delete=models.CASCADE)
