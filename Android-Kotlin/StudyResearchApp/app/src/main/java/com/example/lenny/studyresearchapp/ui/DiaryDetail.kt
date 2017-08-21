@@ -1,7 +1,10 @@
 package com.example.lenny.studyresearchapp
 
+import android.Manifest
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
+import android.location.LocationManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -25,13 +28,21 @@ import kotlinx.android.synthetic.main.activity_diary_detail.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
+import android.content.pm.PackageManager
+
+
+
 
 class DiaryDetail : AppCompatActivity() {
 
+    private val LOCATION_REQUEST = 1340
+    private val LOCATION_PERMS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
     private var prefs : PrefUtil.Preference? = null
     private var userEmail : String? = null
     private var diary: Diary? = null
-    private val dbTable = "Diary"
+    private var diary_log : String? = null
+    private var diary_lat : String? = null
+
     val service = ServiceVolley()
     val apiController = APIController(service)
 
@@ -40,6 +51,7 @@ class DiaryDetail : AppCompatActivity() {
         setContentView(R.layout.activity_diary_detail)
         prefs = PrefUtil.Preference(this)
         userEmail = prefs!!.findPreference("account_final_address")
+        getLocation()
 
         initUI()
     }
@@ -71,6 +83,12 @@ class DiaryDetail : AppCompatActivity() {
             params.put("diary_skill", diary!!.diary_skill)
             params.put("diary_title", diary!!.diary_title)
             params.put("diary_detail", diary!!.diary_event)
+            if(diary_lat.isNullOrEmpty()) {
+                diary_lat = ""
+                diary_log = ""
+            }
+            params.put("diary_latitude", diary_lat)
+            params.put("diary_longitude", diary_log)
             Log.d("POST Diary values: ", params.toString())
             apiController.post(url, params) {}
         }
@@ -173,4 +191,25 @@ class DiaryDetail : AppCompatActivity() {
                 || diary_title_detail.text.isNullOrEmpty()
     }
 
+    private fun getLocation() {
+        if(hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            Log.d("Location: ", "Has permission")
+        } else {
+            requestPermissions(LOCATION_PERMS, LOCATION_REQUEST)
+            Log.d("Location: ", "Request permission")
+        }
+        startGetLocation()
+    }
+
+    private fun startGetLocation() {
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        Log.d("Location: ", location?.toString())
+        diary_log = location?.longitude.toString()
+        diary_lat = location?.latitude.toString()
+        Log.d("Location: ", diary_log + " : " + diary_lat)
+    }
+    private fun hasPermission(perm: String): Boolean {
+        return PackageManager.PERMISSION_GRANTED == checkSelfPermission(perm)
+    }
 }

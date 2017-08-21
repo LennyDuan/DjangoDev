@@ -55,3 +55,6 @@ Data model is wrong. UserInfo to Study should be many to one. But it is one to o
 
 #### 10:
 RecycleView can't to click listen....User List View
+
+#### 11:
+Get location is always null... Need to use google map on virtual device to store last know location
