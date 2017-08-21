@@ -191,6 +191,7 @@ class DiaryDetail : AppCompatActivity() {
                 || diary_title_detail.text.isNullOrEmpty()
     }
 
+    // Get location: latitude & longitude
     private fun getLocation() {
         if(hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
             Log.d("Location: ", "Has permission")
@@ -209,6 +210,7 @@ class DiaryDetail : AppCompatActivity() {
         diary_lat = location?.latitude.toString()
         Log.d("Location: ", diary_log + " : " + diary_lat)
     }
+
     private fun hasPermission(perm: String): Boolean {
         return PackageManager.PERMISSION_GRANTED == checkSelfPermission(perm)
     }

@@ -96,3 +96,22 @@ def answerPostUpdate(request, pk_id):
         except Exception as e:
             return HttpResponse("Post data failed: " + str(e))
     return HttpResponse("This is the POST api!!")
+
+# POST Answer Update via ID
+@csrf_exempt
+def answerPostUpdateViaIDAfter(request, answer_id):
+    if request.method == 'POST':
+        try:
+            answer = get_object_or_404(Answer, answer_id=answer_id)
+            received_data = request.body.decode("utf-8")
+            body = json.loads(received_data)
+
+            answer_after = body["answer_after"]
+            answer.answer_after = answer_after
+            # Answer model save
+            answer.save()
+            print (answer.answer_before)
+            return HttpResponse("it was Answer Update post request!!__: " + json.dumps(body))
+        except Exception as e:
+            return HttpResponse("Post data failed: " + str(e))
+    return HttpResponse("This is the POST api!!")

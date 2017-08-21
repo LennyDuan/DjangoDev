@@ -28,6 +28,7 @@ import com.example.lenny.studyresearchapp.common.TypeUtil
 import com.example.lenny.studyresearchapp.data.PrefUtil.Preference
 import com.example.lenny.studyresearchapp.data.ProjectAPI
 import com.example.lenny.studyresearchapp.data.ProjectStatus
+import com.example.lenny.studyresearchapp.model.DBManager
 import com.example.lenny.studyresearchapp.model.FeedbackStatus
 import com.example.lenny.studyresearchapp.network.APIController
 import com.example.lenny.studyresearchapp.network.ServiceVolley
@@ -39,6 +40,7 @@ import kotlin.collections.ArrayList
 @Suppress("DEPRECATION")
 class AccountActivities : AppCompatActivity() {
 
+    private var dbManager : DBManager? = null
     private var mDateStartSetListener : DatePickerDialog.OnDateSetListener? = null
     private var mDateEndSetListener : DatePickerDialog.OnDateSetListener? = null
     private var progressDialog: ProgressDialog? = null
@@ -70,6 +72,7 @@ class AccountActivities : AppCompatActivity() {
         current_status = prefs!!.findPreference("status")
         Log.d("Current Status: ", current_status)
 
+        dbManager = DBManager(this)
         checkCurrentStatus()
         // Init UI components
         dateStartPickerInit(account_start_date)
@@ -145,6 +148,7 @@ class AccountActivities : AppCompatActivity() {
                     prefs!!.putPreference("status", ProjectStatus.INIT.name)
                     Log.d("Status: ", prefs?.findPreference("status"))
                     checkCurrentStatus()
+                    dbManager!!.Clean()
                     startStudyDownload(ProjectAPI.GET_STUDY_LIST_URL.url)
                 }
                 .setNegativeButton(android.R.string.cancel) { _, _ -> }
@@ -193,7 +197,9 @@ class AccountActivities : AppCompatActivity() {
             setNavAbilities(true, false, false)
         } else if (current_status!! == ProjectStatus.AFTER_QUESTIONNAIRE.name) {
             setUIAbilities(false, false, false, false, false, false, true)
-            setNavAbilities(false, false, false)
+            setNavAbilities(true, true, true)
+            toast(this, "You have completed diary and study period is expired." +
+                    " Please complete the questionnaire again.")
         } else if (current_status!! == ProjectStatus.ACCOUNT_DONE.name) {
             setUIAbilities(false, false, false, false, false, false, true)
             setNavAbilities(true, false, true)
@@ -204,6 +210,16 @@ class AccountActivities : AppCompatActivity() {
             setUIAbilities(false, false, false, false, false, false, false)
             setNavAbilities(true, false, false)
             toast(this, "Unable to connect server, we will come back soon")
+        } else if (current_status!! == ProjectStatus.DIARY_DONE.name) {
+            setUIAbilities(false, false, false, false, false, false, true)
+            setNavAbilities(true, true, true)
+            toast(this, "You have completed diary and study period is expired." +
+                    " Please complete the questionnaire again.")
+        } else if (current_status!! == ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name) {
+            setUIAbilities(false, false, false, false, false, false, true)
+            setNavAbilities(true, true, false)
+            toast(this, "You have completed this study, All your data has been sent to our study team," +
+                    "Thanks very much!")
         } else {
             setUIAbilities(true, true, true, true, true, true, false)
             setNavAbilities(true, false, false)
@@ -377,7 +393,7 @@ class AccountActivities : AppCompatActivity() {
     // Date Start picker
     private fun dateStartPickerInit(editView : TextInputEditText) {
         mDateStartSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
-            val date: String = "$year-$month-$day"
+            val date: String = "$year-" + (month + 1) + "-$day"
             editView.setText(date)
             hideSoftKeyboard()
         }
@@ -398,7 +414,7 @@ class AccountActivities : AppCompatActivity() {
     // Date End picker
     private fun dateEndPickerInit(editView : TextInputEditText) {
         mDateEndSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
-            val date : String = "$year-$month-$day"
+            val date : String = "$year-" + (month + 1) + "-$day"
             editView.setText(date)
             hideSoftKeyboard()
         }

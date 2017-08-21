@@ -60,11 +60,22 @@ class QuestionnaireActivities : AppCompatActivity() {
 
         // Init First Questionnaire
         if(current_status == ProjectStatus.ACCOUNT_DONE.name) {
+            prefs!!.putPreference("status", ProjectStatus.PRE_QUESTIONNAIRE.name)
             // Get all Questions
             getQuestionViaStudyField()
             // Create List View
             createAnswerListView()
             current_status = ProjectStatus.PRE_QUESTIONNAIRE.name
+            confirmBtn.isEnabled = true
+            confirmBtn.setOnClickListener(submitBtnClickListener)
+        } else if (current_status == ProjectStatus.DIARY_DONE.name ||
+                current_status == ProjectStatus.AFTER_QUESTIONNAIRE.name) {
+            prefs!!.putPreference("status", ProjectStatus.AFTER_QUESTIONNAIRE.name)
+            current_status = ProjectStatus.AFTER_QUESTIONNAIRE.name
+            // Get all Questions
+            getQuestionViaStudyField()
+            // Create List View
+            createAnswerListView()
             confirmBtn.isEnabled = true
             confirmBtn.setOnClickListener(submitBtnClickListener)
         }
@@ -81,8 +92,8 @@ class QuestionnaireActivities : AppCompatActivity() {
             setNavAbilities(true, true, true)
         } else if (current_status == ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name) {
             setNavAbilities(true, true, true)
-        } else {
-            setNavAbilities(true, false, false)
+        } else if (current_status == ProjectStatus.DIARY_DONE.name){
+            setNavAbilities(true, true, true)
         }
     }
 
@@ -129,8 +140,8 @@ class QuestionnaireActivities : AppCompatActivity() {
                     .setPositiveButton(android.R.string.yes) {
                         _, _ ->
                         uploadQuestionnaire()
-                        toast(this, "Finish Questionnaires, start writing diary now!")
-                        confirmBtn.isEnabled = false;
+                        toast(this, "Finish Questionnaires, thanks!")
+                        confirmBtn.isEnabled = false
                         checkCurrentStatus()
                     }
                     .setNegativeButton(android.R.string.cancel) {
@@ -144,23 +155,36 @@ class QuestionnaireActivities : AppCompatActivity() {
         progressDialog!!.setMessage("Uploading answers ...")
         progressDialog!!.setIcon(R.drawable.ic_sync_black_24dp)
         progressDialog!!.show()
-        val url = ProjectAPI.POST_ANSWERS_TO_FEEDBACK.url + feedbackID + "/feedback/"
-        Log.d("Answer POST: ", url)
+        var url : String? = null
         (0..anwserList.size - 1).forEach { item ->
             val params = JSONObject()
             params.put("answer_id", anwserList[item].answer_id)
             params.put("answer_question", anwserList[item].answer_question)
+
             if(current_status == ProjectStatus.PRE_QUESTIONNAIRE.name) {
+                url = ProjectAPI.POST_ANSWERS_TO_FEEDBACK.url + feedbackID + "/feedback/"
                 params.put("answer_before", anwserList[item].answer_answer)
                 params.put("answer_after", "")
+            } else if (current_status == ProjectStatus.AFTER_QUESTIONNAIRE.name) {
+                params.put("answer_after", anwserList[item].answer_answer)
+                url = ProjectAPI.POST_ANSWERS_TO_FEEDBACK.url + anwserList[item].answer_id + "/updateID/"
             }
-            apiController.post(url, params) {}
+            apiController.post(url!!, params) {}
+        }
+        Log.d("Answer POST: ", url)
+
+        if(current_status == ProjectStatus.PRE_QUESTIONNAIRE.name) {
+            prefs!!.putPreference("status", ProjectStatus.PRE_QUESTIONNAIRE_Done.name)
+            current_status = ProjectStatus.PRE_QUESTIONNAIRE_Done.name
+        } else if (current_status == ProjectStatus.AFTER_QUESTIONNAIRE.name) {
+            prefs!!.putPreference("status", ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name)
+            current_status = ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name
         }
 
         val progressRunnable = Runnable {
             progressDialog!!.cancel()
-            prefs!!.putPreference("status", ProjectStatus.PRE_QUESTIONNAIRE_Done.name)
         }
+
         val pdCanceller = Handler()
         pdCanceller.postDelayed(progressRunnable, 1000)
     }
