@@ -43,7 +43,7 @@ class UserInfoAdmin(admin.ModelAdmin):
 class DiaryAdmin(admin.ModelAdmin):
     list_display = ('diary_date', 'diary_userInfo', 'diary_title', 'diary_skill')
     list_filter = ['diary_date']
-    search_fields = ['diary_title']
+    search_fields = ['diary_id']
 
 class AnswerAdmin(admin.ModelAdmin):
     list_display = ('answer_question', 'answer_feedback')
