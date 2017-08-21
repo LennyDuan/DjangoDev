@@ -27,13 +27,15 @@ object TypeUtil {
     }
 
     // return true if end date is or larger than today
-    fun compareDate(date : String) : Boolean {
-        val dateFormat = SimpleDateFormat("yyyy-mm-dd", java.util.Locale.ENGLISH)
+    fun compareDateExpired(date : String) : Boolean {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", java.util.Locale.ENGLISH)
         val endDate = dateFormat.parse(date)
         val today = Date()
-        Log.d("Today: ", today.toString())
-        Log.d("End Date: ", endDate.toString())
-
+//        println("Today: " + today.toString())
+//        println("End Date: " + endDate.toString())
+//        println("Check: " + today.before(endDate).toString())
+//        Log.d("End Date: ", endDate.toString())
+//        Log.d("Check", today.before(endDate).toString())
         return today.after(endDate)
     }
 }

@@ -3,6 +3,7 @@ package com.example.lenny.studyresearchapp.data
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import kotlin.reflect.KProperty
 
 /**
@@ -20,6 +21,7 @@ object PrefUtil {
 
         fun putPreference(name: String, value: String?) {
             prefs.putString(name, value).apply()
+            Log.d("Pref: $name", "valie = $value")
         }
 
         fun returnPutPreference(name: String, value: String?) : Boolean {

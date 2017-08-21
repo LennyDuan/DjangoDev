@@ -60,6 +60,7 @@ class QuestionnaireActivities : AppCompatActivity() {
 
         // Init First Questionnaire
         if(current_status == ProjectStatus.ACCOUNT_DONE.name) {
+            prefs!!.putPreference("status", ProjectStatus.PRE_QUESTIONNAIRE.name)
             // Get all Questions
             getQuestionViaStudyField()
             // Create List View
@@ -67,12 +68,14 @@ class QuestionnaireActivities : AppCompatActivity() {
             current_status = ProjectStatus.PRE_QUESTIONNAIRE.name
             confirmBtn.isEnabled = true
             confirmBtn.setOnClickListener(submitBtnClickListener)
-        } else if (current_status == ProjectStatus.DIARY_DONE.name) {
+        } else if (current_status == ProjectStatus.DIARY_DONE.name ||
+                current_status == ProjectStatus.AFTER_QUESTIONNAIRE.name) {
+            prefs!!.putPreference("status", ProjectStatus.AFTER_QUESTIONNAIRE.name)
+            current_status = ProjectStatus.AFTER_QUESTIONNAIRE.name
             // Get all Questions
             getQuestionViaStudyField()
             // Create List View
             createAnswerListView()
-            current_status = ProjectStatus.AFTER_QUESTIONNAIRE.name
             confirmBtn.isEnabled = true
             confirmBtn.setOnClickListener(submitBtnClickListener)
         }
@@ -153,7 +156,6 @@ class QuestionnaireActivities : AppCompatActivity() {
         progressDialog!!.setIcon(R.drawable.ic_sync_black_24dp)
         progressDialog!!.show()
         var url : String? = null
-        Log.d("Answer POST: ", url)
         (0..anwserList.size - 1).forEach { item ->
             val params = JSONObject()
             params.put("answer_id", anwserList[item].answer_id)
@@ -169,15 +171,20 @@ class QuestionnaireActivities : AppCompatActivity() {
             }
             apiController.post(url!!, params) {}
         }
+        Log.d("Answer POST: ", url)
+
+        if(current_status == ProjectStatus.PRE_QUESTIONNAIRE.name) {
+            prefs!!.putPreference("status", ProjectStatus.PRE_QUESTIONNAIRE_Done.name)
+            current_status = ProjectStatus.PRE_QUESTIONNAIRE_Done.name
+        } else if (current_status == ProjectStatus.AFTER_QUESTIONNAIRE.name) {
+            prefs!!.putPreference("status", ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name)
+            current_status = ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name
+        }
 
         val progressRunnable = Runnable {
             progressDialog!!.cancel()
-            if(current_status == ProjectStatus.PRE_QUESTIONNAIRE.name) {
-                prefs!!.putPreference("status", ProjectStatus.PRE_QUESTIONNAIRE_Done.name)
-            } else if (current_status == ProjectStatus.AFTER_QUESTIONNAIRE.name) {
-                prefs!!.putPreference("status", ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name)
-            }
         }
+
         val pdCanceller = Handler()
         pdCanceller.postDelayed(progressRunnable, 1000)
     }

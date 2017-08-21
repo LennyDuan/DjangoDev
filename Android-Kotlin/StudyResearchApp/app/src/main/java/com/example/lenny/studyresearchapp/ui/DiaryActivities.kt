@@ -46,12 +46,15 @@ class DiaryActivities : AppCompatActivity() {
         userEmail = prefs!!.findPreference("account_final_address")
         account_final_enddate =  prefs!!.findPreference("account_final_enddate")
 
+        Log.d("End Date: ", account_final_enddate.toString())
+
         if(current_status == ProjectStatus.PRE_QUESTIONNAIRE_Done.name) {
             prefs!!.putPreference("status", ProjectStatus.DIARY.name)
             current_status = ProjectStatus.DIARY.name
         }
 
-        if(TypeUtil.compareDate(account_final_enddate.toString())) {
+        if(TypeUtil.compareDateExpired(account_final_enddate.toString()) &&
+                current_status == ProjectStatus.DIARY.name) {
             prefs!!.putPreference("status", ProjectStatus.DIARY_DONE.name)
             current_status = ProjectStatus.DIARY_DONE.name
         }
@@ -162,6 +165,8 @@ class DiaryActivities : AppCompatActivity() {
         if(current_status == ProjectStatus.DIARY.name) {
             setNavAbilities(true, true, false)
         } else if (current_status == ProjectStatus.DIARY_DONE.name) {
+            setNavAbilities(true, true, true)
+        }  else if (current_status == ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name) {
             setNavAbilities(true, true, true)
         } else {
             setNavAbilities(true, false, true)
