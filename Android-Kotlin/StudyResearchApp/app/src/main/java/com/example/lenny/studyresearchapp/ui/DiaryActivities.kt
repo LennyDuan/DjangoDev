@@ -118,13 +118,13 @@ class DiaryActivities : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId) {
             R.id.diary_menu_add -> {
-                if (current_status != ProjectStatus.DIARY_DONE.name) {
+                if (current_status == ProjectStatus.DIARY.name) {
                     val intent = Intent(this, DiaryDetail::class.java)
                     startActivity(intent)
                     finish()
                 } else {
                     toast(this,
-                            "Diary mode is over, please complete the same questionnaire again")
+                            "Diary mode is over, please complete the next step")
                 }
 
             }
