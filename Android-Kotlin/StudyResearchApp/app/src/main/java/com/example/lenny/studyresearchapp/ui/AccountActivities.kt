@@ -204,6 +204,11 @@ class AccountActivities : AppCompatActivity() {
             setUIAbilities(false, false, false, false, false, false, false)
             setNavAbilities(true, false, false)
             toast(this, "Unable to connect server, we will come back soon")
+        } else if (current_status!! == ProjectStatus.DIARY_DONE.name) {
+            setUIAbilities(false, false, false, false, false, false, true)
+            setNavAbilities(true, true, true)
+            toast(this, "You have completed diary and study period is expired." +
+                    " Please complete the questionnaire again.")
         } else {
             setUIAbilities(true, true, true, true, true, true, false)
             setNavAbilities(true, false, false)

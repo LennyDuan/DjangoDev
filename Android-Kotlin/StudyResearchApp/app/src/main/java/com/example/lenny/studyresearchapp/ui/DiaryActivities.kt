@@ -12,14 +12,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
 import android.widget.SearchView
+import android.widget.Toast
 import com.example.lenny.studyresearchapp.Component.DiaryRecycelAdapter
 import com.example.lenny.studyresearchapp.common.OutputUtil.toast
+import com.example.lenny.studyresearchapp.common.TypeUtil
 import com.example.lenny.studyresearchapp.data.PrefUtil
 import com.example.lenny.studyresearchapp.data.ProjectStatus
 import com.example.lenny.studyresearchapp.model.DBManager
 import com.example.lenny.studyresearchapp.model.Diary
-import com.example.lenny.studyresearchapp.network.APIController
-import com.example.lenny.studyresearchapp.network.ServiceVolley
 import kotlinx.android.synthetic.main.activity_diary_activities.*
 import java.util.ArrayList
 
@@ -28,10 +28,9 @@ class DiaryActivities : AppCompatActivity() {
     private var prefs : PrefUtil.Preference? = null
     private var current_status : String? = null
     private var userEmail : String? = null
-    var diaryList = ArrayList<Diary>()
+    private var account_final_enddate : String? = null
 
-    val service = ServiceVolley()
-    val apiController = APIController(service)
+    var diaryList = ArrayList<Diary>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,10 +44,16 @@ class DiaryActivities : AppCompatActivity() {
         prefs = PrefUtil.Preference(this)
         current_status = prefs!!.findPreference("status")
         userEmail = prefs!!.findPreference("account_final_address")
+        account_final_enddate =  prefs!!.findPreference("account_final_enddate")
 
         if(current_status == ProjectStatus.PRE_QUESTIONNAIRE_Done.name) {
             prefs!!.putPreference("status", ProjectStatus.DIARY.name)
             current_status = ProjectStatus.DIARY.name
+        }
+
+        if(TypeUtil.compareDate(account_final_enddate.toString())) {
+            prefs!!.putPreference("status", ProjectStatus.DIARY_DONE.name)
+            current_status = ProjectStatus.DIARY_DONE.name
         }
         checkCurrentStatus()
         toast(this, "You are in $current_status Step")
@@ -113,9 +118,15 @@ class DiaryActivities : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId) {
             R.id.diary_menu_add -> {
-                val intent = Intent(this, DiaryDetail::class.java)
-                startActivity(intent)
-                finish()
+                if (current_status != ProjectStatus.DIARY_DONE.name) {
+                    val intent = Intent(this, DiaryDetail::class.java)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    toast(this,
+                            "Diary mode is over, please complete the same questionnaire again")
+                }
+
             }
             R.id.app_bar_search -> {
 
@@ -151,7 +162,7 @@ class DiaryActivities : AppCompatActivity() {
         if(current_status == ProjectStatus.DIARY.name) {
             setNavAbilities(true, true, false)
         } else if (current_status == ProjectStatus.DIARY_DONE.name) {
-            setNavAbilities(true, false, true)
+            setNavAbilities(true, true, true)
         } else {
             setNavAbilities(true, false, true)
         }

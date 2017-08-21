@@ -81,8 +81,8 @@ class QuestionnaireActivities : AppCompatActivity() {
             setNavAbilities(true, true, true)
         } else if (current_status == ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name) {
             setNavAbilities(true, true, true)
-        } else {
-            setNavAbilities(true, false, false)
+        } else if (current_status == ProjectStatus.DIARY_DONE.name){
+            setNavAbilities(true, true, true)
         }
     }
 
