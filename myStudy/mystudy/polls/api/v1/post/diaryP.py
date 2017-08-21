@@ -44,6 +44,9 @@ def diaryPostUserEmail(request, userInfo_email):
             diary_skill = body["diary_skill"]
             diary_title = body["diary_title"]
             diary_detail = body["diary_detail"]
+            diary_latitude = body["diary_latitude"]
+            diary_longitude = body["diary_longitude"]
+
             diary_userInfo = userInfo
             diary = Diary(
                 diary_id=diary_id,
@@ -51,6 +54,8 @@ def diaryPostUserEmail(request, userInfo_email):
                 diary_title=diary_title,
                 diary_detail=diary_detail,
                 diary_userInfo=diary_userInfo,
+                diary_latitude=diary_latitude,
+                diary_longitude=diary_longitude,
             )
             # Question model Save
             diary.save()
