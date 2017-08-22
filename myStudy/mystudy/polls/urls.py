@@ -2,13 +2,19 @@ from django.conf.urls import url
 from . import views
 from .api.v1.get import diary, userInfo, feedback, question
 from .api.v1.post import questionP, diaryP, feedbackP, userInfoP
+from .api.v1.delete import feedbackD, userinfoD
 #from .view import views
 app_name = 'polls'
 urlpatterns = [
 
     url(r'^$', views.index, name='index'),
 
-    ## Restful API GET/POST
+    ## Restful API GET/POST/DELETE
+
+################# DELETE API ##############
+    url(r'^api/v1/delete/feedback/(?P<feedback_id>.+)$', feedbackD.feedbackDelete, name='feedback_delete_ID'),
+    url(r'^api/v1/delete/userinfo/(?P<userInfo_id>.+)$', userinfoD.userinfoDelete, name='userinfo_delete_ID'),
+
 ################# POST API ##############
     url(r'^api/v1/post/index/$', questionP.index, name='post_index'),
     url(r'^api/v1/post/test/$', questionP.testPost, name='test_post'),
