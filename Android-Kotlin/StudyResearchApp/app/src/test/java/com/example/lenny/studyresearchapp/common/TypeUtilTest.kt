@@ -8,6 +8,7 @@ import org.junit.Test
  */
 
 class TypeUtilUnitTest {
+
     @Test
     fun compareDateReturnTrueIfEndDateExpired() {
         Assert.assertEquals(true, TypeUtil.compareDateExpired("2017-8-20"))
