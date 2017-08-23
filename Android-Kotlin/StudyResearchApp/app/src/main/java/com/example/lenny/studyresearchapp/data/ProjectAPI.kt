@@ -13,5 +13,9 @@ enum class ProjectAPI constructor(val url : String) {
     POST_FEEDBACK_URL("http://10.0.2.2:8000/polls/api/v1/post/feedback/"),
     POST_USER_INFO("http://10.0.2.2:8000/polls/api/v1/post/userInfo/"),
     POST_ANSWERS_TO_FEEDBACK("http://10.0.2.2:8000/polls/api/v1/post/answer/"),
-    POST_DIARY_VIA_EMAIL("http://10.0.2.2:8000/polls/api/v1/post/diary/")
+    POST_DIARY_VIA_EMAIL("http://10.0.2.2:8000/polls/api/v1/post/diary/"),
+
+    // DELETE API url
+    DELETE_FEEDBACK_URL("http://10.0.2.2:8000/polls/api/v1/delete/feedback/"),
+    DELETE_USER_INFO_URL("http://10.0.2.2:8000/polls/api/v1/delete/userInfo/"),
 }

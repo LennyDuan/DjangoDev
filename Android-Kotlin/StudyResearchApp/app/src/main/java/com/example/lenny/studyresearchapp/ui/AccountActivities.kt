@@ -25,6 +25,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.lenny.studyresearchapp.common.SystemUtil
 import com.example.lenny.studyresearchapp.common.TypeUtil
+import com.example.lenny.studyresearchapp.common.UIUtil
 import com.example.lenny.studyresearchapp.data.PrefUtil.Preference
 import com.example.lenny.studyresearchapp.data.ProjectAPI
 import com.example.lenny.studyresearchapp.data.ProjectStatus
@@ -61,6 +62,11 @@ class AccountActivities : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_activities)
 
+        // Prevent App from Exception
+        Thread.setDefaultUncaughtExceptionHandler {
+            _, paramThrowable -> Log.e("Error" + Thread.currentThread().stackTrace[2], paramThrowable.localizedMessage)
+        }
+
         // Set navigation
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         navigation.menu.getItem(0).isChecked = true
@@ -82,15 +88,24 @@ class AccountActivities : AppCompatActivity() {
 
         // Init Set Button
         account_btn_confirm.setOnClickListener {
-            saveDataToPreference()
-            uploadUserInfoToWebServer()
-            setUITextFromPref()
+            if (validUIInput()) {
+                saveDataToPreference()
+                uploadUserInfoToWebServer()
+                setUITextFromPref()
+            } else {
+                toast(this, "Please correct your input")
+            }
         }
         account_btn_reset.setOnClickListener {
             resetDataFromPreference()
         }
         setUITextFromPref()
         toast(this, "You are in $current_status Step")
+    }
+    private fun validUIInput() : Boolean{
+        return UIUtil.validDateInput(account_start_date.text.toString())
+                || UIUtil.validEmailInput(account_address.toString())
+                || UIUtil.validDateInput(account_end_date.toString())
     }
 
     private fun uploadUserInfoToWebServer() {

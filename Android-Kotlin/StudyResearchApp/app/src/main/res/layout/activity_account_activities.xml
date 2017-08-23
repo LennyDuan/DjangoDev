@@ -137,27 +137,29 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/account_confirm"
-        tools:layout_editor_absoluteX="5dp"
-        tools:layout_editor_absoluteY="369dp"
-        app:layout_constraintStart_toStartOf="@+id/account_end_date"
+        android:background="@color/colorgreen"
+        tools:layout_editor_absoluteY="372dp"
+        tools:layout_editor_absoluteX="91dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/account_btn_reset"
-        app:layout_constraintEnd_toEndOf="@+id/account_textView"
-        android:background="@color/colorgreen"/>
+        android:layout_marginStart="1dp"
+        app:layout_constraintStart_toEndOf="@+id/account_btn_reset"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/account_btn_reset"
-        android:layout_width="185dp"
+        android:layout_width="85dp"
         android:layout_height="wrap_content"
         android:text="@string/account_reset"
-        tools:layout_editor_absoluteX="192dp"
-        tools:layout_editor_absoluteY="369dp"
-        android:layout_marginTop="39dp"
+        android:background="@color/colorRed"
+        tools:layout_editor_absoluteY="372dp"
+        tools:layout_editor_absoluteX="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="36dp"
+        android:layout_marginStart="5dp"
         app:layout_constraintTop_toBottomOf="@+id/account_textView"
-        app:layout_constraintEnd_toStartOf="@+id/account_study_spinner"
-        android:layout_marginBottom="38dp"
-        app:layout_constraintBottom_toTopOf="@+id/navigation"
-        app:layout_constraintStart_toStartOf="@+id/account_study_spinner"
-        android:background="@color/colorbrown"/>
+        android:layout_marginBottom="35dp"
+        app:layout_constraintBottom_toTopOf="@+id/navigation" />
 
     <TextView
         android:id="@+id/textView_unique_id"

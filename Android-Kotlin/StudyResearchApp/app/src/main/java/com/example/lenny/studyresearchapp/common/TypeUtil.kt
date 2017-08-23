@@ -2,8 +2,6 @@ package com.example.lenny.studyresearchapp.common
 
 import android.util.Log
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 /**
@@ -31,11 +29,6 @@ object TypeUtil {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", java.util.Locale.ENGLISH)
         val endDate = dateFormat.parse(date)
         val today = Date()
-//        println("Today: " + today.toString())
-//        println("End Date: " + endDate.toString())
-//        println("Check: " + today.before(endDate).toString())
-//        Log.d("End Date: ", endDate.toString())
-//        Log.d("Check", today.before(endDate).toString())
         return today.after(endDate)
     }
 }
