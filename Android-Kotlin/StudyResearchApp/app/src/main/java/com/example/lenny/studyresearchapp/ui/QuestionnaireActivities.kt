@@ -59,7 +59,8 @@ class QuestionnaireActivities : AppCompatActivity() {
         Log.d("Current Status: ", current_status)
 
         // Init First Questionnaire
-        if(current_status == ProjectStatus.ACCOUNT_DONE.name) {
+        if(current_status == ProjectStatus.ACCOUNT_DONE.name ||
+                current_status == ProjectStatus.PRE_QUESTIONNAIRE.name) {
             prefs!!.putPreference("status", ProjectStatus.PRE_QUESTIONNAIRE.name)
             // Get all Questions
             getQuestionViaStudyField()

@@ -165,10 +165,13 @@ class AccountActivities : AppCompatActivity() {
         AlertDialog.Builder(this).setTitle("Notice!!")
                 .setMessage("Click 'ok' and reset account will lose all data")
                 .setPositiveButton(android.R.string.ok) {
-                    dialog, which ->
+                    _, _ ->
+                    Log.d("Status: ", prefs?.findPreference("status"))
+                    if(ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name != prefs?.findPreference("status")) {
+                        deleteRemoteAndLocalData()
+                    }
                     prefs!!.putPreference("status", ProjectStatus.INIT.name)
                     Log.d("Status: ", prefs?.findPreference("status"))
-                    deleteRemoteAndLocalData()
                     checkCurrentStatus()
                     startStudyDownload(ProjectAPI.GET_STUDY_LIST_URL.url)
                 }
@@ -223,7 +226,7 @@ class AccountActivities : AppCompatActivity() {
             setNavAbilities(true, true, false)
         }   else if (current_status!! == ProjectStatus.PRE_QUESTIONNAIRE.name) {
             setUIAbilities(false, false, false, false, false, false, true)
-            setNavAbilities(true, false, false)
+            setNavAbilities(true, false, true)
         } else if (current_status!! == ProjectStatus.AFTER_QUESTIONNAIRE.name) {
             setUIAbilities(false, false, false, false, false, false, true)
             setNavAbilities(true, true, true)
@@ -246,7 +249,7 @@ class AccountActivities : AppCompatActivity() {
                     " Please complete the questionnaire again.")
         } else if (current_status!! == ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name) {
             setUIAbilities(false, false, false, false, false, false, true)
-            setNavAbilities(true, true, false)
+            setNavAbilities(true, true, true)
             toast(this, "You have completed this study, All your data has been sent to our study team," +
                     "Thanks very much!")
         } else {
