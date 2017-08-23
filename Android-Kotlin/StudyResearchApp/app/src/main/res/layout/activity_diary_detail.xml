@@ -38,7 +38,7 @@
     <Spinner
         android:id="@+id/diary_spinner_skill"
         android:layout_width="135dp"
-        android:layout_height="35dp"
+        android:layout_height="45dp"
         android:theme="@style/AlertDialog.AppCompat.Light"
         tools:layout_editor_absoluteX="235dp"
         tools:layout_editor_absoluteY="107dp"
@@ -51,8 +51,8 @@
     <EditText
         android:id="@+id/diary_text_skill"
         android:layout_width="215dp"
-        android:layout_height="35dp"
-        android:textSize="12sp"
+        android:layout_height="45dp"
+        android:textSize="15sp"
         android:enabled="false"
         android:hint="@string/select_skill_diary"
         android:inputType="textPersonName"

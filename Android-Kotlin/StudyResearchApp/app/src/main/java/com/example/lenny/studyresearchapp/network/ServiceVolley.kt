@@ -44,17 +44,6 @@ class ServiceVolley : ServiceInterface {
     override fun get(path: String, completionHandler: (response: String?) -> Unit) {
         Log.d("Volley GET: ", path)
 
-//        val jsonObjReq = object : JsonObjectRequest(Method.GET, path, null,
-//                Response.Listener<JSONObject> { response ->
-//                    Log.d(TAG, "/get request OK! Response: $response")
-//                    completionHandler(response)
-//                },
-//                Response.ErrorListener { error ->
-//                    VolleyLog.e(TAG, "/get request fail! Error: ${error.message}")
-//                    completionHandler(null)
-//                }) {
-//        }
-
         val stringRequest = StringRequest(Request.Method.GET, path,
                 Response.Listener<String> { response ->
                     try {
@@ -62,6 +51,23 @@ class ServiceVolley : ServiceInterface {
                         completionHandler(response)
                     } catch (e: JSONException) {
                         VolleyLog.e(TAG, "/get request fail! Error: ${e.message}")
+                        e.printStackTrace()
+                    }
+                }, Response.ErrorListener { })
+
+        BackendVolley.instance?.addToRequestQueue(stringRequest, TAG)
+    }
+
+    override fun delete(path: String, completionHandler: (response: String?) -> Unit) {
+        Log.d("Volley DELETE: ", path)
+
+        val stringRequest = StringRequest(Request.Method.DELETE, path,
+                Response.Listener<String> { response ->
+                    try {
+                        Log.d(TAG, "/delete request OK! Response: $response")
+                        completionHandler(response)
+                    } catch (e: JSONException) {
+                        VolleyLog.e(TAG, "/delete request fail! Error: ${e.message}")
                         e.printStackTrace()
                     }
                 }, Response.ErrorListener { })

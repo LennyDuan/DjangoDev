@@ -15,4 +15,8 @@ class APIController constructor(serviceInjection: ServiceInterface): ServiceInte
     override fun get(path: String, completionHandler: (response: String?) -> Unit) {
         service.get(path, completionHandler)
     }
+
+    override fun delete(path: String, completionHandler: (response: String?) -> Unit) {
+        service.delete(path, completionHandler)
+    }
 }

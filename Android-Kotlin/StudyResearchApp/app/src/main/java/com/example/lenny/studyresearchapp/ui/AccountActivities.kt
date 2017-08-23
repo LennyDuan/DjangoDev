@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AppCompatActivity
@@ -23,6 +24,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.lenny.studyresearchapp.R.id.account_id
 import com.example.lenny.studyresearchapp.common.SystemUtil
 import com.example.lenny.studyresearchapp.common.TypeUtil
 import com.example.lenny.studyresearchapp.common.UIUtil
@@ -102,11 +104,6 @@ class AccountActivities : AppCompatActivity() {
         setUITextFromPref()
         toast(this, "You are in $current_status Step")
     }
-    private fun validUIInput() : Boolean{
-        return UIUtil.validDateInput(account_start_date.text.toString())
-                || UIUtil.validEmailInput(account_address.toString())
-                || UIUtil.validDateInput(account_end_date.toString())
-    }
 
     private fun uploadUserInfoToWebServer() {
         progressDialog?.setMessage("Creating User Account Data ... ")
@@ -153,6 +150,15 @@ class AccountActivities : AppCompatActivity() {
         }
     }
 
+    // Delete feedback & Userinfo in server
+    private fun deleteRemoteAndLocalData() {
+        dbManager!!.Clean()
+        val url_userinfo = ProjectAPI.DELETE_USER_INFO_URL.url + prefs!!.findPreference("account_final_id")
+        val url_feedback = ProjectAPI.DELETE_FEEDBACK_URL.url + prefs!!.findPreference("account_final_id")
+
+        apiController.delete(url_userinfo) {}
+        apiController.delete(url_feedback) {}
+    }
 
     // Comfirm / Reset Preference
     private fun resetDataFromPreference() {
@@ -162,8 +168,8 @@ class AccountActivities : AppCompatActivity() {
                     dialog, which ->
                     prefs!!.putPreference("status", ProjectStatus.INIT.name)
                     Log.d("Status: ", prefs?.findPreference("status"))
+                    deleteRemoteAndLocalData()
                     checkCurrentStatus()
-                    dbManager!!.Clean()
                     startStudyDownload(ProjectAPI.GET_STUDY_LIST_URL.url)
                 }
                 .setNegativeButton(android.R.string.cancel) { _, _ -> }
@@ -197,6 +203,14 @@ class AccountActivities : AppCompatActivity() {
                 && prefs!!.returnPutPreference("account_final_enddate", account_final_enddate)
                 && prefs!!.returnPutPreference("account_final_studyfield", account_final_studyfield)
     }
+
+    // Regular express to valid UI Input
+    private fun validUIInput() : Boolean{
+        return UIUtil.validDateInput(account_start_date.text.toString())
+                || UIUtil.validEmailInput(account_address.toString())
+                || UIUtil.validDateInput(account_end_date.toString())
+    }
+
 
     private fun checkCurrentStatus() {
         current_status = prefs!!.findPreference("status")
