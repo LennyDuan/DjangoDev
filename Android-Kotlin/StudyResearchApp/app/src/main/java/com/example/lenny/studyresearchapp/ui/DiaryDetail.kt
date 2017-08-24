@@ -39,8 +39,8 @@ class DiaryDetail : AppCompatActivity() {
     private val LOCATION_PERMS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
     private var prefs : PrefUtil.Preference? = null
     private var userEmail : String? = null
-    private var userID : String = null
-    private var userStudyField : String = null
+    private var userID : String? = null
+    private var userStudyField : String? = null
     private var diary: Diary? = null
     private var diary_log : String? = null
     private var diary_lat : String? = null
