@@ -47,7 +47,6 @@ class AccountActivities : AppCompatActivity() {
     private var mDateStartSetListener : DatePickerDialog.OnDateSetListener? = null
     private var mDateEndSetListener : DatePickerDialog.OnDateSetListener? = null
     private var progressDialog: ProgressDialog? = null
-
     private var account_final_id : String? = null
     private var account_final_address : String? = null
     private var account_final_username : String? = null
@@ -180,7 +179,7 @@ class AccountActivities : AppCompatActivity() {
     }
 
     private fun saveDataToPreference() {
-        account_final_id = account_id.text?.toString()
+        account_final_id = SystemUtil.ANDROID_ID(this)
         account_final_address = account_address.text?.toString()
         account_final_username = account_username.text?.toString()
         account_final_startdate = account_start_date.text?.toString()
@@ -192,6 +191,8 @@ class AccountActivities : AppCompatActivity() {
 
         if (savedAccountDataPref()) {
             prefs!!.putPreference("status", ProjectStatus.ACCOUNT_DONE.name)
+            prefs!!.putPreference("account_final_id", "$account_final_studyfield-$account_final_id-$account_final_startdate")
+            Log.d("Pref: ", prefs!!.findPreference("account_final_id"))
         } else {
             toast(this, "Please fill in all input areas!")
         }
@@ -257,6 +258,7 @@ class AccountActivities : AppCompatActivity() {
             setNavAbilities(true, false, false)
             prefs!!.putPreference("status", ProjectStatus.INIT.name)
         }
+        Log.d("Current ID: ", prefs!!.findPreference("account_final_id"))
         Log.d("Current status: ", "You are in $current_status Mode")
     }
 
@@ -419,7 +421,7 @@ class AccountActivities : AppCompatActivity() {
     }
 
     private fun initUniqueIDTextInputField() {
-        account_id.setText(SystemUtil.ANDROID_ID(this))
+        account_id.setText(prefs!!.findPreference("account_final_id"))
     }
 
     // Date Start picker
