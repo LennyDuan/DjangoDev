@@ -12,6 +12,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:enabled="false"
+        android:maxLines="1"
+        android:textSize="12sp"
         android:hint="@string/account_unique_id"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView_unique_id"
         android:layout_marginStart="4dp"

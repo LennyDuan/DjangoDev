@@ -47,7 +47,6 @@ class AccountActivities : AppCompatActivity() {
     private var mDateStartSetListener : DatePickerDialog.OnDateSetListener? = null
     private var mDateEndSetListener : DatePickerDialog.OnDateSetListener? = null
     private var progressDialog: ProgressDialog? = null
-
     private var account_final_id : String? = null
     private var account_final_address : String? = null
     private var account_final_username : String? = null
@@ -165,10 +164,13 @@ class AccountActivities : AppCompatActivity() {
         AlertDialog.Builder(this).setTitle("Notice!!")
                 .setMessage("Click 'ok' and reset account will lose all data")
                 .setPositiveButton(android.R.string.ok) {
-                    dialog, which ->
+                    _, _ ->
+                    Log.d("Status: ", prefs?.findPreference("status"))
+                    if(ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name != prefs?.findPreference("status")) {
+                        deleteRemoteAndLocalData()
+                    }
                     prefs!!.putPreference("status", ProjectStatus.INIT.name)
                     Log.d("Status: ", prefs?.findPreference("status"))
-                    deleteRemoteAndLocalData()
                     checkCurrentStatus()
                     startStudyDownload(ProjectAPI.GET_STUDY_LIST_URL.url)
                 }
@@ -177,7 +179,7 @@ class AccountActivities : AppCompatActivity() {
     }
 
     private fun saveDataToPreference() {
-        account_final_id = account_id.text?.toString()
+        account_final_id = SystemUtil.ANDROID_ID(this)
         account_final_address = account_address.text?.toString()
         account_final_username = account_username.text?.toString()
         account_final_startdate = account_start_date.text?.toString()
@@ -189,6 +191,8 @@ class AccountActivities : AppCompatActivity() {
 
         if (savedAccountDataPref()) {
             prefs!!.putPreference("status", ProjectStatus.ACCOUNT_DONE.name)
+            prefs!!.putPreference("account_final_id", "$account_final_studyfield-$account_final_id-$account_final_startdate")
+            Log.d("Pref: ", prefs!!.findPreference("account_final_id"))
         } else {
             toast(this, "Please fill in all input areas!")
         }
@@ -223,7 +227,7 @@ class AccountActivities : AppCompatActivity() {
             setNavAbilities(true, true, false)
         }   else if (current_status!! == ProjectStatus.PRE_QUESTIONNAIRE.name) {
             setUIAbilities(false, false, false, false, false, false, true)
-            setNavAbilities(true, false, false)
+            setNavAbilities(true, false, true)
         } else if (current_status!! == ProjectStatus.AFTER_QUESTIONNAIRE.name) {
             setUIAbilities(false, false, false, false, false, false, true)
             setNavAbilities(true, true, true)
@@ -246,7 +250,7 @@ class AccountActivities : AppCompatActivity() {
                     " Please complete the questionnaire again.")
         } else if (current_status!! == ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name) {
             setUIAbilities(false, false, false, false, false, false, true)
-            setNavAbilities(true, true, false)
+            setNavAbilities(true, true, true)
             toast(this, "You have completed this study, All your data has been sent to our study team," +
                     "Thanks very much!")
         } else {
@@ -254,6 +258,7 @@ class AccountActivities : AppCompatActivity() {
             setNavAbilities(true, false, false)
             prefs!!.putPreference("status", ProjectStatus.INIT.name)
         }
+        Log.d("Current ID: ", prefs!!.findPreference("account_final_id"))
         Log.d("Current status: ", "You are in $current_status Mode")
     }
 
@@ -416,7 +421,7 @@ class AccountActivities : AppCompatActivity() {
     }
 
     private fun initUniqueIDTextInputField() {
-        account_id.setText(SystemUtil.ANDROID_ID(this))
+        account_id.setText(prefs!!.findPreference("account_final_id"))
     }
 
     // Date Start picker
