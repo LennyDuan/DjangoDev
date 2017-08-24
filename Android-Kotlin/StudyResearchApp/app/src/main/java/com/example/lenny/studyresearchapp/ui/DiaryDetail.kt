@@ -39,6 +39,8 @@ class DiaryDetail : AppCompatActivity() {
     private val LOCATION_PERMS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
     private var prefs : PrefUtil.Preference? = null
     private var userEmail : String? = null
+    private var userID : String? = null
+    private var userStudyField : String? = null
     private var diary: Diary? = null
     private var diary_log : String? = null
     private var diary_lat : String? = null
@@ -51,6 +53,9 @@ class DiaryDetail : AppCompatActivity() {
         setContentView(R.layout.activity_diary_detail)
         prefs = PrefUtil.Preference(this)
         userEmail = prefs!!.findPreference("account_final_address")
+        userID = prefs!!.findPreference("account_final_id")
+        userStudyField = prefs!!.findPreference("account_final_studyfield")
+
         getLocation()
 
         initUI()
@@ -75,11 +80,11 @@ class DiaryDetail : AppCompatActivity() {
     }
 
     private fun uploadDiary() {
-        val url = ProjectAPI.POST_DIARY_VIA_EMAIL.url + userEmail + "/userInfoEmail/"
+        val url = ProjectAPI.POST_DIARY_VIA_EMAIL.url + userID
         Log.d("POST Diary URL: ", url)
         if(prefs!!.findPreference("status") == ProjectStatus.DIARY.name) {
             val params = JSONObject()
-            params.put("diary_id", SystemUtil.ANDROID_ID(this) + "_" + diary!!.diary_date)
+            params.put("diary_id", userStudyField + "_" + SystemUtil.ANDROID_ID(this) + "_" + diary!!.diary_date)
             params.put("diary_skill", diary!!.diary_skill)
             params.put("diary_title", diary!!.diary_title)
             params.put("diary_detail", diary!!.diary_event)
