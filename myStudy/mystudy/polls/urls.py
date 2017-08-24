@@ -27,6 +27,7 @@ urlpatterns = [
     # POST Diary
     url(r'^api/v1/post/diary/(?P<pk_id>[0-9]+)/userInfopk/$', diaryP.diaryPost, name='diary_post'),
     url(r'^api/v1/post/diary/(?P<userInfo_email>.+)/userInfoEmail/$', diaryP.diaryPostUserEmail, name='diary_post_userinfoEmail'),
+    url(r'^api/v1/post/diary/(?P<userInfo_id>.+)$', diaryP.diaryPostID, name='diary_post_userinfoID'),
 
     # POST UserInfo
     url(r'^api/v1/post/userInfo/(?P<study_pkid>[0-9]+)/study/(?P<feedback_pkid>[0-9]+)/feedback/$', userInfoP.userInfoPost, name='userInfo_post'),

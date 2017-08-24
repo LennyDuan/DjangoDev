@@ -58,7 +58,7 @@ class Feedback(models.Model):
 
 class UserInfo(models.Model):
     userInfo_id = models.CharField(max_length=50, unique=True)
-    userInfo_email = models.EmailField(unique=True, blank=False)
+    userInfo_email = models.EmailField(blank=False)
     userInfo_name = models.CharField(max_length=50)
     userInfo_start_date = models.DateTimeField('date published')
     userInfo_end_date = models.DateTimeField('date finished')
