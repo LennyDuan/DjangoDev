@@ -1,0 +1,7 @@
+<ul>
+  <li ng-repeat="question in polls">
+    <a href="#/polls/{{question.id}}">{{ question.question_text }}</a>
+  </li>
+</ul>
+
+<p ng-if="polls.length == 0">No polls are available.</p>

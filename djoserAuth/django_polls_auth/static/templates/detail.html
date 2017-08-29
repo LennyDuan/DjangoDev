@@ -1,0 +1,10 @@
+<h1>{{ question.question_text }}</h1>
+
+<div ng-repeat="choice in question.choices">
+    <label>
+      <input type="radio" data-ng-model="selected_choice.choice" ng-value="{{choice.id}}"  />
+      {{ choice.choice_text }}
+    </label><br />
+</div>
+<input type="button" ng-click="addVote()" value="Vote" />
+</form>
