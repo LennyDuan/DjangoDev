@@ -58,3 +58,6 @@ RecycleView can't to click listen....User List View
 
 #### 11:
 Get location is always null... Need to use google map on virtual device to store last know location
+
+#### User auth
+How to auth user/admin will be an unsolved problem. It should use Token now session. JWT or djoser will be a good example and suitble usage. 
