@@ -6,8 +6,6 @@ import json
 #from django.views.decorators.csrf import csrf_exempt
 
 # Create Diary API
-def index(request):
-    return HttpResponse("Hello, welcome to UserInfo api index page!")
 
 # Get UserInfo List
 #@csrf_exempt

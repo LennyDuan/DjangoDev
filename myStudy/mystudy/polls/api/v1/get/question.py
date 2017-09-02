@@ -5,8 +5,6 @@ from polls.models import UserInfo, Questionnaire, Question, Study
 import json
 
 # Create Questionnaire & Question API
-def index(request):
-    return HttpResponse("Hello, welcome to Study/Question api index page!")
 
 # Get Study List
 #@csrf_exempt

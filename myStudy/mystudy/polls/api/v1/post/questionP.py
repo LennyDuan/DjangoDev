@@ -6,8 +6,6 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 
 # Create Questionnaire & Question API POST
-def index(request):
-    return HttpResponse("Hello, welcome to Study/Question api POST index page!")
 
 # POST Questionnaire
 @csrf_exempt
