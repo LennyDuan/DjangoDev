@@ -6,8 +6,6 @@ import json
 #from django.views.decorators.csrf import csrf_exempt
 
 # Create Feedback API
-def index(request):
-    return HttpResponse("Hello, welcome to feedback api index page!")
 
 # Get Feedback List
 #@csrf_exempt

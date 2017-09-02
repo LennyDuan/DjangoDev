@@ -15,8 +15,6 @@ urlpatterns = [
     url(r'^api/v1/delete/userinfo/(?P<userInfo_id>.+)$', userinfoD.userinfoDelete, name='userinfo_delete_ID'),
 
 ################# POST API ##############
-    url(r'^api/v1/post/index/$', questionP.index, name='post_index'),
-
     # POST Question/Questionnaire
     url(r'^api/v1/post/questionnaire/$', questionP.questionnairePost, name='questionnaire_post'),
     url(r'^api/v1/post/study/(?P<pk_id>[0-9]+)/questionnaire/$', questionP.studyPost, name='study_post'),
@@ -42,7 +40,6 @@ urlpatterns = [
 ################# GET API  ##############
 
     # diary GET api
-    url(r'^api/v1/index/diary/$', diary.index, name='diary_index'),
     url(r'^api/v1/diary/$', diary.all, name='diary_all'),
     url(r'^api/v1/diary/(?P<pk_id>[0-9]+)/$', diary.detail, name='diary_detail'),
     url(r'^api/v1/diary/(?P<diary_id>[0-9]+)/diary_id/$', diary.detailDiaryID, name='diary_detail_diaryID'),
@@ -50,7 +47,6 @@ urlpatterns = [
     url(r'^api/v1/skill/$', diary.all_skill, name="skill_all"),
 
     # userInfo GET api
-    url(r'^api/v1/index/userInfo/$', userInfo.index, name='userInfo_index'),
     url(r'^api/v1/userInfo/$', userInfo.userInfoAll, name='userInfo_all'),
     url(r'^api/v1/userInfo/(?P<pk_id>[0-9]+)/$', userInfo.userInfoDetail, name='userInfo_detail'),
     url(r'^api/v1/userInfo/(?P<userInfo_email>.+)/userInfo_email/$', userInfo.detailuserInfoEmail, name='userInfo_userInfoEmail'),
@@ -59,7 +55,6 @@ urlpatterns = [
     url(r'^api/v1/userInfo/(?P<pk_id>[0-9]+)/answer$', userInfo.userInfoAnswer, name='userInfo_answer'),
 
     # feedback/answer GET api
-    url(r'^api/v1/index/feedback/$', feedback.index, name='feedback_index'),
     url(r'^api/v1/feedback/$', feedback.feedbackAll, name='feedback_all'),
     url(r'^api/v1/feedback/(?P<pk_id>[0-9]+)/$', feedback.feedbackDetail, name='feedback_detail'),
 
@@ -68,7 +63,6 @@ urlpatterns = [
     url(r'^api/v1/answer/(?P<feedback_id>[0-9]+)/feedback$', feedback.answerFeedback, name='answer_feedback_list'),
 
     # study/questionnaire/question GET api
-    url(r'^api/v1/index/study/$', question.index, name='study_index'),
     url(r'^api/v1/study/$', question.studyAll, name='study_all'),
     url(r'^api/v1/study/(?P<pk_id>[0-9]+)/$', question.studyDetail, name='study_detail'),
     url(r'^api/v1/study/(?P<study_field>.+)/field$', question.studyDetailByField, name='study_detail'),
