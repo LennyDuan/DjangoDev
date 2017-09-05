@@ -11,7 +11,7 @@ class Questionnaire(models.Model):
     questionnaire_start_date = models.DateTimeField('date published', auto_now_add=True)
 
     def __str__(self):
-        return "Questionnaire: %s - %s" % (self.questionnaire_text, self.questionnaire_field)
+        return "%s - %s" % (self.questionnaire_field, self.questionnaire_text)
 
 class Study(models.Model):
     study_id = models.CharField(max_length=50, unique=True)
@@ -54,7 +54,7 @@ class Feedback(models.Model):
     )
 
     def __str__(self):
-        return "Feedback id: %s - %s" % (self.feedback_id, self.feedback_state)
+        return "Feedback Id: %s - %s" % (self.feedback_id, self.feedback_state)
 
 class UserInfo(models.Model):
     userInfo_id = models.CharField(max_length=50, unique=True)
@@ -73,7 +73,7 @@ class UserInfo(models.Model):
         on_delete=models.CASCADE,
     )
     def __str__(self):
-        return "UserInfo: %s" % self.userInfo_email
+        return "User Email: %s" % self.userInfo_email
 
 class Answer(models.Model):
     answer_id = models.CharField(max_length=50, unique=True)
@@ -106,4 +106,4 @@ class Skill(models.Model):
     skill_id = models.CharField(max_length=50, unique=True)
     skill_name = models.CharField(max_length=50, unique=True)
     def __str__(self):
-        return "Skill: %s" % self.skill_name
+        return "%s" % self.skill_name
