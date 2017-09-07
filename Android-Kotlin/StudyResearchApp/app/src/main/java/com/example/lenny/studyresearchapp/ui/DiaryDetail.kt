@@ -56,8 +56,6 @@ class DiaryDetail : AppCompatActivity() {
         userID = prefs!!.findPreference("account_final_id")
         userStudyField = prefs!!.findPreference("account_final_studyfield")
 
-        getLocation()
-
         initUI()
     }
 
@@ -158,6 +156,8 @@ class DiaryDetail : AppCompatActivity() {
 
     // Submit btn function
     private val submitBtnClickListener = View.OnClickListener{
+        getLocation()
+
         if(finishDiary()) {
             OutputUtil.toast(this, "Please fill in the blanks")
         }
@@ -209,8 +209,12 @@ class DiaryDetail : AppCompatActivity() {
 
     private fun startGetLocation() {
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        Log.d("Location: ", "1")
+
         val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        Log.d("Location: ", location?.toString())
+        Log.d("Location: ", "2")
+
+        Log.d("Location: ", "Location is " + location?.toString())
         diary_log = location?.longitude.toString()
         diary_lat = location?.latitude.toString()
         Log.d("Location: ", diary_log + " : " + diary_lat)

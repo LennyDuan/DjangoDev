@@ -211,8 +211,8 @@ class AccountActivities : AppCompatActivity() {
     // Regular express to valid UI Input
     private fun validUIInput() : Boolean{
         return UIUtil.validDateInput(account_start_date.text.toString())
-                || UIUtil.validEmailInput(account_address.toString())
-                || UIUtil.validDateInput(account_end_date.toString())
+                || UIUtil.validEmailInput(account_address.text.toString())
+                || UIUtil.validDateInput(account_end_date.text.toString())
     }
 
 
