@@ -208,16 +208,21 @@ class DiaryDetail : AppCompatActivity() {
     }
 
     private fun startGetLocation() {
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        Log.d("Location: ", "1")
+        try {
+            val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            Log.d("Location: ", "1")
 
-        val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        Log.d("Location: ", "2")
+            val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            Log.d("Location: ", "2")
 
-        Log.d("Location: ", "Location is " + location?.toString())
-        diary_log = location?.longitude.toString()
-        diary_lat = location?.latitude.toString()
-        Log.d("Location: ", diary_log + " : " + diary_lat)
+            Log.d("Location: ", "Location is " + location?.toString())
+            diary_log = location?.longitude.toString()
+            diary_lat = location?.latitude.toString()
+            Log.d("Location: ", diary_log + " : " + diary_lat)
+        }
+        catch (e: Exception) {
+            toast(this, "Unable to record location")
+        }
     }
 
     private fun hasPermission(perm: String): Boolean {
