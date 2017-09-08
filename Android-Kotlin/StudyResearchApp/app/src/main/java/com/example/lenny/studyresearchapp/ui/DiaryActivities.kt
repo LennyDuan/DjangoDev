@@ -123,6 +123,7 @@ class DiaryActivities : AppCompatActivity() {
             R.id.diary_menu_add -> {
                 if (current_status == ProjectStatus.DIARY.name) {
                     val intent = Intent(this, DiaryDetail::class.java)
+                    Log.d("Intent", "Start Intent")
                     startActivity(intent)
                     finish()
                 } else {
