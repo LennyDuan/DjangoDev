@@ -100,7 +100,9 @@ class AccountActivities : AppCompatActivity() {
         account_btn_reset.setOnClickListener {
             resetDataFromPreference()
         }
-        setUITextFromPref()
+        if(current_status != ProjectStatus.INIT.name) {
+            setUITextFromPref()
+        }
         toast(this, "You are in $current_status Step")
     }
 
