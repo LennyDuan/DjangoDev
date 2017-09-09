@@ -100,10 +100,11 @@ class AccountActivities : AppCompatActivity() {
         account_btn_reset.setOnClickListener {
             resetDataFromPreference()
         }
-        if(current_status != ProjectStatus.INIT.name) {
+        toast(this, "You are in $current_status Step")
+        if(current_status != ProjectStatus.INIT.name &&
+                current_status != "status") {
             setUITextFromPref()
         }
-        toast(this, "You are in $current_status Step")
     }
 
     private fun uploadUserInfoToWebServer() {
@@ -375,7 +376,8 @@ class AccountActivities : AppCompatActivity() {
     }
 
     private fun  needStudyAPI(): Boolean {
-        if (current_status!! == ProjectStatus.INIT.name) {
+        if (current_status!! == ProjectStatus.INIT.name
+                || current_status == "status") {
             return true
         }
         return false
