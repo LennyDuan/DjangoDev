@@ -17,25 +17,25 @@ urlpatterns = [
 ################# POST API ##############
     # POST Question/Questionnaire
     url(r'^api/v1/post/questionnaire/$', questionP.questionnairePost, name='questionnaire_post'),
-    url(r'^api/v1/post/study/(?P<pk_id>[0-9]+)/questionnaire/$', questionP.studyPost, name='study_post'),
-    url(r'^api/v1/post/question/(?P<pk_id>[0-9]+)/questionnaire/$', questionP.questionPost, name='question_post'),
+    url(r'^api/v1/post/questionnaire/(?P<pk_id>[0-9]+)/study$', questionP.studyPost, name='study_post'),
+    url(r'^api/v1/post/questionnaire/(?P<pk_id>[0-9]+)/question$', questionP.questionPost, name='question_post'),
 
     # POST Diary
-    url(r'^api/v1/post/diary/(?P<pk_id>[0-9]+)/userInfopk/$', diaryP.diaryPost, name='diary_post'),
-    url(r'^api/v1/post/diary/(?P<userInfo_email>.+)/userInfoEmail/$', diaryP.diaryPostUserEmail, name='diary_post_userinfoEmail'),
-    url(r'^api/v1/post/diary/(?P<userInfo_id>.+)$', diaryP.diaryPostID, name='diary_post_userinfoID'),
+    url(r'^api/v1/post/userInfopk/(?P<pk_id>[0-9]+)/diary$', diaryP.diaryPost, name='diary_post'),
+    url(r'^api/v1/post/userInfoEmail/(?P<userInfo_email>.+)/diary$', diaryP.diaryPostUserEmail, name='diary_post_userinfoEmail'),
+    url(r'^api/v1/post/userInfoid/(?P<userInfo_id>.+)/diary$', diaryP.diaryPostID, name='diary_post_userinfoID'),
 
     # POST UserInfo
     url(r'^api/v1/post/userInfo/(?P<study_pkid>[0-9]+)/study/(?P<feedback_pkid>[0-9]+)/feedback/$', userInfoP.userInfoPost, name='userInfo_post'),
-    url(r'^api/v1/post/userInfo/(?P<study_field>.+)/studyField/(?P<feedback_id>.+)/feedbackID/$', userInfoP.userInfoPostID, name='userInfo_post_viaID'),
-    url(r'^api/v1/post/userInfo/(?P<pk_id>[0-9]+)/update/$', userInfoP.userInfoPostUpdate, name='userInfo_postUpdate'),
+    url(r'^api/v1/post/userInfo/(?P<study_field>.+)/studyField(?P<feedback_id>.+)/feedbackID/$', userInfoP.userInfoPostID, name='userInfo_post_viaID'),
+    url(r'^api/v1/post/userInfo/(?P<pk_id>[0-9]+)/update$', userInfoP.userInfoPostUpdate, name='userInfo_postUpdate'),
 
     # POST Feedback/Answer
     url(r'^api/v1/post/feedback/$', feedbackP.feedbackPost, name='feedback_post'),
-    url(r'^api/v1/post/feedback/(?P<pk_id>[0-9]+)/update/$', feedbackP.feedbackPostUpdate, name='feedback_postUpdate'),
-    url(r'^api/v1/post/answer/(?P<feedback_id>.+)/feedback/$', feedbackP.answerPost, name='answer_post_id'),
-    url(r'^api/v1/post/answer/(?P<pk_id>[0-9]+)/update/$', feedbackP.answerPostUpdate, name='answer_postUpdate'),
-    url(r'^api/v1/post/answer/(?P<answer_id>.+)/updateID/$', feedbackP.answerPostUpdateViaIDAfter, name='answer_postUpdate_ID'),
+    url(r'^api/v1/post/feedback/(?P<pk_id>[0-9]+)/update$', feedbackP.feedbackPostUpdate, name='feedback_postUpdate'),
+    url(r'^api/v1/post/feedback/(?P<feedback_id>.+)/answer$', feedbackP.answerPost, name='answer_post_id'),
+    url(r'^api/v1/post/answer/(?P<pk_id>[0-9]+)/update$', feedbackP.answerPostUpdate, name='answer_postUpdate'),
+    url(r'^api/v1/post/answer/(?P<answer_id>.+)/updateID$', feedbackP.answerPostUpdateViaIDAfter, name='answer_postUpdate_ID'),
 
 ################# GET API  ##############
 
@@ -43,16 +43,17 @@ urlpatterns = [
     url(r'^api/v1/diary/$', diary.all, name='diary_all'),
     url(r'^api/v1/diary/(?P<pk_id>[0-9]+)/$', diary.detail, name='diary_detail'),
     url(r'^api/v1/diary/(?P<diary_id>[0-9]+)/diary_id/$', diary.detailDiaryID, name='diary_detail_diaryID'),
-    url(r'^api/v1/diary/(?P<userInfo_email>.+)/userInfo_email/$', diary.detailuserInfoEmail, name='diary_userInfoEmail'),
+    # TODO - change email to id
+    url(r'^api/v1/diary/user/(?P<userInfo_email>.+)/$', diary.detailuserInfoEmail, name='diary_userInfoEmail'),
     url(r'^api/v1/skill/$', diary.all_skill, name="skill_all"),
 
     # userInfo GET api
     url(r'^api/v1/userInfo/$', userInfo.userInfoAll, name='userInfo_all'),
-    url(r'^api/v1/userInfo/(?P<pk_id>[0-9]+)/$', userInfo.userInfoDetail, name='userInfo_detail'),
-    url(r'^api/v1/userInfo/(?P<userInfo_email>.+)/userInfo_email/$', userInfo.detailuserInfoEmail, name='userInfo_userInfoEmail'),
+    url(r'^api/v1/userInfo/(?P<pk_id>[0-9]+)$', userInfo.userInfoDetail, name='userInfo_detail'),
+    # url(r'^api/v1/userInfo/(?P<userInfo_email>.+)/userInfo_email/$', userInfo.detailuserInfoEmail, name='userInfo_userInfoEmail'),
     url(r'^api/v1/userInfo/(?P<pk_id>[0-9]+)/study$', userInfo.userInfoStudy, name='userInfo_study'),
     url(r'^api/v1/userInfo/(?P<pk_id>[0-9]+)/feedback$', userInfo.userInfoFeedback, name='userInfo_feedback'),
-    url(r'^api/v1/userInfo/(?P<pk_id>[0-9]+)/answer$', userInfo.userInfoAnswer, name='userInfo_answer'),
+    url(r'^api/v1/userInfo/(?P<pk_id>[0-9]+)/answers$', userInfo.userInfoAnswer, name='userInfo_answer'),
 
     # feedback/answer GET api
     url(r'^api/v1/feedback/$', feedback.feedbackAll, name='feedback_all'),
