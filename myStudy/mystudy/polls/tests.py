@@ -1,5 +1,7 @@
 from django.test import TestCase
 from .models import *
+import datetime
+
 # Create your tests here.
 class QuestionnaireModelTests(TestCase):
     def test_questionnaire_model_can_be_created(self):
@@ -88,7 +90,7 @@ class SkillModelTests(TestCase):
         self.assertEqual(actual_data.skill_name, "test skill")
 
 class UserInfoModelTests(TestCase):
-    def user_info_and_diary_model_can_be_created(self):
+    def test_user_info_and_diary_model_can_be_created(self):
         feedback = Feedback(
             feedback_id="1",
             feedback_state="Initial State"
@@ -107,10 +109,13 @@ class UserInfoModelTests(TestCase):
             study_questionnaire = questionnaire
             )
         study.save()
+        date = datetime.datetime.now()
         user = UserInfo(
             userInfo_id="1",
             userInfo_email="test email",
             userInfo_name="test name",
+            userInfo_start_date=date,
+            userInfo_end_date=date,
             userInfo_study=study,
             userInfo_feedback=feedback
         )
