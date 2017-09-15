@@ -15,14 +15,14 @@ def userInfoPost(request, study_pkid, feedback_pkid):
         received_data = request.body.decode("utf-8")
         body = json.loads(received_data)
         userInfo_id = body["userInfo_id"]
-        userInfo_email = body["userInfo_email"]
-        userInfo_name = body["userInfo_name"]
+        userInfo_age = body["userInfo_age"]
+        userInfo_gender = body["userInfo_gender"]
         userInfo_start_date = body["userInfo_start_date"]
         userInfo_end_date = body["userInfo_end_date"]
         userInfo = UserInfo(
             userInfo_id=userInfo_id,
-            userInfo_email=userInfo_email,
-            userInfo_name=userInfo_name,
+            userInfo_age=userInfo_age,
+            userInfo_gender=userInfo_gender,
             userInfo_start_date=userInfo_start_date,
             userInfo_end_date=userInfo_end_date,
             userInfo_study=study,
@@ -45,14 +45,14 @@ def userInfoPostID(request, study_field, feedback_id):
         received_data = request.body.decode("utf-8")
         body = json.loads(received_data)
         userInfo_id = body["userInfo_id"]
-        userInfo_email = body["userInfo_email"]
-        userInfo_name = body["userInfo_name"]
+        userInfo_age = body["userInfo_age"]
+        userInfo_gender = body["userInfo_gender"]
         userInfo_start_date = body["userInfo_start_date"]
         userInfo_end_date = body["userInfo_end_date"]
         userInfo = UserInfo(
             userInfo_id=userInfo_id,
-            userInfo_email=userInfo_email,
-            userInfo_name=userInfo_name,
+            userInfo_age=userInfo_age,
+            userInfo_gender=userInfo_gender,
             userInfo_start_date=userInfo_start_date,
             userInfo_end_date=userInfo_end_date,
             userInfo_study=study,
@@ -74,14 +74,14 @@ def userInfoPostUpdate(request, pk_id):
         received_data = request.body.decode("utf-8")
         body = json.loads(received_data)
         userInfo_id = body["userInfo_id"]
-        userInfo_email = body["userInfo_email"]
-        userInfo_name = body["userInfo_name"]
+        userInfo_age = body["userInfo_age"]
+        userInfo_gender = body["userInfo_gender"]
         userInfo_start_date = body["userInfo_start_date"]
         userInfo_end_date = body["userInfo_end_date"]
 
         userInfo.userInfo_id=userInfo_id
-        userInfo.userInfo_email=userInfo_email
-        userInfo.userInfo_name=userInfo_name
+        userInfo.userInfo_age=userInfo_age
+        userInfo.userInfo_gender=userInfo_gender
         userInfo.userInfo_start_date=userInfo_start_date
         userInfo.userInfo_end_date=userInfo_end_date
 

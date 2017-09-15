@@ -27,13 +27,13 @@ urlpatterns = [
 
     # POST UserInfo
     url(r'^api/v1/post/userInfo/(?P<study_pkid>[0-9]+)/study/(?P<feedback_pkid>[0-9]+)/feedback/$', userInfoP.userInfoPost, name='userInfo_post'),
-    url(r'^api/v1/post/userInfo/(?P<study_field>.+)/studyField(?P<feedback_id>.+)/feedbackID/$', userInfoP.userInfoPostID, name='userInfo_post_viaID'),
+    url(r'^api/v1/post/userInfo/(?P<study_field>.+)/studyField/(?P<feedback_id>.+)/feedbackID/$', userInfoP.userInfoPostID, name='userInfo_post_viaID'),
     url(r'^api/v1/post/userInfo/(?P<pk_id>[0-9]+)/update$', userInfoP.userInfoPostUpdate, name='userInfo_postUpdate'),
 
     # POST Feedback/Answer
     url(r'^api/v1/post/feedback/$', feedbackP.feedbackPost, name='feedback_post'),
     url(r'^api/v1/post/feedback/(?P<pk_id>[0-9]+)/update$', feedbackP.feedbackPostUpdate, name='feedback_postUpdate'),
-    url(r'^api/v1/post/feedback/(?P<feedback_id>.+)/answer$', feedbackP.answerPost, name='answer_post_id'),
+    url(r'^api/v1/post/answer/(?P<feedback_id>.+)/feedback$', feedbackP.answerPost, name='answer_post_id'),
     url(r'^api/v1/post/answer/(?P<pk_id>[0-9]+)/update$', feedbackP.answerPostUpdate, name='answer_postUpdate'),
     url(r'^api/v1/post/answer/(?P<answer_id>.+)/updateID$', feedbackP.answerPostUpdateViaIDAfter, name='answer_postUpdate_ID'),
 

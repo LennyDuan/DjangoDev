@@ -27,7 +27,6 @@ class DiaryActivities : AppCompatActivity() {
 
     private var prefs : PrefUtil.Preference? = null
     private var current_status : String? = null
-    private var userEmail : String? = null
     private var account_final_enddate : String? = null
 
     var diaryList = ArrayList<Diary>()
@@ -43,7 +42,6 @@ class DiaryActivities : AppCompatActivity() {
         // Check Preference Status
         prefs = PrefUtil.Preference(this)
         current_status = prefs!!.findPreference("status")
-        userEmail = prefs!!.findPreference("account_final_address")
         account_final_enddate =  prefs!!.findPreference("account_final_enddate")
 
         Log.d("End Date: ", account_final_enddate.toString())

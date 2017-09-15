@@ -64,12 +64,12 @@ class Feedback(models.Model):
     )
 
     def __str__(self):
-        return "Feedback Id: %s - %s" % (self.feedback_id, self.feedback_state)
+        return "%s" % self.feedback_id
 
 class UserInfo(models.Model):
     userInfo_id = models.CharField(max_length=50, unique=True)
     userInfo_age = models.CharField(max_length=50,default="10")
-    UserInfo_gender = models.CharField(max_length=50,default="Male")
+    userInfo_gender = models.CharField(max_length=50,default="Male")
     userInfo_start_date = models.DateField('date published')
     userInfo_end_date = models.DateField('date finished')
     # One User will have one Study and one Feedback
