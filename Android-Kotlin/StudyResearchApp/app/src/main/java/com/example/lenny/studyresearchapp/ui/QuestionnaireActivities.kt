@@ -1,5 +1,6 @@
 package com.example.lenny.studyresearchapp
 
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
@@ -24,6 +25,8 @@ import kotlinx.android.synthetic.main.question_dialog.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 import android.os.Handler
+import android.widget.SeekBar
+import kotlinx.android.synthetic.main.question_dialog.*
 
 
 class QuestionnaireActivities : AppCompatActivity() {
@@ -112,6 +115,21 @@ class QuestionnaireActivities : AppCompatActivity() {
     // show answer dialog
     private fun showAnswerDialog(position: Int) {
         val dialogView = layoutInflater.inflate(R.layout.question_dialog, null)
+        var level = 5
+        dialogView.edit_seekbar.max = 10
+
+        val mOnSeekBarChangedListener = object : SeekBar.OnSeekBarChangeListener {
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+            @SuppressLint("SetTextI18n")
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                dialogView.edit_answer.text = "Level: " + progress.toString()
+                level = progress
+            }
+        }
+        dialogView.edit_seekbar.setOnSeekBarChangeListener(mOnSeekBarChangedListener)
+
         AlertDialog.Builder(this)
                 .setTitle("Question Dialog:")
                 .setMessage((position + 1).toString() + ". " + anwserList[position].answer_question)
@@ -119,7 +137,7 @@ class QuestionnaireActivities : AppCompatActivity() {
                 .setIcon(R.drawable.ic_question_answer_black_24dp)
                 .setPositiveButton(android.R.string.ok) {
                     _, _ ->
-                    anwserList[position].answer_answer = dialogView.edit_answer.text.toString()
+                    anwserList[position].answer_answer = level.toString()
                     answerListAdapter!!.notifyDataSetChanged()
                 }
                 .setNegativeButton(android.R.string.cancel) {

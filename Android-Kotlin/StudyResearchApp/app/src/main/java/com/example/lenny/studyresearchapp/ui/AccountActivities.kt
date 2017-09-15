@@ -31,12 +31,11 @@ class AccountActivities : AppCompatActivity() {
     private var progressDialog: ProgressDialog? = null
     private var prefs : Preference? = null
     private var current_status : String? = null
-    private val android_id = SystemUtil.ANDROID_ID(this)
+    private var android_id :  String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_activities)
-
         // Prevent App from Exception
         Thread.setDefaultUncaughtExceptionHandler {
             _, paramThrowable -> Log.e("Error" + Thread.currentThread().stackTrace[2], paramThrowable.localizedMessage)
@@ -50,7 +49,12 @@ class AccountActivities : AppCompatActivity() {
 
         // Check Preference Status
         prefs = Preference(this)
+
         current_status = prefs!!.findPreference("status")
+        if (current_status == "status") {
+            current_status = ProjectStatus.INIT.name
+            prefs!!.putPreference("status", current_status)
+        }
         Log.d("Current Status: ", current_status)
 
         checkCurrentStatus()
@@ -131,7 +135,6 @@ class AccountActivities : AppCompatActivity() {
             val jsonObject = jsonArray.getJSONObject(i)
             if (null != jsonObject) {
                 if (jsonObject.has("fields")) {
-                    progressDialog?.dismiss()
                     val fields = jsonObject.getJSONObject("fields")
 
                     val study_field = if (fields.has("study_field"))
@@ -140,6 +143,7 @@ class AccountActivities : AppCompatActivity() {
                     fields.getString("study_end_date") else ""
                     val start_date = if (fields.has("study_start_date"))
                         fields.getString("study_start_date") else ""
+                    android_id = SystemUtil.ANDROID_ID(this)
                     Log.d("Data Study: ", fields.toString())
                     prefs!!.putPreference("account_final_studyfield", study_field)
                     prefs!!.putPreference("account_final_id", "$study_field-$android_id-$start_date")
@@ -147,6 +151,7 @@ class AccountActivities : AppCompatActivity() {
                     prefs!!.putPreference("account_final_enddate", end_date)
                     current_status = ProjectStatus.INIT.name
                     prefs!!.putPreference("status", current_status)
+                    progressDialog?.dismiss()
                 }
             }
         }
@@ -174,8 +179,8 @@ class AccountActivities : AppCompatActivity() {
     }
 
     private fun  needStudyAPI(): Boolean {
-        if (current_status!! == ProjectStatus.INIT.name
-                || current_status == "status") {
+        Log.d("current status: ", current_status)
+        if (current_status!! == ProjectStatus.INIT.name) {
             return true
         }
         return false
@@ -188,6 +193,7 @@ class AccountActivities : AppCompatActivity() {
             progressDialog?.show()
 
             if (needStudyAPI()){
+                Log.d("URL: ", ProjectAPI.GET_ACTIVE_STUDY_URL.url)
                 startStudyDownload(ProjectAPI.GET_ACTIVE_STUDY_URL.url)
             } else {
                 progressDialog?.dismiss()

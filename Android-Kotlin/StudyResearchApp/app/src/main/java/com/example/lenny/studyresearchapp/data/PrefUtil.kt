@@ -21,7 +21,7 @@ object PrefUtil {
 
         fun putPreference(name: String, value: String?) {
             prefs.putString(name, value).apply()
-            Log.d("Pref: $name", "valie = $value")
+            Log.d("Pref: $name", "value = $value")
         }
 
         fun returnPutPreference(name: String, value: String?) : Boolean {

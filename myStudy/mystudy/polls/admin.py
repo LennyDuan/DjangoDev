@@ -35,7 +35,7 @@ class StudyAdmin(admin.ModelAdmin):
     search_fields = ['study_field']
 
 class UserInfoAdmin(admin.ModelAdmin):
-    list_display = ('UserInfo_gender', 'userInfo_age', 'userInfo_feedback')
+    list_display = ('userInfo_gender', 'userInfo_age', 'userInfo_feedback')
     list_filter = ['userInfo_study']
     search_fields = ['userInfo_id']
     inlines = [DiaryInline]

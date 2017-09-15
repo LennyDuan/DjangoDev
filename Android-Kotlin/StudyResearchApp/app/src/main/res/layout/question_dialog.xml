@@ -2,16 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="center">
 
-    <EditText
-        android:id="@+id/edit_answer"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12.5dp"
+            android:layout_marginTop="5dp"
+            android:text="Not often"/>
+        <TextView
+            android:gravity="center"
+            android:id="@+id/edit_answer"
+            android:textSize="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:hint="Select Level: " />
+        <TextView
+            android:textSize="12.5dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="often"/>
+    </LinearLayout>
+    <SeekBar
+        android:id="@+id/edit_seekbar"
+        android:paddingVertical="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:hint="@string/enter_your_answer"
-        android:inputType="textMultiLine"
-        android:maxLines="5" />
+        android:layout_marginHorizontal="10dp"
+        />
 
 </LinearLayout>

@@ -40,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
+            android:textColor="@color/cardview_dark_background"
             android:text="Boy"/>
         <RadioButton
             android:id="@+id/boy_btn"
@@ -50,20 +51,23 @@
             android:paddingLeft="50dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/cardview_dark_background"
             android:textSize="20dp"
             android:text="Girl"/>
         <RadioButton
             android:id="@+id/girl_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            />
     </LinearLayout>
 
     <Button
         android:id="@+id/confirmBtn"
         android:layout_margin="50dp"
         android:layout_gravity="center"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="20dp"
         android:text="Confirm"/>
 
 </LinearLayout>

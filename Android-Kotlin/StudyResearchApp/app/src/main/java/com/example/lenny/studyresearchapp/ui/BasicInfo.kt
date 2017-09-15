@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.SeekBar
@@ -13,9 +14,9 @@ import com.example.lenny.studyresearchapp.model.FeedbackStatus
 import com.example.lenny.studyresearchapp.network.APIController
 import com.example.lenny.studyresearchapp.network.ServiceVolley
 import org.json.JSONObject
-import kotlinx.android.synthetic.main.activity_basic_info.*
 import android.widget.SeekBar.OnSeekBarChangeListener
 import com.example.lenny.studyresearchapp.data.ProjectStatus
+import kotlinx.android.synthetic.main.activity_basic_info.*
 
 
 /**
@@ -33,21 +34,26 @@ class BasicInfo : AppCompatActivity()  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_basic_info)
-        seekbar_age.max = 100
+        prefs = PrefUtil.Preference(this)
+        seekbar_age.max = 20
         seekbar_age.setOnSeekBarChangeListener(mOnSeekBarChangedListener)
         confirmBtn.setOnClickListener {
+            Log.d("BTN: ", "CLICK BTN !!")
             uploadUserInfoToWebServer()
         }
 
         boy_btn.setOnClickListener {
             girl_btn.isChecked = false
             userGender = "Boy"
+            Log.d("GENDER: ", "BOY !!")
         }
 
         girl_btn.setOnClickListener {
             boy_btn.isChecked = false
             userGender = "Girl"
+            Log.d("GENDER: ", "GIRL !!")
         }
+        progressDialog = ProgressDialog(this)
     }
 
     private val mOnSeekBarChangedListener = object : OnSeekBarChangeListener {
@@ -77,11 +83,13 @@ class BasicInfo : AppCompatActivity()  {
         progressDialog?.setMessage("Creating User Account Data ... ")
         progressDialog?.setCancelable(true)
         progressDialog?.show()
+
         postUserFeedback()
     }
 
     // Post to userinfo data in server
     private fun postUserInfo() {
+        Log.d("User Info", "Post User Info")
         val userInfo_id : String = prefs!!.findPreference("account_final_id")
         val userInfo_start_date : String = prefs!!.findPreference("account_final_startdate")
         val userInfo_end_date : String = prefs!!.findPreference("account_final_enddate")
@@ -96,9 +104,16 @@ class BasicInfo : AppCompatActivity()  {
         params.put("userInfo_start_date", userInfo_start_date)
         params.put("userInfo_end_date", userInfo_end_date)
         apiController.post(url, params) { _ ->
-            progressDialog?.dismiss()
-            prefs!!.putPreference("status", ProjectStatus.ACCOUNT_DONE.name)
-            backToGuide()
+            Log.d("Basic Post: ", url + " - " +  params.toString())
+
+            val progressRunnable = Runnable {
+                progressDialog!!.dismiss()
+                prefs!!.putPreference("status", ProjectStatus.ACCOUNT_DONE.name)
+                backToGuide()
+            }
+
+            val pdCanceller = Handler()
+            pdCanceller.postDelayed(progressRunnable, 1000)
         }
     }
 
