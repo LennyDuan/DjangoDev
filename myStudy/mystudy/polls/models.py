@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils import timezone
 import datetime
+from django.db import transaction
 
 # Create Study Database
 class Questionnaire(models.Model):
@@ -17,12 +18,21 @@ class Study(models.Model):
     study_id = models.CharField(max_length=50, unique=True)
     study_field = models.CharField(max_length=50, blank=False, unique=True)
     study_owner = models.CharField(max_length=50)
-    study_start_date = models.DateTimeField('date published', auto_now_add=True)
+    study_start_date = models.DateTimeField('Study Date Published', default=datetime.datetime.now)
+    study_end_date = models.DateTimeField('Study End Date end')
+    is_study_active = models.BooleanField('Active Study? - all the other study will set to false if active this study', default=False)
     # One study will have one Questionnaire
     study_questionnaire = models.OneToOneField(
         Questionnaire,
         on_delete=models.CASCADE,
     )
+
+    @transaction.atomic
+    def save(self, *args, **kwargs):
+        if self.is_study_active:
+            Study.objects.filter(
+                is_study_active=True).update(is_study_active=False)
+        super(Study, self).save(*args, **kwargs)
 
     def __str__(self):
         return "Study: %s - %s" % (self.study_field, self.study_owner)
