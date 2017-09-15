@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils import timezone
 import datetime
+from django.db import transaction
 
 # Create Study Database
 class Questionnaire(models.Model):
@@ -17,12 +18,21 @@ class Study(models.Model):
     study_id = models.CharField(max_length=50, unique=True)
     study_field = models.CharField(max_length=50, blank=False, unique=True)
     study_owner = models.CharField(max_length=50)
-    study_start_date = models.DateTimeField('date published', auto_now_add=True)
+    study_start_date = models.DateField('Study Date Published', default=datetime.datetime.now)
+    study_end_date = models.DateField('Study End Date end')
+    is_study_active = models.BooleanField('Active Study? - all the other study will set to false if active this study', default=False)
     # One study will have one Questionnaire
     study_questionnaire = models.OneToOneField(
         Questionnaire,
         on_delete=models.CASCADE,
     )
+
+    @transaction.atomic
+    def save(self, *args, **kwargs):
+        if self.is_study_active:
+            Study.objects.filter(
+                is_study_active=True).update(is_study_active=False)
+        super(Study, self).save(*args, **kwargs)
 
     def __str__(self):
         return "Study: %s - %s" % (self.study_field, self.study_owner)
@@ -39,8 +49,8 @@ class Question(models.Model):
 # Create User Database
 class Feedback(models.Model):
     feedback_id = models.CharField(max_length=50, unique=True)
-    feedback_start_date = models.DateTimeField('date published', auto_now_add=True)
-    feedback_end_date = models.DateTimeField('date published', auto_now=True)
+    feedback_start_date = models.DateField('date published', auto_now_add=True)
+    feedback_end_date = models.DateField('date published', auto_now=True)
 
     STATE_IN_FEEDBACK_CHOICES = (
         ("INI", 'Initial State'),
@@ -58,10 +68,10 @@ class Feedback(models.Model):
 
 class UserInfo(models.Model):
     userInfo_id = models.CharField(max_length=50, unique=True)
-    userInfo_email = models.EmailField(blank=False)
-    userInfo_name = models.CharField(max_length=50)
-    userInfo_start_date = models.DateTimeField('date published')
-    userInfo_end_date = models.DateTimeField('date finished')
+    userInfo_age = models.CharField(max_length=50,default="10")
+    UserInfo_gender = models.CharField(max_length=50,default="Male")
+    userInfo_start_date = models.DateField('date published')
+    userInfo_end_date = models.DateField('date finished')
     # One User will have one Study and one Feedback
     userInfo_study = models.ForeignKey(
         Study,
@@ -73,7 +83,7 @@ class UserInfo(models.Model):
         on_delete=models.CASCADE,
     )
     def __str__(self):
-        return "User Email: %s" % self.userInfo_email
+        return "User: %s" % self.userInfo_id
 
 class Answer(models.Model):
     answer_id = models.CharField(max_length=50, unique=True)
