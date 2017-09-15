@@ -5,7 +5,7 @@ package com.example.lenny.studyresearchapp.data
  */
 enum class ProjectAPI constructor(val url : String) {
     // GET API url
-    GET_STUDY_LIST_URL("http://10.0.2.2:8000/polls/api/v1/study/"),
+    GET_ACTIVE_STUDY_URL("http://10.0.2.2:8000/polls/api/v1/study/isActive"),
     GET_Question_List_URL("http://10.0.2.2:8000/polls/api/v1/question/"),
     GET_SKILLS_LIST_URL("http://10.0.2.2:8000/polls/api/v1/skill/"),
 

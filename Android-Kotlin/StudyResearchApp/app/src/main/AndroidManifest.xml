@@ -35,6 +35,10 @@
         <activity
             android:name=".DiaryDetail"
             android:label="Diary Detail"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".BasicInfo"
+            android:label="Basic Info"
             android:theme="@style/AppTheme">
         </activity>
     </application>
