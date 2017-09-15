@@ -18,6 +18,14 @@ def studyAll(request):
     all_study_serialized = serializers.serialize('json', all_study_list)
     return JsonResponse(all_study_serialized, safe=False)
 
+def studyActive(request):
+    if request.method == 'POST':
+        #received_json_data = json.loads(request.body.decode("utf-8"))
+        return HttpResponse("it is invalid GET request!!")
+    active_study = Study.objects.filter(is_study_active=True)
+    study_serialized = serializers.serialize('json', active_study)
+    return JsonResponse(study_serialized, safe=False)
+
 # Get Study by pk id
 def studyDetail(request, pk_id):
     study = get_object_or_404(Study, pk=pk_id)

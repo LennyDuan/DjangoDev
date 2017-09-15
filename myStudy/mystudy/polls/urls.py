@@ -65,6 +65,7 @@ urlpatterns = [
 
     # study/questionnaire/question GET api
     url(r'^api/v1/study/$', question.studyAll, name='study_all'),
+    url(r'^api/v1/study/isActive$', question.studyActive, name='study_is_actives'),
     url(r'^api/v1/study/(?P<pk_id>[0-9]+)/$', question.studyDetail, name='study_detail'),
     url(r'^api/v1/study/(?P<study_field>.+)/field$', question.studyDetailByField, name='study_detail'),
 
