@@ -65,11 +65,26 @@ class AccountActivities : AppCompatActivity() {
 
         // Init Set Button
         hideSoftKeyboard()
-        toast(this, "You are in $current_status Step")
+        //toast(this, "You are in $current_status Step")
         button_go.setOnClickListener {
             var intent = Intent(this, BasicInfo::class.java)
             if(current_status == ProjectStatus.INIT.name) {
                 intent = Intent(this, BasicInfo::class.java)
+            }
+            else if(current_status == ProjectStatus.ACCOUNT_DONE.name ||
+                    current_status == ProjectStatus.PRE_QUESTIONNAIRE.name) {
+                intent = Intent(this, QuestionnaireActivities::class.java)
+            }
+            else if(current_status == ProjectStatus.PRE_QUESTIONNAIRE_Done.name ||
+                    current_status == ProjectStatus.DIARY.name) {
+                intent = Intent(this, DiaryActivities::class.java)
+            }
+            else if(current_status == ProjectStatus.DIARY_DONE.name ||
+                    current_status == ProjectStatus.AFTER_QUESTIONNAIRE.name) {
+                intent = Intent(this, QuestionnaireActivities::class.java)
+            }
+            else if(current_status == ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name) {
+                toast(this, "Thanks for your help!")
             }
             startActivity(intent)
             finish()
@@ -87,23 +102,23 @@ class AccountActivities : AppCompatActivity() {
             setNavAbilities(true, false, true)
         } else if (current_status!! == ProjectStatus.AFTER_QUESTIONNAIRE.name) {
             setNavAbilities(true, true, true)
-            toast(this, "You have completed diary and study period is expired." +
-                    " Please complete the questionnaire again.")
+            //toast(this, "You have completed diary and study period is expired." +
+              //      " Please complete the questionnaire again.")
         } else if (current_status!! == ProjectStatus.ACCOUNT_DONE.name) {
             setNavAbilities(true, false, true)
         } else if (current_status!! == ProjectStatus.INIT.name) {
             setNavAbilities(true, false, false)
         } else if (current_status!! == ProjectStatus.NONE.name) {
             setNavAbilities(true, false, false)
-            toast(this, "Unable to connect server, we will come back soon")
+            //toast(this, "Unable to connect server, we will come back soon")
         } else if (current_status!! == ProjectStatus.DIARY_DONE.name) {
             setNavAbilities(true, true, true)
-            toast(this, "You have completed diary and study period is expired." +
-                    " Please complete the questionnaire again.")
+            //toast(this, "You have completed diary and study period is expired." +
+             //       " Please complete the questionnaire again.")
         } else if (current_status!! == ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name) {
             setNavAbilities(true, true, true)
-            toast(this, "You have completed this study, All your data has been sent to our study team," +
-                    "Thanks very much!")
+            //toast(this, "You have completed this study, All your data has been sent to our study team," +
+              //      "Thanks very much!")
         } else {
             setNavAbilities(true, false, false)
             prefs!!.putPreference("status", ProjectStatus.INIT.name)
