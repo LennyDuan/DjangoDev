@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.view.inputmethod.InputMethodManager
@@ -61,7 +62,11 @@ class AccountActivities : AppCompatActivity() {
 
         // Init UI components
         initNetwork()
-        initUniqueIDTextInputField()
+        val progressRunnable = Runnable {
+            initUniqueIDTextInputField()
+        }
+        val pdCanceller = Handler()
+        pdCanceller.postDelayed(progressRunnable, 200)
 
         // Init Set Button
         hideSoftKeyboard()
@@ -203,7 +208,7 @@ class AccountActivities : AppCompatActivity() {
 
     private fun initNetwork() {
         if (isNetworkConnected()) {
-            progressDialog?.setMessage("Please wait...")
+            progressDialog?.setMessage("Please wait or restart app...")
             progressDialog?.setCancelable(false)
             progressDialog?.show()
 
@@ -247,7 +252,8 @@ class AccountActivities : AppCompatActivity() {
     private fun initUniqueIDTextInputField() {
         account_id.setText(prefs!!.findPreference("account_final_id"))
         textView_status.text = "Guide: " + current_status
-        textView_status_detail.text = ProjectStatus.valueOf(current_status!!).guide
+        textView_status_detail.text = ProjectStatus.valueOf(current_status!!).guide + "\n" +
+                "Notice! End date:  " + prefs!!.findPreference("account_final_enddate")
     }
 
 

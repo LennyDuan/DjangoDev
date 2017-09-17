@@ -78,7 +78,7 @@ class DiaryDetail : AppCompatActivity() {
     }
 
     private fun uploadDiary() {
-        val url = ProjectAPI.POST_DIARY_VIA_EMAIL.url + userID
+        val url = ProjectAPI.POST_DIARY_USERID.url + userID + "/diary"
         Log.d("POST Diary URL: ", url)
         if(prefs!!.findPreference("status") == ProjectStatus.DIARY.name) {
             val params = JSONObject()
