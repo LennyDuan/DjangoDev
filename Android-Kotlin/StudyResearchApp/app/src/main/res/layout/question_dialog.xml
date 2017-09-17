@@ -32,12 +32,27 @@
             android:layout_height="wrap_content"
             android:text="often"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icons80"/>
     <SeekBar
         android:id="@+id/edit_seekbar"
-        android:paddingVertical="20dp"
-        android:layout_width="match_parent"
+        android:layout_width="270dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
         />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icons810"/>
+    </LinearLayout>
 
 </LinearLayout>

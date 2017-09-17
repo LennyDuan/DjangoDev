@@ -12,14 +12,27 @@
         android:textSize="20dp"
         android:padding="10dp"
         android:gravity="center"/>
-    <SeekBar
-        android:id="@+id/seekbar_age"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="20dp">
 
-        />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icons80"/>
+        <SeekBar
+            android:id="@+id/seekbar_age"
+            android:layout_width="250dp"
+            android:layout_height="35dp"
+            />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icons820"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textViewGender"
@@ -37,6 +50,10 @@
         android:gravity="center_horizontal"
         android:layout_marginTop="30dp">
 
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icons8boy"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,8 +66,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+
+        <ImageView
+            android:layout_marginLeft="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icons8girl"/>
         <TextView
-            android:paddingLeft="50dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/cardview_dark_background"
@@ -70,6 +92,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:text="Confirm"/>
+        android:text="Confirm"
+        android:backgroundTint="@color/colorblue"
+        android:textColor="#fff"
+        />
 
 </LinearLayout>

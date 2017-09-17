@@ -181,12 +181,12 @@ class QuestionnaireActivities : AppCompatActivity() {
             params.put("answer_question", anwserList[item].answer_question)
 
             if(current_status == ProjectStatus.PRE_QUESTIONNAIRE.name) {
-                url = ProjectAPI.POST_ANSWERS_TO_FEEDBACK.url + feedbackID + "/feedback/"
+                url = ProjectAPI.POST_ANSWERS_TO_FEEDBACK.url + feedbackID + "/feedback"
                 params.put("answer_before", anwserList[item].answer_answer)
                 params.put("answer_after", "")
             } else if (current_status == ProjectStatus.AFTER_QUESTIONNAIRE.name) {
                 params.put("answer_after", anwserList[item].answer_answer)
-                url = ProjectAPI.POST_ANSWERS_TO_FEEDBACK.url + anwserList[item].answer_id + "/updateID/"
+                url = ProjectAPI.POST_ANSWERS_TO_FEEDBACK.url + anwserList[item].answer_id + "/updateID"
             }
             apiController.post(url!!, params) {}
         }
