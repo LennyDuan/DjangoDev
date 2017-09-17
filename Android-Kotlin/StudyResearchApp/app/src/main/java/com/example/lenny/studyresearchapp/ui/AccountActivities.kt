@@ -88,11 +88,14 @@ class AccountActivities : AppCompatActivity() {
                     current_status == ProjectStatus.AFTER_QUESTIONNAIRE.name) {
                 intent = Intent(this, QuestionnaireActivities::class.java)
             }
-            else if(current_status == ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name) {
+
+
+            if(current_status == ProjectStatus.AFTER_QUESTIONNAIRE_DONE.name) {
                 toast(this, "Thanks for your help!")
+            } else {
+                startActivity(intent)
+                finish()
             }
-            startActivity(intent)
-            finish()
         }
     }
 
