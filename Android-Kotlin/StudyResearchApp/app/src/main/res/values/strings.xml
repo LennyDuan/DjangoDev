@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">StudyResearchApp</string>
-    <string name="title_account">Research Guide</string>
+    <string name="app_name">StudyResearch</string>
+    <string name="title_account">Guide</string>
     <string name="title_diary">Diary</string>
     <string name="title_ques">Questionnaire</string>
     <string name="activity_diary">Diary List</string>

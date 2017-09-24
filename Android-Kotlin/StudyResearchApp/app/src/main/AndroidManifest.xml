@@ -13,10 +13,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:logo="@drawable/icons8go"
         android:theme="@style/AppTheme">
         <activity
             android:name=".AccountActivities"
-            android:label="@string/title_account"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
